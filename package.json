@@ -1,0 +1,34 @@
+{
+  "name": "mw-tool-tourbot",
+  "version": "0.1.0",
+  "description": "Semi-automated bot for migrating on-wiki JavaScript.",
+  "main": "index.js",
+  "scripts": {
+    "test": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Krinkle/mw-tool-tourbot.git"
+  },
+  "keywords": [
+    "mediawiki"
+  ],
+  "author": "Timo Tijhof (https://github.com/Krinkle)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Krinkle/mw-tool-tourbot/issues"
+  },
+  "homepage": "https://github.com/Krinkle/mw-tool-tourbot#readme",
+  "engines" : {
+    "node" : ">=4.0"
+  },
+  "devDependencies": {
+    "eslint": "^2.13.0"
+  },
+  "dependencies": {
+    "async": "^2.0.0-rc.6",
+    "colors": "^1.1.2",
+    "nodemw": "^0.10.1",
+    "opener": "^1.4.1"
+  }
+}
