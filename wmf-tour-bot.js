@@ -1,25 +1,17 @@
+var acorn = require('acorn');
+var async = require('async');
+var colors = require('colors/safe');
+var MwClient = require('nodemw');
+var opener = require('opener');
 var readline = require('readline');
 var url = require('url');
-var util = require('util');
 
-var MwClient = require('nodemw');
-var async = require('async');
-var opener = require('opener');
-var acorn = require('acorn');
-require('colors');
-
-var auth = require('./tour.mwapi.json');
+var { SkipFileError, AbortError } = require('./src/error');
 var results = require('fs').readFileSync('./results.txt').toString();
 var patterns = require('./src/patterns');
 var bots = Object.create(null);
+var dAuth = require('./src/auth').getAuth();
 var dMap = null;
-
-function SkipFileError(message) {
-	this.name = 'SkipFileError';
-	this.message = message || '';
-	Error.captureStackTrace(this, SkipFileError);
-}
-util.inherits(SkipFileError, Error);
 
 function parseResults(results) {
 	var lines = results.trim().split('\n');
@@ -113,7 +105,7 @@ function getSimpleClient(server) {
 	});
 }
 
-function getBotClient(server) {
+function getBotClient(server, auth) {
 	if (!bots[server]) {
 		bots[server] = new Promise(function (resolve, reject) {
 			var client = new MwClient({
@@ -181,12 +173,12 @@ function getWikiMap() {
 
 function printHeading(subject) {
 	var wiki = subject.server || subject.wikiId;
-	console.log('\n' + subject.pageName.bold.underline + ' (%s)\n', wiki);
+	console.log('\n' + colors.bold.underline(subject.pageName) + ' (%s)\n', wiki);
 }
 function printSaving(subject, summary) {
 	var wiki = subject.server || subject.wikiId;
 	console.log('\nEdit summary: %s\nSaving edit on [[%s]] (%s)...',
-		summary, subject.pageName.bold, wiki);
+		summary, colors.bold(subject.pageName), wiki);
 }
 function printSkipping() {
 	console.log('No major changes. Loading next subject...');
@@ -200,7 +192,7 @@ function openPage(subject) {
 		return;
 	}
 	var url = 'https://' + subject.server + '/wiki/' + subject.pageName;
-	console.log('Opening %s...', url.bold.underline);
+	console.log('Opening %s...', colors.bold.underline(url));
 	opener(url);
 }
 function printApplyHelp() {
@@ -212,7 +204,7 @@ function printApplyHelp() {
 		's - skip this change and the rest of this file\n' +
 		'? - print help\n'
 	);
-	console.log(help.red.bold);
+	console.log(colors.red.bold(help));
 }
 function simpleDiff(removedLine, addedLine) {
 	if (removedLine === addedLine) {
@@ -253,7 +245,7 @@ function handleContent(subject, content, callback) {
 	function checkScript() {
 		return new Promise(function (resolve, reject) {
 			function ask(error) {
-				rl.question(error.toString().red.bold + '\nContinue? (y/n) ', function (answer) {
+				rl.question(colors.red.bold(error.toString()) + '\nContinue? (y/n) ', function (answer) {
 					var char = answer.trim().toLowerCase();
 					if (char === 'y') {
 						resolve();
@@ -288,11 +280,11 @@ function handleContent(subject, content, callback) {
 		var linesAfter = changedLines.slice( i + 1, i + contextSize ).join('\n');
 		var diff = simpleDiff(line, preview);
 		console.log(
-			('@@ line ' + contextStart + ' @@').cyan + '\n' +
-			linesBefore.grey + '\n' +
-			diff.textBefore + diff.removed.bold.bgRed + diff.textAfter + '\n' +
-			diff.textBefore + diff.added.bold.bgGreen + diff.textAfter + '\n' +
-			linesAfter.grey
+			colors.cyan('@@ line ' + contextStart + ' @@') + '\n' +
+			colors.grey(linesBefore) + '\n' +
+			diff.textBefore + colors.bold.bgRed(diff.removed) + diff.textAfter + '\n' +
+			diff.textBefore + colors.bold.bgGreen(diff.added) + diff.textAfter + '\n' +
+			colors.grey(linesAfter)
 		);
 		function askApply() {
 			rl.question('Apply change? (y, n, e, o, s, ? help) ', function (answer) {
@@ -364,7 +356,7 @@ function handleContent(subject, content, callback) {
 		});
 }
 
-function handleSubject(subject) {
+function handleSubject(subject, auth) {
 	var pMap = getWikiMap();
 	var pClient = pMap.then(function (map) {
 		var wiki = map[subject.wikiId];
@@ -373,16 +365,12 @@ function handleSubject(subject) {
 		}
 		// Hack - augment subject object for print convenience
 		subject.server = wiki.server;
-		return getBotClient(wiki.server);
+		return getBotClient(wiki.server, auth);
 	});
 	var pPage = pClient.then(function (client) {
 		return new Promise(function (resolve, reject) {
 			client.getPage(subject.pageName, function (err, data) {
-				if (err) {
-					reject(err);
-					return;
-				}
-				resolve(data);
+				err ? reject(err) : resolve(data); // promisify
 			});
 		});
 	});
@@ -407,11 +395,7 @@ function handleSubject(subject) {
 				var summary = 'Maintenance: [[mw:RL/MGU]] / [[mw:RL/JD]] - ' + summaries.join(', ');
 				printSaving(subject, summary);
 				client.edit(page, newContent, summary, function (err) {
-					if (err) {
-						reject(err);
-						return;
-					}
-					resolve();
+					err ? reject(err) : resolve(); // promisify
 				});
 			});
 		});
@@ -419,14 +403,22 @@ function handleSubject(subject) {
 	return pEdit;
 }
 
-
-async.eachSeries(parseResults(results), function (subject, callback) {
-	handleSubject(subject).then(function () {
-		callback();
-	}, function (err) {
-		callback(err);
+dAuth.then(function (auth) {
+	return new Promise(function (resolve, reject) {
+		async.eachSeries(parseResults(results), function (subject, callback) {
+			handleSubject(subject, auth).then(function () {
+				callback();
+			}, function (err) {
+				callback(err);
+			});
+		}, function (err) {
+			err ? reject(err) : resolve(); // promisify
+		});
 	});
-}, function (err) {
+}).catch(function (err) {
+	if (err instanceof AbortError) {
+		return;
+	}
 	if (err) {
 		console.error(err);
 		process.exit(1);

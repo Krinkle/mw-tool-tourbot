@@ -4,6 +4,7 @@
   "description": "Semi-automated bot for migrating on-wiki JavaScript.",
   "main": "index.js",
   "scripts": {
+    "start": "node wmf-tour-bot.js",
     "test": "eslint ."
   },
   "repository": {
@@ -19,8 +20,8 @@
     "url": "https://github.com/Krinkle/mw-tool-tourbot/issues"
   },
   "homepage": "https://github.com/Krinkle/mw-tool-tourbot#readme",
-  "engines" : {
-    "node" : ">=4.0"
+  "engines": {
+    "node": ">=4.0"
   },
   "devDependencies": {
     "eslint": "^2.13.0"
@@ -29,6 +30,7 @@
     "async": "^2.0.0-rc.6",
     "colors": "^1.1.2",
     "nodemw": "^0.10.1",
-    "opener": "^1.4.1"
+    "opener": "^1.4.1",
+    "read": "^1.0.7"
   }
 }
