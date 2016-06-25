@@ -4,10 +4,9 @@
 
 ## Usage
 
-<img width="763" alt="screen shot" src="https://cloud.githubusercontent.com/assets/156867/16357275/32c26540-3af2-11e6-91bd-b9e749e00c2f.png">
-<img width="536" alt="screen shot" src="https://cloud.githubusercontent.com/assets/156867/16345134/95b3582e-3a40-11e6-805c-e097cd02d1b8.png">
+<img width="822" alt="screen shot" src="https://cloud.githubusercontent.com/assets/156867/16357409/1b93ac5e-3af6-11e6-8b38-41d8c6562d20.png">
 <img width="490" alt="screen shot" src="https://cloud.githubusercontent.com/assets/156867/16091916/0c7536ba-3336-11e6-83cc-96d3964e3503.png">
-
+<img width="594" alt="screen shot" src="https://cloud.githubusercontent.com/assets/156867/16357410/220259be-3af6-11e6-9479-c4205972e3bf.png">
 
 ## Install
 
