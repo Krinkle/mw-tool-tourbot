@@ -6,11 +6,10 @@ var opener = require('opener');
 var readline = require('readline');
 var url = require('url');
 
-var { SkipFileError, AbortError } = require('./src/error');
+var { SkipFileError, AbortError } = require('./error');
 var results = require('fs').readFileSync('./results.txt').toString();
-var patterns = require('./src/patterns');
+var patterns = require('./patterns');
 var bots = Object.create(null);
-var dAuth = require('./src/auth').getAuth();
 var dMap = null;
 
 function parseResults(results) {
@@ -403,24 +402,31 @@ function handleSubject(subject, auth) {
 	return pEdit;
 }
 
-dAuth.then(function (auth) {
-	return new Promise(function (resolve, reject) {
-		async.eachSeries(parseResults(results), function (subject, callback) {
-			handleSubject(subject, auth).then(function () {
-				callback();
+function start(dAuth) {
+	dAuth.then(function (auth) {
+		return new Promise(function (resolve, reject) {
+			async.eachSeries(parseResults(results), function (subject, callback) {
+				handleSubject(subject, auth).then(function () {
+					callback();
+				}, function (err) {
+					callback(err);
+				});
 			}, function (err) {
-				callback(err);
+				err ? reject(err) : resolve(); // promisify
 			});
-		}, function (err) {
-			err ? reject(err) : resolve(); // promisify
 		});
+	})
+	.catch(function (err) {
+		if (err instanceof AbortError) {
+			return;
+		}
+		if (err) {
+			console.error(err);
+		}
 	});
-}).catch(function (err) {
-	if (err instanceof AbortError) {
-		return;
-	}
-	if (err) {
-		console.error(err);
-		process.exit(1);
-	}
-});
+}
+
+module.exports = function cli(authDir) {
+	var auth = require('./auth').getAuth(authDir);
+	start(auth);
+};

@@ -2,13 +2,12 @@ var colors = require('colors/safe');
 var fs = require('fs');
 var opener = require('opener');
 var path = require('path');
+var mkdirp = require('mkdirp');
 
 var ask = require('./ask');
 var { AbortError } = require('./error');
 
-var authFile = path.join(__dirname, '..', '.mwauth.json');
-
-function saveAuth() {
+function saveAuth(authFile) {
 	var obj = {};
 	var url = 'https://en.wikipedia.org/wiki/Special:BotPasswords';
 	return ask.options('Go to ' + colors.bold.underline(url) + '?', {
@@ -30,18 +29,20 @@ function saveAuth() {
 			callback();
 		});
 	}).then(function () {
+		mkdirp.sync(path.dirname(authFile));
 		fs.writeFileSync(authFile, JSON.stringify(obj), {
 			mode: 0o600
 		});
+		console.log('Saved to ' + authFile);
 		return obj;
 	});
 }
 
-function askLogin() {
+function askLogin(authFile) {
 	return ask.options('Log in?', {
 		yes: function (callback) {
 			// de-promisify
-			return saveAuth().then(callback.bind(null, null), callback);
+			return saveAuth(authFile).then(callback.bind(null, null), callback);
 		},
 		no: function (callback) {
 			callback(new AbortError());
@@ -49,18 +50,23 @@ function askLogin() {
 	});
 }
 
-function getAuth() {
+function getAuth(authDir) {
+	var authFile = path.join(authDir, '.mwauth.json');
 	return new Promise(function (resolve) {
 		var data = fs.readFileSync(authFile);
 		var obj = JSON.parse(data);
 		if (!obj.botname || !obj.botpass) {
 			throw new Error('.mwauth.json must contain "botname" and "botpass".');
 		}
-		console.log('Logging in as ' + colors.bold(obj.botname));
+		console.log(
+			colors.green('Using credentials from %s for %s'),
+			authFile,
+			colors.bold(obj.botname)
+		);
 		resolve(obj);
 	}).catch(function () {
 		console.log(colors.red.bold('> Failed to read ' + path.basename(authFile) + '.'));
-		return askLogin();
+		return askLogin(authFile);
 	});
 }
 

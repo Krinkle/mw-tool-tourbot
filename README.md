@@ -4,8 +4,7 @@
 
 ### Usage
 
-
-<img width="737" alt="screen shot" src="https://cloud.githubusercontent.com/assets/156867/16345133/959acc3c-3a40-11e6-9acb-5a71c6f786b8.png">
+<img width="763" alt="screen shot" src="https://cloud.githubusercontent.com/assets/156867/16357275/32c26540-3af2-11e6-91bd-b9e749e00c2f.png">
 <img width="536" alt="screen shot" src="https://cloud.githubusercontent.com/assets/156867/16345134/95b3582e-3a40-11e6-805c-e097cd02d1b8.png">
 <img width="490" alt="screen shot" src="https://cloud.githubusercontent.com/assets/156867/16091916/0c7536ba-3336-11e6-83cc-96d3964e3503.png">
 

@@ -2,9 +2,11 @@
   "name": "mw-tool-tourbot",
   "version": "0.1.0",
   "description": "Semi-automated bot for migrating on-wiki JavaScript.",
-  "main": "index.js",
+  "bin": {
+    "tourbot": "./bin/tourbot.js"
+  },
   "scripts": {
-    "start": "node wmf-tour-bot.js",
+    "start": "node server.js",
     "test": "eslint ."
   },
   "repository": {
@@ -29,8 +31,10 @@
   "dependencies": {
     "async": "^2.0.0-rc.6",
     "colors": "^1.1.2",
+    "mkdirp": "^0.5.1",
     "nodemw": "^0.10.1",
     "opener": "^1.4.1",
-    "read": "^1.0.7"
+    "read": "^1.0.7",
+    "user-home": "^2.0.0"
   }
 }
