@@ -3,12 +3,15 @@ var async = require('async');
 var colors = require('colors/safe');
 var MwClient = require('nodemw');
 var opener = require('opener');
+var path = require('path');
 var readline = require('readline');
 var url = require('url');
 
 var { SkipFileError, AbortError } = require('./error');
-var results = require('fs').readFileSync('./results.txt').toString();
 var patterns = require('./patterns');
+var argv = require('minimist')(process.argv.slice(2), {
+	default: { file: 'results.txt' }
+});
 var bots = Object.create(null);
 var dMap = null;
 
@@ -404,6 +407,8 @@ function handleSubject(subject, auth) {
 
 function start(dAuth) {
 	dAuth.then(function (auth) {
+		console.log(colors.cyan('Reading %s'), path.resolve(argv.file));
+		var results = require('fs').readFileSync(argv.file).toString();
 		return new Promise(function (resolve, reject) {
 			async.eachSeries(parseResults(results), function (subject, callback) {
 				handleSubject(subject, auth).then(function () {

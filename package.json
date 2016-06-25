@@ -31,6 +31,7 @@
   "dependencies": {
     "async": "^2.0.0-rc.6",
     "colors": "^1.1.2",
+    "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
     "nodemw": "^0.10.1",
     "opener": "^1.4.1",
