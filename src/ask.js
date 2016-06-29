@@ -50,6 +50,29 @@ function options(question, handlers) {
 }
 
 /**
+ * Ask a boolean question.
+ *
+ * Example:
+ *
+ *     ask.options('Do it?').then(function (answer) {
+ *         // answer = boolean true or false
+ *     });
+ *
+ * @param {string} question
+ * @return {Promise}
+ */
+function confirm(question) {
+	return options(question, {
+		yes: function (callback) {
+			callback(null, true);
+		},
+		no: function (callback) {
+			callback(null, false);
+		}
+	});
+}
+
+/**
  * Ask an open question.
  *
  * Example:
@@ -115,4 +138,4 @@ function secret(question, handler) {
 	});
 }
 
-module.exports = { options, input, secret };
+module.exports = { options, confirm, input, secret };

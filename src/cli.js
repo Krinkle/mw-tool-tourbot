@@ -10,7 +10,10 @@ var ask = require('./ask');
 var { SkipFileError, AbortError } = require('./error');
 var patterns = require('./patterns');
 var argv = require('minimist')(process.argv.slice(2), {
-	default: { file: 'results.txt' }
+	string: ['file', 'contains', 'contains', 'match'],
+	boolean: ['all'],
+	default: { file: 'results.txt', all: false },
+	alias: { f: 'file', a: 'all', c: 'contains', m: 'match' }
 });
 var bots = Object.create(null);
 var dMap = null;
@@ -267,6 +270,7 @@ function handleContent(subject, content, callback) {
 	var changedLines = content.split('\n');
 	var summaries = {};
 	var major = false;
+	var shown = false;
 
 	function proposeChange(pattern, line, i, nextLine) {
 		var preview = line.replace(pattern.regex, pattern.replacement);
@@ -287,6 +291,7 @@ function handleContent(subject, content, callback) {
 			colors.grey(linesAfter)
 		);
 		function askApply() {
+			shown = true;
 			return ask.options('Apply change?', {
 				yes: function (cb) {
 					changedLines[i] = line.replace(pattern.regex, pattern.replacement);
@@ -342,12 +347,26 @@ function handleContent(subject, content, callback) {
 					nextPattern(err);
 				});
 			}, function (err) {
-				callback(err, changedLines.join('\n'), Object.keys(summaries));
+				callback(err, changedLines.join('\n'), Object.keys(summaries), shown);
 			});
 		})
 		.catch(function (err) {
-			callback(err);
+			callback(err, null, null, shown);
 		});
+}
+
+function checkAll(options, subject, content) {
+	if (options.all
+		&& (!options.contains || content.indexOf(argv.contains) !== -1)
+		&& (!options.match || new RegExp(options.match).test(content))
+	) {
+		return ask.confirm('Open in browser?').then(function (answer) {
+			if (answer) {
+				openPage(subject);
+			}
+		});
+	}
+	return Promise.resolve();
 }
 
 function handleSubject(subject, auth) {
@@ -371,22 +390,27 @@ function handleSubject(subject, auth) {
 	var pEdit = Promise.all([pClient, pPage]).then(function (vals) {
 		var [ client, page ] = vals;
 		return new Promise(function (resolve, reject) {
-			handleContent(subject, page.revision.content, function (err, newContent, summaries) {
-				if (err) {
-					reject(err);
-					return;
-				}
-				if (!summaries.length) {
-					// No change made, or only cleanup
-					reportNoop();
-					resolve();
-					return;
-				}
-				checkScript(newContent).then(function () {
-					var summary = 'Maintenance: [[mw:RL/MGU]] / [[mw:RL/JD]] - ' + summaries.join(', ');
-					printSaving(subject, summary);
-					client.edit(page, newContent, summary, function (err) {
-						err ? reject(err) : resolve(); // promisify
+			handleContent(subject, page.revision.content, function (err, newContent, summaries, shown) {
+				var pShown = checkAll(argv, subject, page.revision.content);
+				pShown.then(function () {
+					if (err) {
+						reject(err);
+						return;
+					}
+					if (!summaries.length) {
+						if (shown) {
+							// No change made, or only cleanup
+							reportNoop();
+						}
+						resolve();
+						return;
+					}
+					return checkScript(newContent).then(function () {
+						var summary = 'Maintenance: [[mw:RL/MGU]] / [[mw:RL/JD]] - ' + summaries.join(', ');
+						printSaving(subject, summary);
+						client.edit(page, newContent, summary, function (err) {
+							err ? reject(err) : resolve(); // promisify
+						});
 					});
 				}).catch(reject);
 			});

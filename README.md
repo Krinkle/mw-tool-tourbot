@@ -22,22 +22,30 @@ Pass parameters like `tourbot --file path/to/results.txt`.
 
 ### Options
 
-* `--file results.txt` - File containing mwgrep results in the below format.
+* `--file results.txt` - File containing pairs of (wiki dbname, page name) in mwgrep output format.
+* `--all` - Iterate over all page names, even if no tourbot patterns match on this page. Set this
+  to use tourbot as a convenient way to create urls for each result and open them in a web browser.
+* `--contains` - Limit the `all` iteration to pages that currently contain a particular phrase.
+  This is especially useful when multiple people are working on the same list.
+* `--matches` - Like `contains`, but interpreted as a regular expression.
 
-results.txt example:
+[Public results](https://gist.github.com/Krinkle/a18e726fc3af30f30bf9b2ba919820b5).
+
+
+### Example
 
 ```
-## Public wiki results
-nowiki              MediaWiki:Common.js/numarticles.js
-pcdwiki             MediaWiki:Common.js
-pdcwiki             MediaWiki:Common.js
+curl -O -L 'https://gist.github.com/Krinkle/a18e726fc3af30f30bf9b2ba919820b5/raw/mwgrep.mwCustomEditButtons.txt'
+tourbot -f mwgrep.mwCustomEditButtons.txt -a -c 'mwCustomEditButtons'
+
+ Reading /Users/krinkle/Downloads/mwgrep.mwCustomEditButtons.txt
+
+ MediaWiki:Editpage.js (ab.wikipedia.org)
+
+ Open in browser? (yes/no) y
+ Opening https://ab.wikipedia.org/wiki/MediaWiki:Editpage.js...
 ```
 
-mwgrep example:
-
-```
-$ mwgrep addOnloadHook  --max-results 1500 | grep 'Common'  > results.txt
-```
 
 ### Development
 

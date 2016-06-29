@@ -10,13 +10,10 @@ var { AbortError } = require('./error');
 function saveAuth(authFile) {
 	var obj = {};
 	var url = 'https://en.wikipedia.org/wiki/Special:BotPasswords';
-	return ask.options('Go to ' + colors.bold.underline(url) + '?', {
-		yes: function (callback) {
+	return ask.confirm('Go to ' + colors.bold.underline(url) + '?')
+	.then(function (answer) {
+		if (answer) {
 			opener(url);
-			callback();
-		},
-		no: function (callback) {
-			callback();
 		}
 	}).then(function () {
 		return ask.input('Bot username?', function (data, callback) {
