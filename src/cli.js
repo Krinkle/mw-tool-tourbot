@@ -185,8 +185,9 @@ function printSaving(subject, summary) {
 function reportNoop() {
 	console.log('No major changes. Loading next subject...');
 }
-function skipPage() {
-	console.log('Skipped. Loading next subject...');
+function skipPage(err) {
+	var reason = err && err.message ? ` (${err.message})` : '';
+	console.log('Skipped%s. Loading next subject...', reason);
 }
 function openPage(subject) {
 	if (!subject.server) {
@@ -234,38 +235,38 @@ function simpleDiff(removedLine, addedLine) {
 	};
 }
 
+function checkScript(content) {
+	function confirmError(error) {
+		var line = content.split('\n')[error.loc.line - 1];
+		var context = line.slice(0, error.loc.column)
+			+ colors.bold.underline(line[error.loc.column])
+			+ line.slice(error.loc.column + 1);
+		return ask.options(
+			colors.red.bold(error.toString())
+				+ '\n' + context
+				+ '\n\nContinue?',
+			{
+				yes: function (callback) {
+					callback();
+				},
+				no: function (callback) {
+					callback(new SkipFileError('Script error'));
+				}
+			}
+		);
+	}
+	try {
+		acorn.parse(content);
+		return Promise.resolve();
+	} catch (e) {
+		return confirmError(e);
+	}
+}
+
 function handleContent(subject, content, callback) {
 	var changedLines = content.split('\n');
 	var summaries = {};
 	var major = false;
-
-	function checkScript() {
-		function confirmError(error) {
-			var line = changedLines[error.loc.line - 1];
-			var context = line.slice(0, error.loc.column)
-				+ colors.bold.underline(line[error.loc.column])
-				+ line.slice(error.loc.column + 1);
-			return ask.options(
-				colors.red.bold(error.toString())
-					+ '\n' + context
-					+ '\n\nContinue?',
-				{
-					yes: function (callback) {
-						callback();
-					},
-					no: function (callback) {
-						callback(new SkipFileError());
-					}
-				}
-			);
-		}
-		try {
-			acorn.parse(content);
-			return Promise.resolve();
-		} catch (e) {
-			return confirmError(e);
-		}
-	}
 
 	function proposeChange(pattern, line, i, nextLine) {
 		var preview = line.replace(pattern.regex, pattern.replacement);
@@ -303,7 +304,7 @@ function handleContent(subject, content, callback) {
 				edit: function (cb) {
 					cb();
 					openPage(subject);
-					nextLine(new SkipFileError());
+					nextLine(new SkipFileError('Editing in browser'));
 				},
 				open: function (cb) {
 					cb();
@@ -326,7 +327,7 @@ function handleContent(subject, content, callback) {
 
 	printHeading(subject);
 
-	checkScript()
+	checkScript(content)
 		.then(function () {
 			async.eachSeries(patterns, function (pattern, nextPattern) {
 				// If we reached a minor pattern, but had no major patterns yet, don't propose
@@ -354,7 +355,7 @@ function handleSubject(subject, auth) {
 	var pClient = pMap.then(function (map) {
 		var wiki = map[subject.wikiId];
 		if (!wiki) {
-			return Promise.reject(new Error('Unknown wiki: ' + subject.wikiId));
+			return Promise.reject(new SkipFileError('Unknown wiki: ' + subject.wikiId));
 		}
 		// Hack - augment subject object for print convenience
 		subject.server = wiki.server;
@@ -372,11 +373,6 @@ function handleSubject(subject, auth) {
 		return new Promise(function (resolve, reject) {
 			handleContent(subject, page.revision.content, function (err, newContent, summaries) {
 				if (err) {
-					if (err instanceof SkipFileError) {
-						skipPage();
-						resolve();
-						return;
-					}
 					reject(err);
 					return;
 				}
@@ -386,11 +382,13 @@ function handleSubject(subject, auth) {
 					resolve();
 					return;
 				}
-				var summary = 'Maintenance: [[mw:RL/MGU]] / [[mw:RL/JD]] - ' + summaries.join(', ');
-				printSaving(subject, summary);
-				client.edit(page, newContent, summary, function (err) {
-					err ? reject(err) : resolve(); // promisify
-				});
+				checkScript(newContent).then(function () {
+					var summary = 'Maintenance: [[mw:RL/MGU]] / [[mw:RL/JD]] - ' + summaries.join(', ');
+					printSaving(subject, summary);
+					client.edit(page, newContent, summary, function (err) {
+						err ? reject(err) : resolve(); // promisify
+					});
+				}).catch(reject);
 			});
 		});
 	});
@@ -406,6 +404,11 @@ function start(dAuth) {
 				handleSubject(subject, auth).then(function () {
 					callback();
 				}, function (err) {
+					if (err instanceof SkipFileError) {
+						skipPage(err);
+						callback();
+						return;
+					}
 					callback(err);
 				});
 			}, function (err) {
