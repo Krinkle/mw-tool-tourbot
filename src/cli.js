@@ -4,9 +4,9 @@ var colors = require('colors/safe');
 var MwClient = require('nodemw');
 var opener = require('opener');
 var path = require('path');
-var readline = require('readline');
 var url = require('url');
 
+var ask = require('./ask');
 var { SkipFileError, AbortError } = require('./error');
 var patterns = require('./patterns');
 var argv = require('minimist')(process.argv.slice(2), {
@@ -182,7 +182,7 @@ function printSaving(subject, summary) {
 	console.log('\nEdit summary: %s\nSaving edit on [[%s]] (%s)...',
 		summary, colors.bold(subject.pageName), wiki);
 }
-function printSkipping() {
+function reportNoop() {
 	console.log('No major changes. Loading next subject...');
 }
 function skipPage() {
@@ -204,7 +204,7 @@ function printApplyHelp() {
 		'e - open the page in a web browser, and skip the rest of this file\n' +
 		'o - open the page in a web browser, but keep the change undecided\n' +
 		's - skip this change and the rest of this file\n' +
-		'? - print help\n'
+		'h - print help\n'
 	);
 	console.log(colors.red.bold(help));
 }
@@ -238,36 +238,33 @@ function handleContent(subject, content, callback) {
 	var changedLines = content.split('\n');
 	var summaries = {};
 	var major = false;
-	var rl = readline.createInterface({
-		input: process.stdin,
-		output: process.stdout,
-		historySize: 0
-	});
 
 	function checkScript() {
-		return new Promise(function (resolve, reject) {
-			function ask(error) {
-				rl.question(colors.red.bold(error.toString()) + '\nContinue? (y/n) ', function (answer) {
-					var char = answer.trim().toLowerCase();
-					if (char === 'y') {
-						resolve();
-						return;
+		function confirmError(error) {
+			var line = changedLines[error.loc.line - 1];
+			var context = line.slice(0, error.loc.column)
+				+ colors.bold.underline(line[error.loc.column])
+				+ line.slice(error.loc.column + 1);
+			return ask.options(
+				colors.red.bold(error.toString())
+					+ '\n' + context
+					+ '\n\nContinue?',
+				{
+					yes: function (callback) {
+						callback();
+					},
+					no: function (callback) {
+						callback(new SkipFileError());
 					}
-					if (char === 'n') {
-						reject(new SkipFileError());
-						return;
-					}
-					ask(error);
-				});
-			}
-			try {
-				acorn.parse(content);
-				resolve();
-				return;
-			} catch (e) {
-				ask(e);
-			}
-		});
+				}
+			);
+		}
+		try {
+			acorn.parse(content);
+			return Promise.resolve();
+		} catch (e) {
+			return confirmError(e);
+		}
 	}
 
 	function proposeChange(pattern, line, i, nextLine) {
@@ -289,45 +286,40 @@ function handleContent(subject, content, callback) {
 			colors.grey(linesAfter)
 		);
 		function askApply() {
-			rl.question('Apply change? (y, n, e, o, s, ? help) ', function (answer) {
-				var char = answer.trim().toLowerCase();
-				if (char === 'y') {
+			return ask.options('Apply change?', {
+				yes: function (cb) {
 					changedLines[i] = line.replace(pattern.regex, pattern.replacement);
 					if (pattern.summary) {
 						major = true;
 						summaries[pattern.summary] = true;
 					}
+					cb();
 					nextLine();
-					return;
-				}
-				if (char === 'n') {
+				},
+				no: function (cb) {
+					cb();
 					nextLine();
-					return;
-				}
-				if (char === 'e') {
+				},
+				edit: function (cb) {
+					cb();
 					openPage(subject);
 					nextLine(new SkipFileError());
-					return;
-				}
-				if (char === 'o') {
+				},
+				open: function (cb) {
+					cb();
 					openPage(subject);
 					askApply();
-					return;
-				}
-				if (char === 's') {
-					skipPage();
+				},
+				skip: function (cb) {
+					cb();
 					nextLine(new SkipFileError());
-					return;
-				}
-				// "?", "?help", "? help", "h", "help"
-				if (char[0] === '?' || (char[0] === 'h' && char.length < 5)) {
+				},
+				help: function (cb) {
+					cb();
 					printApplyHelp();
 					askApply();
-					return;
 				}
-				// Unknown key, return to question
-				askApply();
-			});
+			} );
 		}
 		askApply();
 	}
@@ -349,7 +341,6 @@ function handleContent(subject, content, callback) {
 					nextPattern(err);
 				});
 			}, function (err) {
-				rl.close();
 				callback(err, changedLines.join('\n'), Object.keys(summaries));
 			});
 		})
@@ -382,6 +373,7 @@ function handleSubject(subject, auth) {
 			handleContent(subject, page.revision.content, function (err, newContent, summaries) {
 				if (err) {
 					if (err instanceof SkipFileError) {
+						skipPage();
 						resolve();
 						return;
 					}
@@ -390,7 +382,7 @@ function handleSubject(subject, auth) {
 				}
 				if (!summaries.length) {
 					// No change made, or only cleanup
-					printSkipping();
+					reportNoop();
 					resolve();
 					return;
 				}
