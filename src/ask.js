@@ -21,12 +21,13 @@ var abbrev = require('./abbrev');
 function options(question, handlers) {
 	var keys = Object.keys(handlers);
 	var mapping = abbrev(keys);
-	var legend = abbrev(keys, { shortest: true });
-	var answers = [];
-	for (var key in legend) {
-		answers.push(colors.bold(key) + legend[key].slice(key.length));
+	var shorts = abbrev(keys, { shortest: true });
+	var answers = {};
+	for (var short in shorts) {
+		answers[shorts[short]] = colors.bold(short) + shorts[short].slice(short.length);
 	}
-	var text = question + ' (' + answers.join('/') + ') ';
+	var legend = keys.map( key => answers[key] );
+	var text = question + ' (' + legend.join('/') + ') ';
 	return new Promise(function (resolve, reject) {
 		function prompt() {
 			read({ prompt: text }, function (err, answer) {
