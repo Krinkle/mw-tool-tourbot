@@ -8,12 +8,12 @@
 <img width="490" alt="screen shot" src="https://cloud.githubusercontent.com/assets/156867/16091916/0c7536ba-3336-11e6-83cc-96d3964e3503.png">
 <img width="594" alt="screen shot" src="https://cloud.githubusercontent.com/assets/156867/16357410/220259be-3af6-11e6-9479-c4205972e3bf.png">
 
-## Install
+## Quick start
 
 Install the [npm](https://npmjs.org/) package:
 
 ```
-npm install mw-tool-tourbot
+npm install -g mw-tool-tourbot
 ```
 
 To start the interactive process, run the `tourbot` program.
@@ -41,14 +41,16 @@ $ mwgrep addOnloadHook  --max-results 1500 | grep 'Common'  > results.txt
 
 ### Development
 
-Alternatively, install from Git:
+Install from Git:
 
 ```
 git clone https://github.com/Krinkle/mw-tool-tourbot.git
 ````
 
-Manually run `npm install`. To start the interactive process here, run `npm start`.
-Pass parameters like `npm start -- --file path/to/results.txt`.
+Manually run `npm install`. To start the interactive process, run `./bin/tourbot.js`.
+Pass parameters like `./bin/tourbot.js -- --file path/to/results.txt`.
+
+Alternatively, run `npm link` to create a global symlink for `tourbot`.
 
 ### See also
 * https://github.com/he7d3r/mw-gadget-jsUpdater

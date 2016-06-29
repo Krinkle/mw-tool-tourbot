@@ -6,7 +6,6 @@
     "tourbot": "./bin/tourbot.js"
   },
   "scripts": {
-    "start": "node server.js",
     "test": "eslint ."
   },
   "repository": {
