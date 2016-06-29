@@ -31,6 +31,10 @@ function options(question, handlers) {
 	return new Promise(function (resolve, reject) {
 		function prompt() {
 			read({ prompt: text }, function (err, answer) {
+				if (err) {
+					reject(err);
+					return;
+				}
 				var key = answer.toLowerCase();
 				if (!mapping.hasOwnProperty(key)) {
 					prompt();
@@ -61,13 +65,17 @@ function input(question, handler) {
 	return new Promise(function (resolve, reject) {
 		function prompt() {
 			read({ prompt: question }, function (err, answer) {
-				if (answer) {
-					handler(answer, function (err, data) {
-						err ? reject(err) : resolve(data);
-					});
-				} else {
-					prompt();
+				if (err) {
+					reject(err);
+					return;
 				}
+				if (!answer) {
+					prompt();
+					return;
+				}
+				handler(answer, function (err, data) {
+					err ? reject(err) : resolve(data);
+				});
 			});
 		}
 		prompt();
