@@ -28,6 +28,7 @@
     "eslint": "^2.13.0"
   },
   "dependencies": {
+    "acorn": "^3.2.0",
     "async": "^2.0.0-rc.6",
     "colors": "^1.1.2",
     "minimist": "^1.2.0",
