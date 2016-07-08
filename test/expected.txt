@@ -38,3 +38,5 @@ mw.loader.load("http://test.wikipedia.org/w/index.php?title=Example&action=raw&c
  */
 
 load('https://tools.wmflabs.org/wiwosm/osm-on-ol/kml-on-ol.php');
+load( 'https://tools.wmflabs.org/wiwosm/osm-on-ol/kml-on-ol.php' );
+load( "https://tools.wmflabs.org/wiwosm/osm-on-ol/kml-on-ol.php");

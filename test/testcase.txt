@@ -38,3 +38,5 @@ importStylesheetURI("http://test.wikipedia.org/w/index.php?title=Example&action=
  */
 
 load('https://toolserver.org/~kolossos/openlayers/kml-on-ol.php');
+load( 'http://toolserver.org/~kolossos/openlayers/kml-on-ol.php' );
+load( "//toolserver.org/~kolossos/openlayers/kml-on-ol.php");

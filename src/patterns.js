@@ -31,7 +31,7 @@ module.exports = [
 		summary: 'importStylesheetURI is deprecated'
 	},
 	{
-		regex: 'http://toolserver.org/~kolossos/openlayers/kml-on-ol.php',
+		regex: /(https?:)?\/\/toolserver\.org\/~kolossos\/openlayers\/kml\-on\-ol\.php/,
 		replacement: 'https://tools.wmflabs.org/wiwosm/osm-on-ol/kml-on-ol.php',
 		summary: 'Update old toolserver url'
 	},
