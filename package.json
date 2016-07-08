@@ -6,7 +6,7 @@
     "tourbot": "./bin/tourbot.js"
   },
   "scripts": {
-    "test": "eslint ."
+    "test": "node test/ && eslint ."
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
     "node": ">=4.0"
   },
   "devDependencies": {
+    "assert-diff": "^1.0.1",
     "eslint": "^2.13.0"
   },
   "dependencies": {

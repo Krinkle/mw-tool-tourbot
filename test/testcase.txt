@@ -1,0 +1,40 @@
+/**
+ * addOnloadHook
+ */
+
+function addOnloadHook() {
+}
+
+call(function addOnloadHook() {
+	// ..
+})
+
+addOnloadHook(function addOnloadHook() {});
+addOnloadHook(function () {});
+ addOnloadHook(funcRef );
+  addOnloadHook(function() {
+    // ..
+  })
+  // addOnloadHook(function() {})
+
+/**
+ * $j
+ */
+
+$j ( "#test" );
+$j( function () {} );
+$j.ajax();
+
+/**
+ * importScriptURI, importStylesheetURI, maxage
+ */
+
+importScriptURI( '//test.wikipedia.org/w/index.php?title=Example&action=raw&ctype=text/javascript&maxage=0&smaxage=0');
+
+importStylesheetURI("http://test.wikipedia.org/w/index.php?title=Example&action=raw&ctype=text/css&maxage=0&smaxage=0");
+
+/**
+ * Toolserver url
+ */
+
+load('https://toolserver.org/~kolossos/openlayers/kml-on-ol.php');

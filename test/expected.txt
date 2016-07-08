@@ -1,0 +1,40 @@
+/**
+ * addOnloadHook
+ */
+
+function addOnloadHook() {
+}
+
+call(function addOnloadHook() {
+	// ..
+})
+
+addOnloadHook(function addOnloadHook() {});
+$(function () {});
+ $(funcRef );
+  $(function() {
+    // ..
+  })
+  // $(function() {})
+
+/**
+ * $j
+ */
+
+$( "#test" );
+$( function () {} );
+$.ajax();
+
+/**
+ * importScriptURI, importStylesheetURI, maxage
+ */
+
+mw.loader.load( '//test.wikipedia.org/w/index.php?title=Example&action=raw&ctype=text/javascript');
+
+mw.loader.load("http://test.wikipedia.org/w/index.php?title=Example&action=raw&ctype=text/css", 'text/css');
+
+/**
+ * Toolserver url
+ */
+
+load('https://tools.wmflabs.org/wiwosm/osm-on-ol/kml-on-ol.php');
