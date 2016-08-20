@@ -52,8 +52,11 @@ var s=document.createElement('script');
 s.setAttribute('src',"//bits.wikimedia.org/he.wikipedia.org/load.php?modules=jquery&only=scripts");
 s.setAttribute('src',"http://bits.wikimedia.org/he.wikipedia.org/load.php?modules=jquery&only=scripts");
 
-background-image:url(//bits.wikimedia.org/static-1.22wmf1/skins/vector/images/search-ltr.png?303-4);
-background-image:url(//bits.wikimedia.org/static-1.25wmf1/skins/Vector/images/search-ltr.png);
+url(//bits.wikimedia.org/static-1.22wmf1/skins/vector/images/search-ltr.png?303-4);
+url(//bits.wikimedia.org/static-1.25wmf1/skins/Vector/images/search-ltr.png);
 
 url(/w/skins/Vector/images/search-ltr.png?303-4);
 url(https://example.org/logo.png?303-4);
+
+url(//bits.wikimedia.org/skins-1.5/vector/images/watch-icon.png);
+url(//bits.wikimedia.org/skins-1.5/Vector/images/watch-icon.png);
