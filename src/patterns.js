@@ -39,12 +39,23 @@ module.exports = [
 	{
 		regex: /(https?:)?\/\/bits\.wikimedia\.org\/skins\//g,
 		replacement: '/static/current/skins/',
-		summary: 'bits.wikimedia.org → static'
+		summary: 'bits.wikimedia.org'
 	},
 	{
 		regex: /(https?:)?\/\/bits\.wikimedia\.org\/static-current\//g,
 		replacement: '/static/current/',
-		summary: 'bits.wikimedia.org → static'
+		summary: 'bits.wikimedia.org'
+	},
+	{
+		// These urls were already broken by vector>Vector, but let's be nice.
+		regex: /(https?:)?\/\/bits\.wikimedia\.org\/static-([^/]+)\/skins\/vector\//g,
+		replacement: '/w/skins/Vector/',
+		summary: 'bits.wikimedia.org'
+	},
+	{
+		regex: /(https?:)?\/\/bits\.wikimedia\.org\/static-([^/]+)\/(skins|extensions|resources)\//g,
+		replacement: '/w/$3/',
+		summary: 'bits.wikimedia.org'
 	},
 	{
 		regex: /((https?:)?\/\/)bits\.wikimedia\.org\/([^/]+)\/load\.php/g,

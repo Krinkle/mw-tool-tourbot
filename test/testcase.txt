@@ -51,3 +51,6 @@ url(//bits.wikimedia.org/static-current/skins/MonoBook/bullet.gif);
 var s=document.createElement('script');
 s.setAttribute('src',"//bits.wikimedia.org/he.wikipedia.org/load.php?modules=jquery&only=scripts");
 s.setAttribute('src',"http://bits.wikimedia.org/he.wikipedia.org/load.php?modules=jquery&only=scripts");
+
+background-image:url(//bits.wikimedia.org/static-1.22wmf1/skins/vector/images/search-ltr.png?303-4);
+background-image:url(//bits.wikimedia.org/static-1.25wmf1/skins/Vector/images/search-ltr.png);

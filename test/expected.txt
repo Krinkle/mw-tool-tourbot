@@ -51,3 +51,6 @@ url(/static/current/skins/MonoBook/bullet.gif);
 var s=document.createElement('script');
 s.setAttribute('src',"https://he.wikipedia.org/w/load.php?modules=jquery&only=scripts");
 s.setAttribute('src',"https://he.wikipedia.org/w/load.php?modules=jquery&only=scripts");
+
+background-image:url(/w/skins/Vector/images/search-ltr.png?303-4);
+background-image:url(/w/skins/Vector/images/search-ltr.png);
