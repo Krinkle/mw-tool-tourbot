@@ -72,6 +72,12 @@ module.exports = [
 		replacement: ''
 	},
 	{
+		// Strip old wgStyleVersion.
+		// No longer needed with wmfstatic cache-control
+		regex: /(\/(skins|extensions|resources)\/[^?]+)\?30\d-\d\d?\b/g,
+		replacement: '$1'
+	},
+	{
 		regex: /\.org\/(\?title=.*&action=raw&ctype=)/g,
 		replacement: '.org/w/index.php$1'
 	},
