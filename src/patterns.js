@@ -35,6 +35,17 @@ module.exports = [
 		replacement: 'https://tools.wmflabs.org/wiwosm/osm-on-ol/kml-on-ol.php',
 		summary: 'Update old toolserver url'
 	},
+	// bits.wikimedia.org is deprecated – https://phabricator.wikimedia.org/T107430
+	{
+		regex: /(https?:)?\/\/bits\.wikimedia\.org\/skins\//g,
+		replacement: '/static/current/skins/',
+		summary: 'bits.wikimedia.org → static'
+	},
+	{
+		regex: /(https?:)?\/\/bits\.wikimedia\.org\/static-current\//g,
+		replacement: '/static/current/',
+		summary: 'bits.wikimedia.org → static'
+	},
 	// Clean-up (not worth an edit of itself)
 	{
 		regex: /[?&]s?maxage=\d*/g,

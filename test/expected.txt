@@ -40,3 +40,10 @@ mw.loader.load("http://test.wikipedia.org/w/index.php?title=Example&action=raw&c
 load('https://tools.wmflabs.org/wiwosm/osm-on-ol/kml-on-ol.php');
 load( 'https://tools.wmflabs.org/wiwosm/osm-on-ol/kml-on-ol.php' );
 load( "https://tools.wmflabs.org/wiwosm/osm-on-ol/kml-on-ol.php");
+
+/*
+ * bits.wikimedia.org
+ */
+
+var x = "/static/current/skins/Vector/images/watch-icon.png";
+var x = "/static/current/skins/MonoBook/bullet.gif";

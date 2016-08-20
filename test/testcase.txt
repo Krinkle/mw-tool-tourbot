@@ -40,3 +40,10 @@ importStylesheetURI("http://test.wikipedia.org/w/index.php?title=Example&action=
 load('https://toolserver.org/~kolossos/openlayers/kml-on-ol.php');
 load( 'http://toolserver.org/~kolossos/openlayers/kml-on-ol.php' );
 load( "//toolserver.org/~kolossos/openlayers/kml-on-ol.php");
+
+/*
+ * bits.wikimedia.org
+ */
+
+var x = "//bits.wikimedia.org/skins/Vector/images/watch-icon.png";
+var x = "//bits.wikimedia.org/static-current/skins/MonoBook/bullet.gif";
