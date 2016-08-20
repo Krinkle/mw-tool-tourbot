@@ -46,6 +46,11 @@ module.exports = [
 		replacement: '/static/current/',
 		summary: 'bits.wikimedia.org → static'
 	},
+	{
+		regex: /((https?:)?\/\/)bits\.wikimedia\.org\/([^/]+)\/load\.php/g,
+		replacement: 'https://$3/w/load.php',
+		summary: 'bits.wikimedia.org'
+	},
 	// Clean-up (not worth an edit of itself)
 	{
 		regex: /[?&]s?maxage=\d*/g,

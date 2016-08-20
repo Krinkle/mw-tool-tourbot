@@ -46,4 +46,8 @@ load( "https://tools.wmflabs.org/wiwosm/osm-on-ol/kml-on-ol.php");
  */
 
 var x = "/static/current/skins/Vector/images/watch-icon.png";
-var x = "/static/current/skins/MonoBook/bullet.gif";
+url(/static/current/skins/MonoBook/bullet.gif);
+
+var s=document.createElement('script');
+s.setAttribute('src',"https://he.wikipedia.org/w/load.php?modules=jquery&only=scripts");
+s.setAttribute('src',"https://he.wikipedia.org/w/load.php?modules=jquery&only=scripts");
