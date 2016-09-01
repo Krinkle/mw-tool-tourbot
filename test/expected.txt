@@ -26,12 +26,14 @@ $( function () {} );
 $.ajax();
 
 /**
- * importScriptURI, importStylesheetURI, maxage
+ * importScriptURI, importStylesheetURI, maxage, normalise action=raw
  */
 
 mw.loader.load( '//test.wikipedia.org/w/index.php?title=Example&action=raw&ctype=text/javascript');
 
 mw.loader.load("http://test.wikipedia.org/w/index.php?title=Example&action=raw&ctype=text/css", 'text/css');
+
+mw.loader.load('//commons.wikimedia.org/w/index.php?title=MediaWiki:Gadget-Cat-a-lot.css&action=raw&ctype=text/css', 'text/css');
 
 /**
  * Toolserver url
