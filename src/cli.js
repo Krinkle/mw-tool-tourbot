@@ -196,6 +196,7 @@ function skipPage(err) {
 	console.log('Skipped%s. Loading next subject...', reason);
 }
 function openPage(subject) {
+	subject.opened = true;
 	if (!subject.server) {
 		console.log('Unable to find url for [[%s]]...', subject.pageName);
 		return;
@@ -362,6 +363,7 @@ function checkAll(options, subject, content) {
 	if (options.all
 		&& (!options.contains || content.indexOf(argv.contains) !== -1)
 		&& (!options.match || new RegExp(options.match).test(content))
+		&& !subject.opened
 	) {
 		return ask.confirm('Open in browser?').then(function (answer) {
 			if (answer) {
