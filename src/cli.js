@@ -1,15 +1,18 @@
+var fs = require('fs');
+var path = require('path');
+var url = require('url');
 var acorn = require('acorn');
 var async = require('async');
 var colors = require('colors/safe');
+var minimist = require('minimist');
 var MwClient = require('nodemw');
 var opener = require('opener');
-var path = require('path');
-var url = require('url');
 
+var auth = require('./auth');
 var ask = require('./ask');
 var { SkipFileError, AbortError } = require('./error');
 var patterns = require('./patterns');
-var argv = require('minimist')(process.argv.slice(2), {
+var argv = minimist(process.argv.slice(2), {
 	string: ['file', 'contains', 'contains', 'match'],
 	boolean: ['all'],
 	default: { file: 'results.txt', all: false },
@@ -422,7 +425,7 @@ function handleSubject(subject, auth) {
 function start(dAuth) {
 	dAuth.then(function (auth) {
 		console.log(colors.cyan('Reading %s'), path.resolve(argv.file));
-		var results = require('fs').readFileSync(argv.file).toString();
+		var results = fs.readFileSync(argv.file).toString();
 		return new Promise(function (resolve, reject) {
 			async.eachSeries(parseResults(results), function (subject, callback) {
 				handleSubject(subject, auth).then(function () {
@@ -451,6 +454,5 @@ function start(dAuth) {
 }
 
 module.exports = function cli(authDir) {
-	var auth = require('./auth').getAuth(authDir);
-	start(auth);
+	start(auth.getAuth(authDir));
 };
