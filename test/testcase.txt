@@ -49,6 +49,7 @@ load( "//toolserver.org/~kolossos/openlayers/kml-on-ol.php");
 
 var x = "//bits.wikimedia.org/skins/Vector/images/watch-icon.png";
 url(//bits.wikimedia.org/static-current/skins/MonoBook/bullet.gif);
+url(//bits.wikimedia.org/static/current/skins/MonoBook/bullet.gif);
 
 var s=document.createElement('script');
 s.setAttribute('src',"//bits.wikimedia.org/he.wikipedia.org/load.php?modules=jquery&only=scripts");

@@ -37,19 +37,19 @@ module.exports = [
 	},
 	// bits.wikimedia.org is deprecated – https://phabricator.wikimedia.org/T107430
 	{
-		regex: /(https?:)?\/\/bits\.wikimedia\.org\/skins\//g,
-		replacement: '/static/current/skins/',
-		summary: 'bits.wikimedia.org'
-	},
-	{
-		regex: /(https?:)?\/\/bits\.wikimedia\.org\/static-current\//g,
+		regex: /(https?:)?\/\/bits\.wikimedia\.org\/static[-/]current\//g,
 		replacement: '/static/current/',
 		summary: 'bits.wikimedia.org'
 	},
 	{
 		// These urls were already broken by vector>Vector, but let's be nice.
-		regex: /(https?:)?\/\/bits\.wikimedia\.org\/static-([^/]+)\/skins\/vector\//g,
+		regex: /(https?:)?\/\/bits\.wikimedia\.org\/skins\/vector\//g,
 		replacement: '/w/skins/Vector/',
+		summary: 'bits.wikimedia.org'
+	},
+	{
+		regex: /(https?:)?\/\/bits\.wikimedia\.org\/skins\//g,
+		replacement: '/w/skins/',
 		summary: 'bits.wikimedia.org'
 	},
 	{
@@ -61,6 +61,12 @@ module.exports = [
 	{
 		regex: /(https?:)?\/\/bits\.wikimedia\.org\/skins-1\.5\//g,
 		replacement: '/w/skins/',
+		summary: 'bits.wikimedia.org'
+	},
+	{
+		// These urls were already broken by vector>Vector, but let's be nice.
+		regex: /(https?:)?\/\/bits\.wikimedia\.org\/static-([^/]+)\/skins\/vector\//g,
+		replacement: '/w/skins/Vector/',
 		summary: 'bits.wikimedia.org'
 	},
 	{
