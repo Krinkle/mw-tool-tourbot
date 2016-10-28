@@ -86,6 +86,11 @@ url(/w/skins/Vector/images/watch-icon.png);
 url(/w/skins/Vector/images/watch-icon.png);
 
 /**
+ * Wdsearch
+ */
+mw.loader.load( '//en.wikipedia.org/w/index.php?title=MediaWiki:Wdsearch.js&action=raw&ctype=text/javascript' );
+
+/**
  * Clean up
  */
 mw.config.get('wgPageName')[0].toUpperCase();

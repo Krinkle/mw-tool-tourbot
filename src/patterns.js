@@ -94,6 +94,11 @@ module.exports = [
 		replacement: 'https://$3/w/load.php',
 		summary: 'bits.wikimedia.org'
 	},
+	{
+		regex: /(https?:)?\/\/sv\.wikipedia\.org\/w\/index\.php\?.+MediaWiki:Gadget-Wdsearch\.js[^'";\n]+/,
+		replacement: '//en.wikipedia.org/w/index.php?title=MediaWiki:Wdsearch.js&action=raw&ctype=text/javascript',
+		summary: 'Load Wdsearch.js from en.wikipedia.org (canonical+secure version)',
+	},
 	// Clean-up (not worth an edit of itself)
 	{
 		regex: /[?&]s?maxage=\d*/g,
