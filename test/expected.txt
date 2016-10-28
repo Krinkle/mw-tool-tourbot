@@ -26,6 +26,16 @@ $( function () {} );
 $.ajax();
 
 /**
+ * jquery.mwExtension
+ */
+
+'foo'.replace(/^\s+/, '');
+$.trimLeft( 'foo'.replace('foo', 'bar') );
+
+'foo'.replace(/\s+$/, '');
+$.trimRight( 'foo'.replace('foo', 'bar') );
+
+/**
  * importScriptURI, importStylesheetURI, maxage, normalise action=raw
  */
 

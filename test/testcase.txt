@@ -26,6 +26,16 @@ $j( function () {} );
 $j.ajax();
 
 /**
+ * jquery.mwExtension
+ */
+
+$.trimLeft( 'foo' );
+$.trimLeft( 'foo'.replace('foo', 'bar') );
+
+$.trimRight( 'foo' );
+$.trimRight( 'foo'.replace('foo', 'bar') );
+
+/**
  * importScriptURI, importStylesheetURI, maxage, normalise action=raw
  */
 

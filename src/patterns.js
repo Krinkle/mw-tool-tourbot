@@ -21,6 +21,16 @@ module.exports = [
 		summary: 'escapeQuotes is deprecated'
 	},
 	{
+		regex: /(?:\$|\$j|jQuery)\.trimLeft\s*\(\s*([^\n\(\)]+?)\s*\)/g,
+		replacement: '$1.replace(/^\\s+/, \'\')',
+		summary: '$.trimLeft is deprecated'
+	},
+	{
+		regex: /(?:\$|\$j|jQuery)\.trimRight\s*\(\s*([^\n\(\)]+?)\s*\)/g,
+		replacement: '$1.replace(/\\s+$/, \'\')',
+		summary: '$.trimRight is deprecated'
+	},
+	{
 		regex: /\bimportScriptURI\s*\(/g,
 		replacement: 'mw.loader.load(',
 		summary: 'importScriptURI is deprecated'
