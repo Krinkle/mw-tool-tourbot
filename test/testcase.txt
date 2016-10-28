@@ -84,3 +84,8 @@ url(https://example.org/logo.png?303-4);
 
 url(//bits.wikimedia.org/skins-1.5/vector/images/watch-icon.png);
 url(//bits.wikimedia.org/skins-1.5/Vector/images/watch-icon.png);
+
+/**
+ * Clean up
+ */
+mw.config.get('wgPageName').charAt(0).toUpperCase();

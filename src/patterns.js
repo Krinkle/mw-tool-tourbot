@@ -120,5 +120,9 @@ module.exports = [
 	{
 		regex: /\$j\s*(\(|\.)/g,
 		replacement: '$$$1'
+	},
+	{
+		regex: /\s*\.\s*charAt\(\s*0\s*\)/,
+		replacement: '[0]'
 	}
 ];
