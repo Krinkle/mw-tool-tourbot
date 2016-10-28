@@ -36,6 +36,17 @@ $.trimRight( 'foo' );
 $.trimRight( 'foo'.replace('foo', 'bar') );
 
 /**
+ * mw.Map
+ */
+
+	if( !mw.config.values.wgArticleId || $(frm.wpSection).val() == 'new' ) {
+		return
+	}
+
+	if (nstab && ((mw.config.values.wgUserLanguage=='cdo') || (mw.config.values.wgUserLanguage=='cdo'))) {
+
+
+/**
  * importScriptURI, importStylesheetURI, maxage, normalise action=raw
  */
 

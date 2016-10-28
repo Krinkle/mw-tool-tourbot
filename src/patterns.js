@@ -41,6 +41,11 @@ module.exports = [
 		summary: 'importStylesheetURI is deprecated'
 	},
 	{
+		regex: /\bmw\s*\.\s*config\s*\.\s*values\s*\.\s*(\w+)/g,
+		replacement: 'mw.config.get(\'$1\')',
+		summary: 'mw.config.values is deprecated'
+	},
+	{
 		regex: /(https?:)?\/\/toolserver\.org\/~kolossos\/openlayers\/kml\-on\-ol\.php/,
 		replacement: 'https://tools.wmflabs.org/wiwosm/osm-on-ol/kml-on-ol.php',
 		summary: 'Update old toolserver url'
