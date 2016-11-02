@@ -52,6 +52,16 @@ module.exports = [
 		summary: 'mw.config.values is deprecated'
 	},
 	{
+		regex: /\bmw\s*\.\s*user\s*\.\s*options\s*\.\s*values\s*\.\s*(\w+)/g,
+		replacement: 'mw.user.options.get(\'$1\')',
+		summary: 'Map.values is deprecated'
+	},
+	{
+		regex: /\bmw\s*\.\s*user\s*\.\s*tokens\s*\.\s*values\s*\.\s*(\w+)/g,
+		replacement: 'mw.user.tokens.get(\'$1\')',
+		summary: 'Map.values is deprecated'
+	},
+	{
 		regex: /(https?:)?\/\/toolserver\.org\/~kolossos\/openlayers\/kml\-on\-ol\.php/,
 		replacement: 'https://tools.wmflabs.org/wiwosm/osm-on-ol/kml-on-ol.php',
 		summary: 'Update old toolserver url'

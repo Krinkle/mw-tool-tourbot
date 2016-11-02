@@ -47,6 +47,11 @@ $.trimRight( 'foo'.replace('foo', 'bar') );
 
 var conf = window.mw ? mw.config.get() : window;
 
+{
+'token' : mw.user.tokens.get('editToken'),
+'rows' : mw.user.options.get('rows')
+}
+
 /**
  * importScriptURI, importStylesheetURI, maxage, normalise action=raw
  */
