@@ -45,6 +45,7 @@ $.trimRight( 'foo'.replace('foo', 'bar') );
 
 	if (nstab && ((mw.config.values.wgUserLanguage=='cdo') || (mw.config.values.wgUserLanguage=='cdo'))) {
 
+var conf = window.mw ? mw.config.values : window;
 
 /**
  * importScriptURI, importStylesheetURI, maxage, normalise action=raw

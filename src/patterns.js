@@ -46,6 +46,12 @@ module.exports = [
 		summary: 'mw.config.values is deprecated'
 	},
 	{
+		// Patch for HotCat's use of the entire values object
+		regex: /(\?\s*)mw\.config\.values(\s*:)/g,
+		replacement: '$1mw.config.get()$2',
+		summary: 'mw.config.values is deprecated'
+	},
+	{
 		regex: /(https?:)?\/\/toolserver\.org\/~kolossos\/openlayers\/kml\-on\-ol\.php/,
 		replacement: 'https://tools.wmflabs.org/wiwosm/osm-on-ol/kml-on-ol.php',
 		summary: 'Update old toolserver url'
