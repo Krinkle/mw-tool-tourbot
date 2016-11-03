@@ -46,19 +46,20 @@ module.exports = [
 		summary: 'mw.config.values is deprecated'
 	},
 	{
-		// Patch for HotCat's use of the entire values object
-		regex: /(\?\s*)mw\.config\.values(\s*:)/g,
-		replacement: '$1mw.config.get()$2',
-		summary: 'mw.config.values is deprecated'
-	},
-	{
-		regex: /\bmw\s*\.\s*user\s*\.\s*options\s*\.\s*values\s*\.\s*(\w+)/g,
-		replacement: 'mw.user.options.get(\'$1\')',
+		regex: /\bmw\s*\.\s*user\s*\.\s*(options|tokens)\s*\.\s*values\s*\.\s*(\w+)/g,
+		replacement: 'mw.user.$1.get(\'$2\')',
 		summary: 'Map.values is deprecated'
 	},
 	{
-		regex: /\bmw\s*\.\s*user\s*\.\s*tokens\s*\.\s*values\s*\.\s*(\w+)/g,
-		replacement: 'mw.user.tokens.get(\'$1\')',
+		// Patch for HotCat's use of the entire values object
+		regex: /(\?\s*)mw\.(config|user\.tokens|user\.options)\.values(\s*:)/g,
+		replacement: '$1mw.$2.get()$3',
+		summary: 'Map.values is deprecated'
+	},
+	{
+		// Patch for Wikimedia Commons's use of the entire values
+		regex: /(\()mw\.(config|user\.tokens|user\.options)\.values(\s*,)/g,
+		replacement: '$1mw.$2.get()$3',
 		summary: 'Map.values is deprecated'
 	},
 	{

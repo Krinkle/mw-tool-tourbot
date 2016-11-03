@@ -52,6 +52,9 @@ var conf = window.mw ? mw.config.values : window;
 'rows' : mw.user.options.values.rows
 }
 
+$.each(mw.user.options.values, function (key) {
+});
+
 /**
  * importScriptURI, importStylesheetURI, maxage, normalise action=raw
  */
