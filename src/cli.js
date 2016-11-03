@@ -57,6 +57,10 @@ function enhanceMwClient(client) {
 				return;
 			}
 			var page = data.pages[0];
+			if (page.missing) {
+				callback(new SkipFileError('Page [[' + title + ']] is missing'));
+				return;
+			}
 			var revision = page.revisions && page.revisions[0];
 			var resp = {
 				title: page.title,
