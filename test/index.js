@@ -15,4 +15,11 @@ function applyPatterns(lines) {
 	return output;
 }
 
-assert.deepEqual(applyPatterns(input.split('\n')), expected.split('\n'), 'patterns');
+var actual = applyPatterns(input.split('\n'));
+try {
+	assert.strictEqual(typeof actual, 'object', 'return type');
+	assert.deepEqual(actual, expected.split('\n'), 'patterns');
+} catch (e) {
+	console.error(String(e));
+	process.exit(1);
+}
