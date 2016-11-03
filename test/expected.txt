@@ -54,6 +54,8 @@ var conf = window.mw ? mw.config.get() : window;
 
 $.each(mw.user.options.get(), function (key) {
 });
+Object.keys(mw.user.options.get())
+			.filter()
 
 /**
  * importScriptURI, importStylesheetURI, maxage, normalise action=raw

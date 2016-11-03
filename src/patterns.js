@@ -57,8 +57,8 @@ module.exports = [
 		summary: 'Map.values is deprecated'
 	},
 	{
-		// Patch for Wikimedia Commons's use of the entire values
-		regex: /(\()mw\.(config|user\.tokens|user\.options)\.values(\s*,)/g,
+		// Patch for Wikimedia Commons's use of the entire values object
+		regex: /(\()mw\.(config|user\.tokens|user\.options)\.values(\s*[,)])/g,
 		replacement: '$1mw.$2.get()$3',
 		summary: 'Map.values is deprecated'
 	},
