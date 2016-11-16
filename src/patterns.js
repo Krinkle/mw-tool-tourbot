@@ -89,8 +89,13 @@ module.exports = [
 		summary: 'bits.wikimedia.org'
 	},
 	{
-		regex: /(https?:)?\/\/([a-z.]+\.org)\/skins-1\.5\//g,
+		regex: /(https?:)?\/\/bits\.wikimedia\.org\/skins-1\.5\//g,
 		replacement: '/w/skins/',
+		summary: 'bits.wikimedia.org'
+	},
+	{
+		regex: /((https?:)?\/\/[a-z.]+\.org)\/skins-1\.5\//g,
+		replacement: '$1/w/skins/',
 		summary: 'skins-1.5 is deprecated'
 	},
 	{

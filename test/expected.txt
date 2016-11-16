@@ -96,7 +96,7 @@ url(https://example.org/logo.png?303-4);
 url(/w/skins/Vector/images/watch-icon.png);
 url(/w/skins/Vector/images/watch-icon.png);
 
-var x = "/w/skins/MonoBook/headbg.jpg";
+var x = "https://en.wikipedia.org/w/skins/MonoBook/headbg.jpg";
 url(/w/skins/MonoBook/headbg.jpg);
 url("/w/skins/MonoBook/headbg.jpg");
 
