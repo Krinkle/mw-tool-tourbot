@@ -293,6 +293,13 @@ function checkScript(content) {
 	}
 }
 
+function checkSubject(subject, content) {
+	if (subject.pageName.slice(-4) === '.css') {
+		return Promise.resolve();
+	}
+	return checkScript(content);
+}
+
 function handleContent(subject, content, siteinfo, callback) {
 	var changedLines = content.split('\n');
 	var summaries = {};
@@ -359,7 +366,7 @@ function handleContent(subject, content, siteinfo, callback) {
 
 	printHeading(subject);
 
-	checkScript(content)
+	checkSubject(subject, content)
 		.then(function () {
 			async.eachSeries(patterns, function (pattern, nextPattern) {
 				// If we reached a minor pattern, but had no major patterns yet, don't propose
