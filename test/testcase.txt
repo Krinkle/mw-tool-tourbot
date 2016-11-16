@@ -116,9 +116,16 @@ var x = "https://en.wikipedia.org/skins-1.5/monobook/headbg.jpg";
 url(/skins-1.5/monobook/headbg.jpg);
 url("/skins-1.5/monobook/headbg.jpg");
 
+// This /skins-1.5/common/edit.js and /w/skins-1.5/common/edit.js.
 function popupTableau() {
  var popup = window.open('','name','height=200,width=250');
  popup.document.write('<html><head><title>Example</title>');
+ popup.document.write('<script type="text\/javascript" src="\/skins-1.5\/common\/wikibits.js"><!-- wikibits js --><\/script>');
+ popup.document.write('<script src="\/skins-1.5\/common\/wikibits.js"><!-- wikibits js --><\/script>');
+ popup.document.write('<script src="\/skins-1.5\/common\/wikibits.js"><\/script>');
+ popup.document.write("<script src='\/w\/skins-1.5\/common\/wikibits.js'><\/script>");
+ popup.document.write('<script src="\/skins-1.5\/unrelated.js"><\/script>');
+ popup.document.write('</head><body>');
  popup.document.write('<style type=\"text\/css\" media=\"screen,projection\">/*<![CDATA[*/ @import "\/skins-1.5\/monobook\/main.css?5\";@import \"/skins-1.5/monobook/rtl.css\"; /*]]>*/<\/style>');
 }
 

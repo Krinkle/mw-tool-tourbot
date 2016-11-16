@@ -147,6 +147,11 @@ module.exports = [
     summary: 'bits.wikimedia.org'
   },
   {
+    regex: /\/?w?\/skins-1\.5\/common\/edit\.js/,
+    replacement: '/w/skins/common/edit.js',
+    summary: 'skins-1.5 is deprecated'
+  },
+  {
     regex: /((https?:)?\/\/)bits\.wikimedia\.org\/([^/]+)\/load\.php/,
     replacement: 'https://$3/w/load.php',
     summary: 'bits.wikimedia.org'
@@ -157,11 +162,16 @@ module.exports = [
     summary: 'Load Wdsearch.js from en.wikipedia.org (canonical+secure version)'
   },
   {
-    //
-    //  popup.document.write('<style type=\"text\/css\" media=\"screen,projection\">/*<![CDATA[*/ @import "\/skins-1.5\/monobook\/main.css?5\";@import \"/skins-1.5/monobook/rtl.css\"; /*]]>*/<\/style>');
     regex: /^\s+\w+\.document\.write\(['"]<style[^>]+>.+\[CDATA\[.+@import.+\/skins-1\.5.*monobook.*main\.css[^<]+<\\?\/style>['"]\);/,
     replacement: '<tourbot-rm-blank>',
-    summary: 'Remove broken popup CSS'
+    summary: 'Remove broken popop import'
+  },
+  {
+    //
+    //   popup.document.write('<script type="text\/javascript" src="\/skins-1.5\/common\/wikibits.js"><!-- wikibits js --><\/script>');
+    regex: /^\s+\w+\.document\.write\(['"]<script[^>]* src=['"][^'"]*\/skins-1\.5.*common.*wikibits\.js['"]?>(<!--\s*[^-]+\s*-->)?<\\?\/script>['"]\);/,
+    replacement: '<tourbot-rm-blank>',
+    summary: 'Remove broken popop import'
   },
   {
     regex: /\.size\(\)/,
