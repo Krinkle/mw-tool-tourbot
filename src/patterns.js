@@ -63,6 +63,16 @@ module.exports = [
 		summary: 'Map.values is deprecated'
 	},
 	{
+		regex: /wgTitle\s*===?\s*['"]<siteinfo-mainpage>['"]\s*&&\s*wgNamespaceNumber\s*===?\s*\d+/g,
+		replacement: 'mw.config.get(\'wgIsMainPage\')',
+		summary: 'Use wgIsMainPage'
+	},
+	{
+		regex: /mw\.config\.get\(['"]wgTitle['"]\)\s*===?\s*['"]<siteinfo-mainpage>['"]\s*&&\s*mw\.config\.get\(['"]wgNamespaceNumber['"]\)\s*===?\s*\d+/g,
+		replacement: 'mw.config.get(\'wgIsMainPage\')',
+		summary: 'Use wgIsMainPage'
+	},
+	{
 		regex: /(https?:)?\/\/toolserver\.org\/~kolossos\/openlayers\/kml\-on\-ol\.php/,
 		replacement: 'https://tools.wmflabs.org/wiwosm/osm-on-ol/kml-on-ol.php',
 		summary: 'Update old toolserver url'

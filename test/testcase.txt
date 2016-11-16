@@ -105,3 +105,13 @@ mw.loader.load( '//sv.wikipedia.org/w/index.php?title=MediaWiki:Gadget-Wdsearch.
  * Clean up
  */
 mw.config.get('wgPageName').charAt(0).toUpperCase();
+
+/**
+ * wgIsMainPage
+ */
+if(mw.config.get('wgTitle') == 'Main Page' && mw.config.get('wgNamespaceNumber') == 0) {
+	a;
+}
+if(wgTitle == 'Main Page' && wgNamespaceNumber == 0) {
+	b;
+}

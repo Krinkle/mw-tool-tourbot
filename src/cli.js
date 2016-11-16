@@ -10,6 +10,7 @@ var opener = require('opener');
 
 var auth = require('./auth');
 var ask = require('./ask');
+var replace = require('./replace');
 var { SkipFileError, AbortError } = require('./error');
 var patterns = require('./patterns');
 var argv = minimist(process.argv.slice(2), {
@@ -105,6 +106,24 @@ function enhanceMwClient(client) {
 		}
 
 		this.doEdit('edit', title, summary, params, callback);
+	};
+
+	// Cached and promisified version of getSiteInfo(['general'])
+	client.siteinfo = function() {
+		var client = this;
+		if (this.dSiteinfo) {
+			return this.dSiteinfo;
+		}
+		this.dSiteinfo = new Promise(function (resolve, reject) {
+			client.getSiteInfo(['general'], function (err, info) {
+				if (err) {
+					reject(err);
+					return;
+				}
+				resolve(info.general);
+			} );
+		} );
+		return this.dSiteinfo;
 	};
 }
 
@@ -274,14 +293,14 @@ function checkScript(content) {
 	}
 }
 
-function handleContent(subject, content, callback) {
+function handleContent(subject, content, siteinfo, callback) {
 	var changedLines = content.split('\n');
 	var summaries = {};
 	var major = false;
 	var shown = false;
 
 	function proposeChange(pattern, line, i, nextLine) {
-		var preview = line.replace(pattern.regex, pattern.replacement);
+		var preview = replace(line, pattern, siteinfo);
 		if (preview === line) {
 			setImmediate(nextLine);
 			return;
@@ -302,7 +321,7 @@ function handleContent(subject, content, callback) {
 			shown = true;
 			return ask.options('Apply change?', {
 				yes: function (cb) {
-					changedLines[i] = line.replace(pattern.regex, pattern.replacement);
+					changedLines[i] = replace(line, pattern, siteinfo);
 					if (pattern.summary) {
 						major = true;
 						summaries[pattern.summary] = true;
@@ -396,10 +415,13 @@ function handleSubject(subject, auth) {
 			});
 		});
 	});
-	var pEdit = Promise.all([pClient, pPage]).then(function (vals) {
-		var [ client, page ] = vals;
+	var pSiteinfo = pClient.then(function (client) {
+		return client.siteinfo();
+	});
+	var pEdit = Promise.all([pClient, pPage, pSiteinfo]).then(function (vals) {
+		var [ client, page, siteinfo ] = vals;
 		return new Promise(function (resolve, reject) {
-			handleContent(subject, page.revision.content, function (err, newContent, summaries, shown) {
+			handleContent(subject, page.revision.content, siteinfo, function (err, newContent, summaries, shown) {
 				var pShown = checkAll(argv, subject, page.revision.content);
 				pShown.then(function () {
 					if (err) {

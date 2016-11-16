@@ -105,3 +105,13 @@ mw.loader.load( '//en.wikipedia.org/w/index.php?title=MediaWiki:Wdsearch.js&acti
  * Clean up
  */
 mw.config.get('wgPageName')[0].toUpperCase();
+
+/**
+ * wgIsMainPage
+ */
+if(mw.config.get('wgIsMainPage')) {
+	a;
+}
+if(mw.config.get('wgIsMainPage')) {
+	b;
+}
