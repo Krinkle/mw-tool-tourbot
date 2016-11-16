@@ -84,32 +84,19 @@ module.exports = [
 		summary: 'bits.wikimedia.org'
 	},
 	{
-		// These urls were already broken by vector>Vector, but let's be nice.
-		regex: /(https?:)?\/\/bits\.wikimedia\.org\/skins\/vector\//g,
-		replacement: '/w/skins/Vector/',
-		summary: 'bits.wikimedia.org'
-	},
-	{
 		regex: /(https?:)?\/\/bits\.wikimedia\.org\/skins\//g,
 		replacement: '/w/skins/',
 		summary: 'bits.wikimedia.org'
 	},
 	{
-		// These urls were already broken by vector>Vector, but let's be nice.
-		regex: /(https?:)?\/\/bits\.wikimedia\.org\/skins-1\.5\/vector\//g,
-		replacement: '/w/skins/Vector/',
-		summary: 'bits.wikimedia.org'
-	},
-	{
-		regex: /(https?:)?\/\/bits\.wikimedia\.org\/skins-1\.5\//g,
+		regex: /(https?:)?\/\/([a-z.]+\.org)\/skins-1\.5\//g,
 		replacement: '/w/skins/',
-		summary: 'bits.wikimedia.org'
+		summary: 'skins-1.5 is deprecated'
 	},
 	{
-		// These urls were already broken by vector>Vector, but let's be nice.
-		regex: /(https?:)?\/\/bits\.wikimedia\.org\/static-([^/]+)\/skins\/vector\//g,
-		replacement: '/w/skins/Vector/',
-		summary: 'bits.wikimedia.org'
+		regex: /(url\(['"]?)\/skins-1\.5\//g,
+		replacement: '$1/w/skins/',
+		summary: 'skins-1.5 is deprecated'
 	},
 	{
 		regex: /(https?:)?\/\/bits\.wikimedia\.org\/static-([^/]+)\/(skins|extensions|resources)\//g,
@@ -156,5 +143,15 @@ module.exports = [
 	{
 		regex: /\s*\.\s*charAt\(\s*0\s*\)/,
 		replacement: '[0]'
+	},
+	{
+		// These urls were already broken by vector>Vector, but let's be nice.
+		regex: /\/w\/skins\/vector\//g,
+		replacement: '/w/skins/Vector/'
+	},
+	{
+		// These urls were already broken by vector>Vector, but let's be nice.
+		regex: /\/w\/skins\/monobook\//g,
+		replacement: '/w/skins/MonoBook/'
 	}
 ];

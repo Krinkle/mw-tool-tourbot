@@ -76,7 +76,7 @@ load( 'https://tools.wmflabs.org/wiwosm/osm-on-ol/kml-on-ol.php' );
 load( "https://tools.wmflabs.org/wiwosm/osm-on-ol/kml-on-ol.php");
 
 /*
- * bits.wikimedia.org
+ * bits.wikimedia.org, static-current, and skins-1.5
  */
 
 var x = "/w/skins/Vector/images/watch-icon.png";
@@ -95,6 +95,10 @@ url(https://example.org/logo.png?303-4);
 
 url(/w/skins/Vector/images/watch-icon.png);
 url(/w/skins/Vector/images/watch-icon.png);
+
+var x = "/w/skins/MonoBook/headbg.jpg";
+url(/w/skins/MonoBook/headbg.jpg);
+url("/w/skins/MonoBook/headbg.jpg");
 
 /**
  * Wdsearch

@@ -76,7 +76,7 @@ load( 'http://toolserver.org/~kolossos/openlayers/kml-on-ol.php' );
 load( "//toolserver.org/~kolossos/openlayers/kml-on-ol.php");
 
 /*
- * bits.wikimedia.org
+ * bits.wikimedia.org, static-current, and skins-1.5
  */
 
 var x = "//bits.wikimedia.org/skins/Vector/images/watch-icon.png";
@@ -95,6 +95,10 @@ url(https://example.org/logo.png?303-4);
 
 url(//bits.wikimedia.org/skins-1.5/vector/images/watch-icon.png);
 url(//bits.wikimedia.org/skins-1.5/Vector/images/watch-icon.png);
+
+var x = "https://en.wikipedia.org/skins-1.5/monobook/headbg.jpg";
+url(/skins-1.5/monobook/headbg.jpg);
+url("/skins-1.5/monobook/headbg.jpg");
 
 /**
  * Wdsearch
