@@ -114,9 +114,16 @@ module.exports = [
 		summary: 'bits.wikimedia.org'
 	},
 	{
-		regex: /(https?:)?\/\/sv\.wikipedia\.org\/w\/index\.php\?.+MediaWiki:Gadget-Wdsearch\.js[^'";\n]+/,
+		regex: /(https?:)?\/\/sv\.wikipedia\.org\/w\/index\.php\?.+MediaWiki:Gadget-Wdsearch\.js[^'";]+/,
 		replacement: '//en.wikipedia.org/w/index.php?title=MediaWiki:Wdsearch.js&action=raw&ctype=text/javascript',
 		summary: 'Load Wdsearch.js from en.wikipedia.org (canonical+secure version)',
+	},
+	{
+		//
+		//  popup.document.write('<style type=\"text\/css\" media=\"screen,projection\">/*<![CDATA[*/ @import "\/skins-1.5\/monobook\/main.css?5\";@import \"/skins-1.5/monobook/rtl.css\"; /*]]>*/<\/style>');
+		regex: /^\s+\w+\.document\.write\(['"]<style[^>]+>.+\[CDATA\[.+@import.+\/skins-1\.5.*monobook.*main\.css[^<]+<\\?\/style>['"]\);/g,
+		replacement: '<tourbot-rm-blank>',
+		summary: 'Remove broken popup CSS'
 	},
 	// Clean-up (not worth an edit of itself)
 	{

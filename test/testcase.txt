@@ -100,6 +100,12 @@ var x = "https://en.wikipedia.org/skins-1.5/monobook/headbg.jpg";
 url(/skins-1.5/monobook/headbg.jpg);
 url("/skins-1.5/monobook/headbg.jpg");
 
+function popupTableau() {
+ var popup = window.open('','name','height=200,width=250');
+ popup.document.write('<html><head><title>Example</title>');
+ popup.document.write('<style type=\"text\/css\" media=\"screen,projection\">/*<![CDATA[*/ @import "\/skins-1.5\/monobook\/main.css?5\";@import \"/skins-1.5/monobook/rtl.css\"; /*]]>*/<\/style>');
+}
+
 /**
  * Wdsearch
  */

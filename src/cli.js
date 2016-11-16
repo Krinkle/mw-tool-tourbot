@@ -307,7 +307,13 @@ function handleContent(subject, content, siteinfo, callback) {
 	var shown = false;
 
 	function proposeChange(pattern, line, i, nextLine) {
-		var preview = replace(line, pattern, siteinfo);
+		if (line === null) {
+			// If the line was removed by a previous pattern, skip it
+			setImmediate(nextLine);
+			return;
+		}
+		// If the line is removed (nulled), give diff the preview as empty string
+		var preview = replace(line, pattern, siteinfo) || '';
 		if (preview === line) {
 			setImmediate(nextLine);
 			return;
@@ -381,6 +387,10 @@ function handleContent(subject, content, siteinfo, callback) {
 					nextPattern(err);
 				});
 			}, function (err) {
+				// Strip nulled-out lines
+				changedLines = changedLines.filter(function (line) {
+					return line !== null;
+				});
 				callback(err, changedLines.join('\n'), Object.keys(summaries), shown);
 			});
 		})

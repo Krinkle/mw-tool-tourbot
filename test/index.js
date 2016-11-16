@@ -13,8 +13,13 @@ function applyPatterns(lines) {
 	var output = lines.slice();
 	patterns.forEach(function (pattern) {
 		output.forEach(function (line, i) {
-			output[i] = replace(line, pattern, siteinfo);
+			if (line !== null) {
+				output[i] = replace(line, pattern, siteinfo);
+			}
 		});
+	});
+	output = output.filter(function (line) {
+		return line !== null;
 	});
 	return output;
 }
