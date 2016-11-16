@@ -453,7 +453,7 @@ function handleSubject(subject, auth) {
 						resolve();
 						return;
 					}
-					return checkScript(newContent).then(function () {
+					return checkSubject(subject, newContent).then(function () {
 						var summary = 'Maintenance: [[mw:RL/MGU]] / [[mw:RL/JD]] - ' + summaries.join(', ');
 						printSaving(subject, summary);
 						client.edit(page, newContent, summary, function (err) {
