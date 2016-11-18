@@ -18,6 +18,17 @@ addOnloadHook(function () {});
   // addOnloadHook(function() {})
 
 /**
+ * escapeQuotesHTML
+ */
+
+pg.escapeQuotesHTML("foo")
+	+ pg.escapeQuotesHTML(bar);
+escapeQuotesHTML("foo")
+	+ escapeQuotesHTML(bar);
+window.escapeQuotesHTML("foo")
+	+ window.escapeQuotesHTML(bar);
+
+/**
  * $j
  */
 

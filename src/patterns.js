@@ -6,8 +6,12 @@ module.exports = [
 		summary: 'addOnloadHook is deprecated'
 	},
 	{
-		regex: /(?:window\.)?escapeQuotesHTML\s*\(/g,
-		replacement: 'mw.html.escape(',
+		// Match only bare 'escapeQuotes' and 'window.escapeQuotes'
+		// Ignore 'other.escapeQuotes', etc
+		// < 'bax window.bar foo.bar baz'.match(/([^\.]|^)(?!\.)(?:window\.)?ba./g)
+		// > ["bax", " window.bar", " baz"]
+		regex: /([^\.]|^)(?!\.)(?:window\.)?escapeQuotesHTML\s*\(/g,
+		replacement: '$1mw.html.escape(',
 		summary: 'escapeQuotesHTML is deprecated'
 	},
 	{
@@ -16,7 +20,7 @@ module.exports = [
 		summary: 'mw.util.wikiGetlink is deprecated'
 	},
 	{
-		regex: /(?:window\.)?escapeQuotes\s*\(/g,
+		regex: /([^\.]|^)(?!\.)(?:window\.)?escapeQuotes\s*\(/g,
 		replacement: 'mw.html.escape(',
 		summary: 'escapeQuotes is deprecated'
 	},

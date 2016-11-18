@@ -18,6 +18,17 @@ $(function () {});
   // $(function() {})
 
 /**
+ * escapeQuotesHTML
+ */
+
+pg.escapeQuotesHTML("foo")
+	+ pg.escapeQuotesHTML(bar);
+mw.html.escape("foo")
+	+ mw.html.escape(bar);
+mw.html.escape("foo")
+	+ mw.html.escape(bar);
+
+/**
  * $j
  */
 
