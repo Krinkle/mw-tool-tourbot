@@ -26,16 +26,16 @@
   },
   "devDependencies": {
     "assert-diff": "^1.0.1",
-    "eslint": "^3.5.0"
+    "eslint": "^3.10.2"
   },
   "dependencies": {
-    "acorn": "^3.3.0",
-    "async": "^2.0.1",
+    "acorn": "^4.0.3",
+    "async": "^2.1.4",
     "colors": "^1.1.2",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
     "nodemw": "^0.10.1",
-    "opener": "^1.4.1",
+    "opener": "^1.4.2",
     "read": "^1.0.7",
     "user-home": "^2.0.0"
   }
