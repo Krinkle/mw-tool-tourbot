@@ -1,15 +1,13 @@
 module.exports = [
 	// Migration
 	{
-		regex: /^((?!.*function addOnloadHook\s*\().*)addOnloadHook\s*\(/g,
-		replacement: '$1$(',
+		// Match 'addOnloadHook' - Ignore e.g. 'DatRoot.addOnloadHook'
+		regex: /^((?!.*function addOnloadHook\s*\().*)([^\.]|^)(?!\.)(?:window\.)?addOnloadHook\s*\(/g,
+		replacement: '$1$2$(',
 		summary: 'addOnloadHook is deprecated'
 	},
 	{
-		// Match only bare 'escapeQuotes' and 'window.escapeQuotes'
-		// Ignore 'other.escapeQuotes', etc
-		// < 'bax window.bar foo.bar baz'.match(/([^\.]|^)(?!\.)(?:window\.)?ba./g)
-		// > ["bax", " window.bar", " baz"]
+		// Match 'escapeQuotes' and 'window.escapeQuotes' - Ignore e.g. 'pg.escapeQuotes'
 		regex: /([^\.]|^)(?!\.)(?:window\.)?escapeQuotesHTML\s*\(/g,
 		replacement: '$1mw.html.escape(',
 		summary: 'escapeQuotesHTML is deprecated'

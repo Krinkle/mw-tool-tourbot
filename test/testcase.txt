@@ -17,6 +17,8 @@ addOnloadHook(function () {});
   })
   // addOnloadHook(function() {})
 
+DatRoot.addOnloadHook();
+
 /**
  * escapeQuotesHTML
  */

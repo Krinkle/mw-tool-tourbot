@@ -17,6 +17,8 @@ $(function () {});
   })
   // $(function() {})
 
+DatRoot.addOnloadHook();
+
 /**
  * escapeQuotesHTML
  */
