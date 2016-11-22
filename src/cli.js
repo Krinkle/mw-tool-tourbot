@@ -1,7 +1,6 @@
 var fs = require('fs');
 var path = require('path');
 var url = require('url');
-var acorn = require('acorn');
 var async = require('async');
 var colors = require('colors/safe');
 var minimist = require('minimist');
@@ -10,6 +9,7 @@ var opener = require('opener');
 
 var auth = require('./auth');
 var ask = require('./ask');
+var Content = require('./content');
 var replace = require('./replace');
 var { SkipFileError, AbortError } = require('./error');
 var patterns = require('./patterns');
@@ -265,41 +265,6 @@ function simpleDiff(removedLine, addedLine) {
 	};
 }
 
-function checkScript(content) {
-	function confirmError(error) {
-		var line = content.split('\n')[error.loc.line - 1];
-		var context = line.slice(0, error.loc.column)
-			+ colors.bold.underline(line[error.loc.column])
-			+ line.slice(error.loc.column + 1);
-		return ask.options(
-			colors.red.bold(error.toString())
-				+ '\n' + context
-				+ '\n\nContinue?',
-			{
-				yes: function (callback) {
-					callback();
-				},
-				no: function (callback) {
-					callback(new SkipFileError('Script error'));
-				}
-			}
-		);
-	}
-	try {
-		acorn.parse(content);
-		return Promise.resolve();
-	} catch (e) {
-		return confirmError(e);
-	}
-}
-
-function checkSubject(subject, content) {
-	if (subject.pageName.slice(-4) === '.css') {
-		return Promise.resolve();
-	}
-	return checkScript(content);
-}
-
 function handleContent(subject, content, siteinfo, callback) {
 	var changedLines = content.split('\n');
 	var summaries = {};
@@ -372,7 +337,7 @@ function handleContent(subject, content, siteinfo, callback) {
 
 	printHeading(subject);
 
-	checkSubject(subject, content)
+	Content.checkSubject(subject, content)
 		.then(function () {
 			async.eachSeries(patterns, function (pattern, nextPattern) {
 				// If we reached a minor pattern, but had no major patterns yet, don't propose
@@ -453,7 +418,7 @@ function handleSubject(subject, auth) {
 						resolve();
 						return;
 					}
-					return checkSubject(subject, newContent).then(function () {
+					return Content.checkSubject(subject, newContent).then(function () {
 						var summary = 'Maintenance: [[mw:RL/MGU]] / [[mw:RL/JD]] - ' + summaries.join(', ');
 						printSaving(subject, summary);
 						client.edit(page, newContent, summary, function (err) {
