@@ -40,24 +40,32 @@ function testReplacement() {
 }
 
 function testContentHandling() {
+	function testcase(title, content) {
+		return Content.checkSubject(
+			{ pageName: title },
+			content,
+			// Disable interactive 'ask'
+			{ quiet: true }
+		);
+	}
 	return Promise.all([
 		assertPromise(
-			Content.checkSubject({ pageName: 'foo.css' }, '.foo {}'),
+			testcase('foo.css', '.foo {}'),
 			'resolved',
 			'Valid CSS on a CSS page'
 		),
 		assertPromise(
-			Content.checkSubject({ pageName: 'foo.js' }, '.foo {}'),
+			testcase('foo.js', '.foo {}'),
 			'rejected',
 			'Valid CSS on a JS page'
 		),
 		assertPromise(
-			Content.checkSubject({ pageName: 'foo.js' }, 'foo();'),
+			testcase('foo.js', 'foo();'),
 			'resolved',
 			'Valid JS on a JS page'
 		),
 		assertPromise(
-			Content.checkSubject({ pageName: 'foo.css' }, 'foo();'),
+			testcase('foo.css', 'foo();'),
 			// CSS is not currently validated
 			'resolved',
 			'Valid JS on a CSS page'

@@ -1,12 +1,13 @@
 var acorn = require('acorn');
 var colors = require('colors/safe');
 
+var ask = require('./ask');
 var { SkipFileError } = require('./error');
 
 /**
  * @private
  */
-function checkScript(content, ask) {
+function checkScript(content, options) {
 	function confirmError(error) {
 		var line = content.split('\n')[error.loc.line - 1];
 		var context = line.slice(0, error.loc.column)
@@ -30,7 +31,7 @@ function checkScript(content, ask) {
 		acorn.parse(content, { ecmaVersion: 5 });
 		return Promise.resolve();
 	} catch (e) {
-		return ask ? confirmError(e) : Promise.reject(e);
+		return options.quiet ? Promise.reject(e) : confirmError(e);
 	}
 }
 
@@ -38,14 +39,15 @@ function checkScript(content, ask) {
  * @param {Object} subject
  * @param {string} subject.pageName
  * @param {string} content
- * @param {AskModule|undefined} [ask]
+ * @param {Object} [options]
+ * @param {boolean} [options.quiet=false]
  * @return {Promise}
  */
-function checkSubject(subject, content, ask) {
+function checkSubject(subject, content, options = {}) {
 	if (subject.pageName.slice(-4) === '.css') {
 		return Promise.resolve();
 	}
-	return checkScript(content, ask);
+	return checkScript(content, options);
 }
 
 module.exports = { checkSubject };
