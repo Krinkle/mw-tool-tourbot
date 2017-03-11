@@ -75,13 +75,13 @@ function testContentHandling () {
 }
 
 testContentHandling().catch(function (e) {
-  console.error(e.stack);
+  console.error(e.toString());
   process.exit(1);
 });
 
 try {
   testReplacement();
 } catch (e) {
-  console.error(e.stack);
+  console.error(e.toString());
   process.exit(1);
 }
