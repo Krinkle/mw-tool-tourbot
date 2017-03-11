@@ -87,6 +87,7 @@ mw.loader.load('//commons.wikimedia.org/w/index.php?title=MediaWiki:Gadget-Cat-a
 load('https://tools.wmflabs.org/wiwosm/osm-on-ol/kml-on-ol.php');
 load( 'https://tools.wmflabs.org/wiwosm/osm-on-ol/kml-on-ol.php' );
 load( "https://tools.wmflabs.org/wiwosm/osm-on-ol/kml-on-ol.php");
+var sLink = 'https://tools.wmflabs.org/xtools-articleinfo/?';
 
 /*
  * bits.wikimedia.org, static-current, and skins-1.5

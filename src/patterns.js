@@ -79,6 +79,11 @@ module.exports = [
     replacement: 'https://tools.wmflabs.org/wiwosm/osm-on-ol/kml-on-ol.php',
     summary: 'Update old toolserver url'
   },
+  {
+    regex: /(https?:)?\/\/(toolserver\.org|tools\.wikimedia\.de)\/~daniel\/WikiSense\/Contributors.php\/?/,
+    replacement: 'https://tools.wmflabs.org/xtools-articleinfo/',
+    summary: 'Update old toolserver url'
+  },
   // bits.wikimedia.org is deprecated – https://phabricator.wikimedia.org/T107430
   {
     regex: /(https?:)?\/\/bits\.wikimedia\.org\/static[-/]current\//g,

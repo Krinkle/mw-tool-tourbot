@@ -87,6 +87,7 @@ importStylesheetURI('//commons.wikimedia.org/w/index.php?action=raw&ctype=text/c
 load('https://toolserver.org/~kolossos/openlayers/kml-on-ol.php');
 load( 'http://toolserver.org/~kolossos/openlayers/kml-on-ol.php' );
 load( "//toolserver.org/~kolossos/openlayers/kml-on-ol.php");
+var sLink = 'http://tools.wikimedia.de/~daniel/WikiSense/Contributors.php?';
 
 /*
  * bits.wikimedia.org, static-current, and skins-1.5
