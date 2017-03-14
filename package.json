@@ -1,6 +1,6 @@
 {
   "name": "mw-tool-tourbot",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "description": "Semi-automated bot for migrating on-wiki JavaScript.",
   "bin": {
     "tourbot": "./bin/tourbot.js"
