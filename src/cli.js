@@ -290,9 +290,9 @@ function handleContent (subject, content, siteinfo, callback) {
     var diff = simpleDiff(line, preview);
     console.log(
       colors.cyan('@@ line ' + contextStart + ' @@') + '\n' +
-      colors.grey(linesBefore) + '\n' +
-      diff.textBefore + colors.bold.bgRed(diff.removed) + diff.textAfter + '\n' +
-      diff.textBefore + colors.bold.bgGreen(diff.added) + diff.textAfter + '\n' +
+      (linesBefore ? colors.grey(linesBefore) + '\n' : '') +
+      colors.red('- ' + diff.textBefore) + colors.bold.bgRed(diff.removed) + colors.red(diff.textAfter) + '\n' +
+      colors.green('+ ' + diff.textBefore) + colors.bold.bgGreen(diff.added) + colors.green(diff.textAfter) + '\n' +
       colors.grey(linesAfter)
     );
     function askApply () {
