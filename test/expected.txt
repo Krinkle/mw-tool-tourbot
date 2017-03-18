@@ -89,6 +89,7 @@ load( 'https://tools.wmflabs.org/wiwosm/osm-on-ol/kml-on-ol.php' );
 load( "https://tools.wmflabs.org/wiwosm/osm-on-ol/kml-on-ol.php");
 var sLink = 'https://tools.wmflabs.org/xtools-articleinfo/?';
   "https://tools.wmflabs.org/guc/?user=" + encodeURI(user);
+add('p-tb', 'https://tools.wmflabs.org/fist/fist.php?doit=1', 't-fist');
 
 /*
  * bits.wikimedia.org, static-current, and skins-1.5

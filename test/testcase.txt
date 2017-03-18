@@ -89,6 +89,7 @@ load( 'http://toolserver.org/~kolossos/openlayers/kml-on-ol.php' );
 load( "//toolserver.org/~kolossos/openlayers/kml-on-ol.php");
 var sLink = 'http://tools.wikimedia.de/~daniel/WikiSense/Contributors.php?';
   "http://tools.wikimedia.de/~luxo/contributions/contributions.php?user=" + encodeURI(user);
+add('p-tb', 'http://tools.wikimedia.de/~magnus/fist.php?doit=1', 't-fist');
 
 /*
  * bits.wikimedia.org, static-current, and skins-1.5

@@ -89,6 +89,11 @@ module.exports = [
     replacement: 'https://tools.wmflabs.org/guc/',
     summary: 'Update old toolserver url'
   },
+  {
+    regex: /(https?:)?\/\/(toolserver\.org|tools\.wikimedia\.de)\/~magnus\/fist.php/,
+    replacement: 'https://tools.wmflabs.org/fist/fist.php',
+    summary: 'Update old toolserver url'
+  },
   // bits.wikimedia.org is deprecated – https://phabricator.wikimedia.org/T107430
   {
     regex: /(https?:)?\/\/bits\.wikimedia\.org\/static[-/]current\//g,
