@@ -131,6 +131,7 @@ mw.loader.load( '//sv.wikipedia.org/w/index.php?title=MediaWiki:Gadget-Wdsearch.
  * Clean up
  */
 mw.config.get('wgPageName').charAt(0).toUpperCase();
+addPortletLink('p-cactions',wgServer + wgScript + '?title=' + encodeURIComponent(wgPageName) + '&uselang=en', 'en');
 
 /**
  * wgIsMainPage

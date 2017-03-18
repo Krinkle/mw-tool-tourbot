@@ -94,6 +94,12 @@ module.exports = [
     replacement: 'https://tools.wmflabs.org/fist/fist.php',
     summary: 'Update old toolserver url'
   },
+  {
+    // A common pattern on pages like MediaWiki:Gadget-UseLangEn.js
+    regex: /,\s*wgServer \+ wgScript \+ '\?title=' \+ encodeURIComponent\(wgPageName\) \+ '&uselang=([a-zA-Z-]+)'/g,
+    replacement: ', mw.util.getUrl(null, { uselang: \'$1\' })',
+    summary: 'Use mw.util.getUrl'
+  },
   // bits.wikimedia.org is deprecated – https://phabricator.wikimedia.org/T107430
   {
     regex: /(https?:)?\/\/bits\.wikimedia\.org\/static[-/]current\//g,

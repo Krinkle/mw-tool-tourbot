@@ -130,6 +130,7 @@ mw.loader.load( '//en.wikipedia.org/w/index.php?title=MediaWiki:Wdsearch.js&acti
  * Clean up
  */
 mw.config.get('wgPageName')[0].toUpperCase();
+addPortletLink('p-cactions', mw.util.getUrl(null, { uselang: 'en' }), 'en');
 
 /**
  * wgIsMainPage
