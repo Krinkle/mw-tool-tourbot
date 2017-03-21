@@ -4,8 +4,8 @@
 
 ## Usage
 
-<img width="910" alt="screen shot" src="https://cloud.githubusercontent.com/assets/156867/24075815/d362c2ba-0bdf-11e7-8c95-a0454db3921f.png">
-<img width="490" alt="screen shot" src="https://cloud.githubusercontent.com/assets/156867/16091916/0c7536ba-3336-11e6-83cc-96d3964e3503.png">
+<img width="668" alt="screen shot" src="https://cloud.githubusercontent.com/assets/156867/24174412/b148335c-0e4d-11e7-9ef4-ada243de1fe7.png">
+<img width="589" alt="screen shot" src="https://cloud.githubusercontent.com/assets/156867/24174411/b14480c2-0e4d-11e7-8fcb-1c794d22f310.png">
 <img width="594" alt="screen shot" src="https://cloud.githubusercontent.com/assets/156867/16357410/220259be-3af6-11e6-9479-c4205972e3bf.png">
 
 ## Quick start
