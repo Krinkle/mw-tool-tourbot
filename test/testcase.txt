@@ -132,6 +132,8 @@ mw.loader.load( '//sv.wikipedia.org/w/index.php?title=MediaWiki:Gadget-Wdsearch.
  */
 mw.config.get('wgPageName').charAt(0).toUpperCase();
 addPortletLink('p-cactions',wgServer + wgScript + '?title=' + encodeURIComponent(wgPageName) + '&uselang=en', 'en');
+addPortletLink('p-cactions', wgServer + wgScript + '?title=' + encodeURIComponent(wgPageName) + '&action=purge', 'purge', 'ca-purge', 'Purge the internal cache for this page'); });
+
 
 /**
  * wgIsMainPage

@@ -100,6 +100,11 @@ module.exports = [
     replacement: ', mw.util.getUrl(null, { uselang: \'$1\' })',
     summary: 'Use mw.util.getUrl'
   },
+  {
+    regex: /,\s*wgServer\s*\+\s*wgScript\s*\+\s*'\?title='\s*\+\s*encodeURIComponent\(\s*wgPageName\s*\)\s*\+\s*'&action=purge'/,
+    replacement: ', mw.util.getUrl(null, { action: \'purge\' })',
+    summary: 'Use mw.util.getUrl'
+  },
   // bits.wikimedia.org is deprecated – https://phabricator.wikimedia.org/T107430
   {
     regex: /(https?:)?\/\/bits\.wikimedia\.org\/static[-/]current\//g,

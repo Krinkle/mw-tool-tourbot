@@ -131,6 +131,8 @@ mw.loader.load( '//en.wikipedia.org/w/index.php?title=MediaWiki:Wdsearch.js&acti
  */
 mw.config.get('wgPageName')[0].toUpperCase();
 addPortletLink('p-cactions', mw.util.getUrl(null, { uselang: 'en' }), 'en');
+addPortletLink('p-cactions', mw.util.getUrl(null, { action: 'purge' }), 'purge', 'ca-purge', 'Purge the internal cache for this page'); });
+
 
 /**
  * wgIsMainPage
