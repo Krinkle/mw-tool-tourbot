@@ -75,6 +75,11 @@ module.exports = [
     summary: 'Use wgIsMainPage'
   },
   {
+    regex: /wgPageName\s*===?\s*['"]<siteinfo-mainpagename>['"]/g,
+    replacement: 'mw.config.get(\'wgIsMainPage\')',
+    summary: 'Use wgIsMainPage'
+  },
+  {
     regex: /mw\.config\.get\(['"]wgPageName['"]\)\s*===?\s*['"]<siteinfo-mainpagename>['"]/g,
     replacement: 'mw.config.get(\'wgIsMainPage\')',
     summary: 'Use wgIsMainPage'
