@@ -120,6 +120,8 @@ function enhanceMwClient (client) {
           reject(err);
           return;
         }
+        // Simplify matching for wgPageName vs wgTitle
+        info.general.mainpagename = info.general.mainpage.replace(/ /g, '_');
         resolve(info.general);
       });
     });

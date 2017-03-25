@@ -75,6 +75,11 @@ module.exports = [
     summary: 'Use wgIsMainPage'
   },
   {
+    regex: /mw\.config\.get\(['"]wgPageName['"]\)\s*===?\s*['"]<siteinfo-mainpagename>['"]/g,
+    replacement: 'mw.config.get(\'wgIsMainPage\')',
+    summary: 'Use wgIsMainPage'
+  },
+  {
     regex: /(https?:)?\/\/toolserver\.org\/~kolossos\/openlayers\/kml-on-ol\.php/,
     replacement: 'https://tools.wmflabs.org/wiwosm/osm-on-ol/kml-on-ol.php',
     summary: 'Update old toolserver url'

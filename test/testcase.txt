@@ -144,3 +144,5 @@ if(mw.config.get('wgTitle') == 'Main Page' && mw.config.get('wgNamespaceNumber')
 if(wgTitle == 'Main Page' && wgNamespaceNumber == 0) {
 	b;
 }
+if (mw.config.get('wgPageName') == 'Main_Page' || mw.config.get('wgPageName') == 'Tartışma:Ana_Sayfa') {
+}

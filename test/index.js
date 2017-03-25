@@ -33,7 +33,8 @@ function testReplacement () {
   var input = fs.readFileSync(path.join(__dirname, 'testcase.txt')).toString();
   var expected = fs.readFileSync(path.join(__dirname, 'expected.txt')).toString();
   var siteinfo = {
-    mainpage: 'Main Page'
+    mainpage: 'Main Page',
+    mainpagename: 'Main_Page'
   };
   var actual = applyPatterns(input.split('\n'));
   assert.strictEqual(typeof actual, 'object', 'return type');
