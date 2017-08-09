@@ -14,7 +14,7 @@ var replace = require('./replace');
 var { SkipFileError, AbortError } = require('./error');
 var patterns = require('./patterns');
 var argv = minimist(process.argv.slice(2), {
-  string: ['file', 'contains', 'contains', 'match'],
+  string: ['file', 'contains', 'match'],
   boolean: ['all'],
   default: { file: 'results.txt', all: false },
   alias: { f: 'file', a: 'all', c: 'contains', m: 'match' }
