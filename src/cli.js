@@ -467,12 +467,12 @@ function start (dAuth) {
 
 module.exports = function cli (authDir) {
   if (argv.help) {
-    console.log( 'Help for Tourbot v0.9.4' );
-    console.log( '  -f, --file\t\tString, file containing list of pages to process. Default: results.txt' );
-    console.log( '  -a, --all\t\tBoolean, iterate over all page names even without matches. Default: false' );
-    console.log( '  -c, --contains\tString, Limit the `all` iteration to pages that currently contain a particular phrase.' );
-    console.log( '  -m, --match\t\tString, Like `contains`, but interpreted as a regular expression.' );
-    console.log( '  -h, --help\t\tBoolean, shows this help page. Default: false' );
+    console.log('Help for Tourbot v0.9.4');
+    console.log('  -f, --file\t\tString, file containing list of pages to process. Default: results.txt');
+    console.log('  -a, --all\t\tBoolean, iterate over all page names even without matches. Default: false');
+    console.log('  -c, --contains\tString, Limit the `all` iteration to pages that currently contain a particular phrase.');
+    console.log('  -m, --match\t\tString, Like `contains`, but interpreted as a regular expression.');
+    console.log('  -h, --help\t\tBoolean, shows this help page. Default: false');
   } else {
     start(auth.getAuth(authDir));
   }
