@@ -146,3 +146,5 @@ if(wgTitle == 'Main Page' && wgNamespaceNumber == 0) {
 }
 if (mw.config.get('wgPageName') == 'Main_Page' || mw.config.get('wgPageName') == 'Tartışma:Ana_Sayfa') {
 }
+
+.size()
