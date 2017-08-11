@@ -424,7 +424,7 @@ function handleSubject (subject, auth) {
             var summary = 'Maintenance: [[mw:RL/MGU]] / [[mw:RL/JD]] - ' + summaries.join(', ');
             printSaving(subject, summary);
             client.edit(page, newContent, summary, function (err) {
-              err ? reject(err) : resolve(); // promisify
+              err ? reject(new SkipFileError(err.message)) : resolve(); // promisify
             });
           });
         }).catch(reject);
