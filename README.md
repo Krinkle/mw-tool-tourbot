@@ -28,6 +28,7 @@ Pass parameters like `tourbot --file path/to/results.txt`.
 * `--contains` - Limit the `all` iteration to pages that currently contain a particular phrase.
   This is especially useful when multiple people are working on the same list.
 * `--matches` - Like `contains`, but interpreted as a regular expression.
+* `--help` - Show the help page.
 
 [Public results](https://gist.github.com/Krinkle/a18e726fc3af30f30bf9b2ba919820b5).
 

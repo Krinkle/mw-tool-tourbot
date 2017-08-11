@@ -15,9 +15,9 @@ var { SkipFileError, AbortError } = require('./error');
 var patterns = require('./patterns');
 var argv = minimist(process.argv.slice(2), {
   string: ['file', 'contains', 'match'],
-  boolean: ['all'],
-  default: { file: 'results.txt', all: false },
-  alias: { f: 'file', a: 'all', c: 'contains', m: 'match' }
+  boolean: ['all', 'help'],
+  default: { file: 'results.txt', all: false, help: false },
+  alias: { f: 'file', a: 'all', c: 'contains', m: 'match', h: 'help' }
 });
 var bots = Object.create(null);
 var dMap = null;
@@ -466,5 +466,14 @@ function start (dAuth) {
 }
 
 module.exports = function cli (authDir) {
-  start(auth.getAuth(authDir));
+  if (argv.help) {
+    console.log('Help for Tourbot v' + require('../package.json').version);
+    console.log('  -f, --file\t\tString, file containing list of pages to process. Default: results.txt');
+    console.log('  -a, --all\t\tBoolean, iterate over all page names even without matches. Default: false');
+    console.log('  -c, --contains\tString, Limit the `all` iteration to pages that currently contain a particular phrase.');
+    console.log('  -m, --match\t\tString, Like `contains`, but interpreted as a regular expression.');
+    console.log('  -h, --help\t\tBoolean, shows this help page. Default: false');
+  } else {
+    start(auth.getAuth(authDir));
+  }
 };
