@@ -147,6 +147,8 @@ if(wgTitle == 'Main Page' && wgNamespaceNumber == 0) {
 if (mw.config.get('wgPageName') == 'Main_Page' || mw.config.get('wgPageName') == 'Tartışma:Ana_Sayfa') {
 }
 
-removeAttr('disabled'
-attr('disabled', true
+.size()
+
+obj.removeAttr('disabled');
+attr('disabled', true)
 $(form).find(':submit').removeAttr('disabled');

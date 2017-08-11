@@ -146,6 +146,8 @@ if(mw.config.get('wgIsMainPage')) {
 if (mw.config.get('wgIsMainPage') || mw.config.get('wgPageName') == 'Tartışma:Ana_Sayfa') {
 }
 
-prop('disabled', false
-prop('disabled', true
+.length
+
+obj.prop('disabled', false);
+prop('disabled', true)
 $(form).find(':submit').prop('disabled', false);

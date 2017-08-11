@@ -164,6 +164,11 @@ module.exports = [
     summary: 'Remove broken popup CSS'
   },
   {
+    regex: /\.size\(\)/,
+    replacement: '.length',
+    summary: 'Replaced .size() (removed in jQuery 3.0) [[phab:T169385]]'
+  },
+  {
     regex: /removeAttr\(\s*['"](checked|selected|disabled|readonly|required|hidden)['"]/,
     replacement: 'prop(\'$1\', false',
     summary: 'Replace deprecated types of removeAttr calls [[phab:T169385]]'
