@@ -36,8 +36,7 @@ Pass parameters like `tourbot --file path/to/results.txt`.
 ### Example
 
 ```
-curl -O -L 'https://gist.github.com/Krinkle/a18e726fc3af30f30bf9b2ba919820b5/raw/mwgrep.mwCustomEditButtons.txt'
-tourbot -f mwgrep.mwCustomEditButtons.txt -a -c 'mwCustomEditButtons'
+curl -O -L 'https://gist.githubusercontent.com/Krinkle/a18e726fc3af30f30bf9b2ba919820b5/raw/b32b7c3fd646f0ef3f1ba865f1c342d23195c5f5/mwgrep.mwCustomEditButtons.txt -a -c 'mwCustomEditButtons'
 
  Reading /Users/krinkle/Downloads/mwgrep.mwCustomEditButtons.txt
 
