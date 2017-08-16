@@ -341,30 +341,30 @@ function handleContent (subject, content, siteinfo, callback) {
   }
 
   Content.checkSubject(subject, content)
-  .then(function () {
-    async.eachSeries(patterns, function (pattern, nextPattern) {
-      // If we reached a minor pattern, but had no major patterns yet, don't propose
-      // other changes. The edit handler requires at least one major change.
-      if (!pattern.summary && !major) {
-        setImmediate(nextPattern);
-        return;
-      }
-      async.forEachOfSeries(changedLines, function (line, i, nextLine) {
-        proposeChange(pattern, line, i, nextLine);
+    .then(function () {
+      async.eachSeries(patterns, function (pattern, nextPattern) {
+        // If we reached a minor pattern, but had no major patterns yet, don't propose
+        // other changes. The edit handler requires at least one major change.
+        if (!pattern.summary && !major) {
+          setImmediate(nextPattern);
+          return;
+        }
+        async.forEachOfSeries(changedLines, function (line, i, nextLine) {
+          proposeChange(pattern, line, i, nextLine);
+        }, function (err) {
+          nextPattern(err);
+        });
       }, function (err) {
-        nextPattern(err);
+        // Strip nulled-out lines
+        changedLines = changedLines.filter(function (line) {
+          return line !== null;
+        });
+        callback(err, changedLines.join('\n'), Object.keys(summaries), shown);
       });
-    }, function (err) {
-      // Strip nulled-out lines
-      changedLines = changedLines.filter(function (line) {
-        return line !== null;
-      });
-      callback(err, changedLines.join('\n'), Object.keys(summaries), shown);
+    })
+    .catch(function (err) {
+      callback(err, null, null, shown);
     });
-  })
-  .catch(function (err) {
-    callback(err, null, null, shown);
-  });
 }
 
 function checkAll (options, subject, content) {
@@ -439,30 +439,31 @@ function handleSubject (subject, auth) {
 }
 
 function start (dAuth) {
-  dAuth.then(function (auth) {
-    console.log(colors.cyan('Reading %s'), path.resolve(argv.file));
-    var results = fs.readFileSync(argv.file).toString();
-    return new Promise(function (resolve, reject) {
-      async.eachSeries(parseResults(results), function (subject, callback) {
-        handleSubject(subject, auth).then(function () {
-          callback();
+  dAuth
+    .then(function (auth) {
+      console.log(colors.cyan('Reading %s'), path.resolve(argv.file));
+      var results = fs.readFileSync(argv.file).toString();
+      return new Promise(function (resolve, reject) {
+        async.eachSeries(parseResults(results), function (subject, callback) {
+          handleSubject(subject, auth).then(function () {
+            callback();
+          }, function (err) {
+            failPage(err);
+            callback();
+          });
         }, function (err) {
-          failPage(err);
-          callback();
+          err ? reject(err) : resolve(); // promisify
         });
-      }, function (err) {
-        err ? reject(err) : resolve(); // promisify
       });
+    })
+    .catch(function (err) {
+      if (err instanceof AbortError) {
+        return;
+      }
+      if (err) {
+        console.error(err);
+      }
     });
-  })
-  .catch(function (err) {
-    if (err instanceof AbortError) {
-      return;
-    }
-    if (err) {
-      console.error(err);
-    }
-  });
 }
 
 module.exports = function cli (authDir) {

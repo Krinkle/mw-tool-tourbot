@@ -11,28 +11,28 @@ function saveAuth (authFile) {
   var obj = {};
   var url = 'https://en.wikipedia.org/wiki/Special:BotPasswords';
   return ask.confirm('Go to ' + colors.bold.underline(url) + '?')
-  .then(function (answer) {
-    if (answer) {
-      opener(url);
-    }
-  }).then(function () {
-    return ask.input('Bot username?', function (data, callback) {
-      obj.botname = data.trim();
-      callback();
+    .then(function (answer) {
+      if (answer) {
+        opener(url);
+      }
+    }).then(function () {
+      return ask.input('Bot username?', function (data, callback) {
+        obj.botname = data.trim();
+        callback();
+      });
+    }).then(function () {
+      return ask.secret('Bot password token?', function (data, callback) {
+        obj.botpass = data.trim();
+        callback();
+      });
+    }).then(function () {
+      mkdirp.sync(path.dirname(authFile));
+      fs.writeFileSync(authFile, JSON.stringify(obj), {
+        mode: 0o600
+      });
+      console.log('Saved to ' + authFile);
+      return obj;
     });
-  }).then(function () {
-    return ask.secret('Bot password token?', function (data, callback) {
-      obj.botpass = data.trim();
-      callback();
-    });
-  }).then(function () {
-    mkdirp.sync(path.dirname(authFile));
-    fs.writeFileSync(authFile, JSON.stringify(obj), {
-      mode: 0o600
-    });
-    console.log('Saved to ' + authFile);
-    return obj;
-  });
 }
 
 function askLogin (authFile) {
