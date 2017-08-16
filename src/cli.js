@@ -15,9 +15,9 @@ var { SkipFileError, AbortError } = require('./error');
 var patterns = require('./patterns');
 var argv = minimist(process.argv.slice(2), {
   string: ['file', 'contains', 'match'],
-  boolean: ['all', 'help'],
-  default: { file: 'results.txt', all: false, help: false },
-  alias: { f: 'file', a: 'all', c: 'contains', m: 'match', h: 'help' }
+  boolean: ['all', 'verbose', 'help'],
+  default: { file: 'results.txt', all: false, verbose: false, help: false },
+  alias: { f: 'file', a: 'all', v: 'verbose', c: 'contains', m: 'match', h: 'help' }
 });
 var bots = Object.create(null);
 var dMap = null;
@@ -131,7 +131,8 @@ function getSimpleClient (server) {
     protocol: 'https',
     server: server,
     path: '/w',
-    concurrency: 2
+    concurrency: 2,
+    debug: !!argv.verbose
   });
 }
 
@@ -144,7 +145,8 @@ function getBotClient (server, auth) {
         path: '/w',
         concurrency: 2,
         username: auth.botname,
-        password: auth.botpass
+        password: auth.botpass,
+        debug: !!argv.verbose
       });
       client.logIn(function (err) {
         if (err) {
@@ -470,6 +472,7 @@ module.exports = function cli (authDir) {
     console.log('  -a, --all\t\tBoolean, iterate over all page names even without matches. Default: false');
     console.log('  -c, --contains\tString, Limit the `all` iteration to pages that currently contain a particular phrase.');
     console.log('  -m, --match\t\tString, Like `contains`, but interpreted as a regular expression.');
+    console.log('  -v, --verbose\t\tBoolean, enable debug logging. Default: false');
     console.log('  -h, --help\t\tBoolean, shows this help page. Default: false');
   } else {
     start(auth.getAuth(authDir));
