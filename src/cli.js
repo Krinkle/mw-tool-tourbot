@@ -390,6 +390,9 @@ function handleSubject (subject, auth) {
       printHeading(subject.pageName, subject.wikiId);
       return Promise.reject(new SkipFileError('Unknown wiki: ' + subject.wikiId));
     }
+    // Hack for printSaving() and openPage()
+    subject.server = wiki.server;
+
     printHeading(subject.pageName, wiki.server);
     if (subject.pageName === 'MediaWiki:Gadget-popups.js') {
       return Promise.reject(new SkipFileError('False positive'));
