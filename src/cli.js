@@ -29,14 +29,11 @@ function parseResults (results) {
     // Filter empty lines and comments
     if (text && text[0] !== '#') {
       var parts = line.split(/\s+/);
-      // Dangerous false positive.
-      if (parts[1] !== 'MediaWiki:Gadget-popups.js') {
-        subjects.push({
-          wikiId: parts[0],
-          // Page names may contain spaces
-          pageName: parts.slice(1).join(' ')
-        });
-      }
+      subjects.push({
+        wikiId: parts[0],
+        // Page names may contain spaces
+        pageName: parts.slice(1).join(' ')
+      });
     }
     return subjects;
   }, []);
@@ -204,9 +201,8 @@ function getWikiMap () {
   return dMap;
 }
 
-function printHeading (subject) {
-  var wiki = subject.server || subject.wikiId;
-  console.log('\n' + colors.bold.underline(subject.pageName) + ' (%s)\n', wiki);
+function printHeading (pageName, wiki) {
+  console.log('\n' + colors.bold.underline(pageName) + ' (%s)\n', wiki);
 }
 function printSaving (subject, summary) {
   var wiki = subject.server || subject.wikiId;
@@ -216,9 +212,14 @@ function printSaving (subject, summary) {
 function reportNoop () {
   console.log('No major changes. Loading next subject...');
 }
-function skipPage (err) {
-  var reason = err && err.message ? ` (${err.message})` : '';
-  console.log('Skipped%s. Loading next subject...', reason);
+function failPage (err) {
+  var message;
+  if (err instanceof SkipFileError) {
+    message = `Skipped (${err.message})`;
+  } else {
+    message = 'Failed. ' + err.toString() + '\n';
+  }
+  console.log(`${message} Loading next subject...`);
 }
 function openPage (subject) {
   subject.opened = true;
@@ -337,8 +338,6 @@ function handleContent (subject, content, siteinfo, callback) {
     askApply();
   }
 
-  printHeading(subject);
-
   Content.checkSubject(subject, content)
   .then(function () {
     async.eachSeries(patterns, function (pattern, nextPattern) {
@@ -386,10 +385,13 @@ function handleSubject (subject, auth) {
   var pClient = pMap.then(function (map) {
     var wiki = map[subject.wikiId];
     if (!wiki) {
+      printHeading(subject.pageName, subject.wikiId);
       return Promise.reject(new SkipFileError('Unknown wiki: ' + subject.wikiId));
     }
-    // Hack - augment subject object for print convenience
-    subject.server = wiki.server;
+    printHeading(subject.pageName, wiki.server);
+    if (subject.pageName === 'MediaWiki:Gadget-popups.js') {
+      return Promise.reject(new SkipFileError('False positive'));
+    }
     return getBotClient(wiki.server, auth);
   });
   var pPage = pClient.then(function (client) {
@@ -443,12 +445,8 @@ function start (dAuth) {
         handleSubject(subject, auth).then(function () {
           callback();
         }, function (err) {
-          if (err instanceof SkipFileError) {
-            skipPage(err);
-            callback();
-            return;
-          }
-          callback(err);
+          failPage(err);
+          callback();
         });
       }, function (err) {
         err ? reject(err) : resolve(); // promisify
