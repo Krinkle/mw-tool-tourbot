@@ -10,6 +10,7 @@ var opener = require('opener');
 var auth = require('./auth');
 var ask = require('./ask');
 var Content = require('./content');
+var simpleDiff = require('./diff').simpleDiff;
 var replace = require('./replace');
 var { SkipFileError, AbortError } = require('./error');
 var patterns = require('./patterns');
@@ -243,31 +244,6 @@ function printApplyHelp () {
     'h - print help\n'
   );
   console.log(colors.red.bold(help));
-}
-function simpleDiff (removedLine, addedLine) {
-  if (removedLine === addedLine) {
-    return { textBefore: removedLine, removed: '', added: '', textAfter: '' };
-  }
-  var start = 0;
-  while (start < removedLine.length && removedLine[start] === addedLine[start]) {
-    start++;
-  }
-  var textBefore = removedLine.slice(0, start);
-  var remaining = removedLine.slice(start);
-  var end = false;
-  if (remaining.length) {
-    end = 0;
-    while (remaining.slice(end - 1, remaining.length + end) === addedLine.slice(end - 1, addedLine.length + end)) {
-      end--;
-    }
-  }
-
-  return {
-    textBefore: textBefore,
-    removed: removedLine.slice(start, end || undefined),
-    added: addedLine.slice(start, end || undefined),
-    textAfter: end ? remaining.slice(end) : ''
-  };
 }
 
 function handleContent (subject, content, siteinfo, callback) {
