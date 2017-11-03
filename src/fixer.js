@@ -38,23 +38,31 @@ Fixer.prototype.run = async function (replacer, accepter) {
       continue;
     }
     for (let i = 0; i < lines.length; i++) {
-      if (lines[i] === null) {
-        // If the line was removed by a previous pattern, skip it
-        continue;
-      }
-      let replacement = replacer(lines[i], pattern, this.siteinfo);
-      if (replacement === lines[i]) {
-        // No-op
-        continue;
-      }
-      let accept = await accepter(lines, i, lines[i], replacement);
-      if (accept === true) {
-        lines[i] = replacement;
+      let line = lines[i];
+      while (true) {
+        if (line === null) {
+          // If the line was removed by a previous pattern, skip it
+          break;
+        }
+        let replacement = replacer(line, pattern, this.siteinfo);
+        if (replacement === line) {
+          // This pattern doesn't match, or matched previously
+          // but not anymore.
+          break;
+        }
+        let accept = await accepter(lines, i, line, replacement);
+        if (accept !== true) {
+          // Don't propose the same pattern multiple times,
+          // given the next match would be the same.
+          break;
+        }
+        line = replacement;
         if (pattern.summary) {
           major = true;
           summaries[pattern.summary] = true;
         }
       }
+      lines[i] = line;
     }
   }
 

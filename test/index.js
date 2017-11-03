@@ -179,11 +179,11 @@ function testDiff () {
   process.stdout.write('\n');
 }
 
-async function testFixer () {
-  console.log('Test: Fixer');
+async function testFixerGlobal () {
+  console.log('Test: Fixer - match all');
   var calls = [];
   var fix = new Fixer(
-    'start\nexample\nexams\nremove me',
+    'start\nexample\none exam, two exams\nremove me',
     [ {
       regex: /([eaoui])xam/g,
       replacement: '$1-test',
@@ -209,14 +209,60 @@ async function testFixer () {
   assert.deepEqual(
     [
       { i: 1, replacement: 'e-testple' },
-      { i: 2, replacement: 'e-tests' },
+      { i: 2, replacement: 'one e-test, two e-tests' },
       { i: 3, replacement: null }
     ],
-    calls
+    calls,
+    'Calls'
   );
   assert.strictEqual(
-    'start\nexample\ne-tests',
-    result.content
+    'start\nexample\none e-test, two e-tests',
+    result.content,
+    'Content'
+  );
+}
+
+async function testFixerOne () {
+  console.log('Test: Fixer - match one');
+  var calls = [];
+  var fix = new Fixer(
+    'start\nexample\none exam, two exams\nremove me',
+    [ {
+      regex: /([eaoui])xam/,
+      replacement: '$1-test',
+      summary: 'xam to test'
+    } ],
+    {}
+  );
+  var result = await fix.run(
+    function replacer (str, pattern) {
+      if (str === 'remove me') {
+        return null;
+      }
+      return str.replace(pattern.regex, pattern.replacement);
+    },
+    function accepter (lines, i, line, replacement) {
+      calls.push({ i, replacement });
+      if (line === 'example') {
+        return false;
+      }
+      return true;
+    }
+  );
+  assert.deepEqual(
+    [
+      { i: 1, replacement: 'e-testple' },
+      { i: 2, replacement: 'one e-test, two exams' },
+      { i: 2, replacement: 'one e-test, two e-tests' },
+      { i: 3, replacement: null }
+    ],
+    calls,
+    'Calls'
+  );
+  assert.strictEqual(
+    'start\nexample\none e-test, two e-tests',
+    result.content,
+    'Content'
   );
 }
 
@@ -226,7 +272,8 @@ async function test () {
     await testContentHandling();
     testReplace();
     testPatterns();
-    await testFixer();
+    await testFixerGlobal();
+    await testFixerOne();
   } catch (e) {
     console.error(e);
     process.exit(1);
