@@ -16,6 +16,8 @@ function assertPromise (actual, expected, message) {
 }
 
 function testReplacement () {
+  console.log('Test: Replacement');
+
   function applyPatterns (lines) {
     var output = lines.slice();
     patterns.forEach(function (pattern) {
@@ -43,6 +45,8 @@ function testReplacement () {
 }
 
 function testContentHandling () {
+  console.log('Test: Content handling');
+
   function testcase (title, content) {
     return Content.checkSubject(
       { pageName: title },
@@ -76,65 +80,67 @@ function testContentHandling () {
   ]);
 }
 
-var diffTestCases = [
-  {
-    input: {
-      removed: 'Required: foo, bar',
-      added: 'Required: bar'
+function testDiff () {
+  process.stdout.write('Test: Diff ');
+
+  var diffTestCases = [
+    {
+      input: {
+        removed: 'Required: foo, bar',
+        added: 'Required: bar'
+      },
+      result: {
+        textBefore: 'Required: ',
+        removed: 'foo, ',
+        added: '',
+        textAfter: 'bar'
+      }
     },
-    result: {
-      textBefore: 'Required: ',
-      removed: 'foo, ',
-      added: '',
-      textAfter: 'bar'
+    {
+      input: {
+        removed: 'One thing',
+        added: 'Something else'
+      },
+      result: {
+        textBefore: '',
+        removed: 'One thing',
+        added: 'Something else',
+        textAfter: ''
+      }
     }
-  },
-  {
-    input: {
-      removed: 'One thing',
-      added: 'Something else'
-    },
-    result: {
-      textBefore: '',
-      removed: 'One thing',
-      added: 'Something else',
-      textAfter: ''
-    }
+  ];
+  diffTestCases.forEach(testDiff);
+  function testDiff (data, i) {
+    process.stdout.write('.');
+    var result = diff.simpleDiff(data.input.removed, data.input.added);
+    assert.deepEqual(
+      result,
+      data.result,
+      `diff ${i} simple`
+    );
+    assert.strictEqual(
+      result.textBefore + result.removed + result.textAfter,
+      data.input.removed,
+      `diff ${i} reconstruct removed`
+    );
+    assert.strictEqual(
+      result.textBefore + result.added + result.textAfter,
+      data.input.added,
+      `diff {$i} reconstruct added`
+    );
   }
-];
-process.stdout.write('Test: Diff ');
-diffTestCases.forEach(testDiff);
-function testDiff (data, i) {
-  process.stdout.write('.');
-  var result = diff.simpleDiff(data.input.removed, data.input.added);
-  assert.deepEqual(
-    result,
-    data.result,
-    `diff ${i} simple`
-  );
-  assert.strictEqual(
-    result.textBefore + result.removed + result.textAfter,
-    data.input.removed,
-    `diff ${i} reconstruct removed`
-  );
-  assert.strictEqual(
-    result.textBefore + result.added + result.textAfter,
-    data.input.added,
-    `diff {$i} reconstruct added`
-  );
+  process.stdout.write('\n');
 }
-process.stdout.write('\n');
 
-console.log('Test: Content handling');
-testContentHandling().catch(function (e) {
-  console.error(e);
-  process.exit(1);
-});
-
-try {
-  console.log('Test: Replacement');
-  testReplacement();
-} catch (e) {
-  console.error(e);
-  process.exit(1);
+async function test () {
+  try {
+    testDiff();
+    await testContentHandling();
+    testReplacement();
+  } catch (e) {
+    console.error(e);
+    process.exit(1);
+  }
 }
+
+test();
