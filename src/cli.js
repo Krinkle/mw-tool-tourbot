@@ -1,7 +1,6 @@
 var fs = require('fs');
 var path = require('path');
 var url = require('url');
-var async = require('async');
 var colors = require('colors/safe');
 var minimist = require('minimist');
 var MwClient = require('nodemw');
@@ -137,7 +136,7 @@ function getSimpleClient (server) {
   });
 }
 
-function getBotClient (server, auth) {
+function getBotClient (server, authObj) {
   if (!bots[server]) {
     bots[server] = new Promise(function (resolve, reject) {
       var client = new MwClient({
@@ -145,8 +144,8 @@ function getBotClient (server, auth) {
         server: server,
         path: '/w',
         concurrency: 2,
-        username: auth.botname,
-        password: auth.botpass,
+        username: authObj.botname,
+        password: authObj.botpass,
         debug: !!argv.verbose
       });
       client.logIn(function (err) {
@@ -332,7 +331,7 @@ function checkAll (options, subject, content) {
   return Promise.resolve();
 }
 
-function handleSubject (subject, auth) {
+function handleSubject (subject, authObj) {
   var pMap = getWikiMap();
   var pClient = pMap.then(function (map) {
     var wiki = map[subject.wikiId];
@@ -347,7 +346,7 @@ function handleSubject (subject, auth) {
     if (subject.pageName === 'MediaWiki:Gadget-popups.js') {
       return Promise.reject(new SkipFileError('False positive'));
     }
-    return getBotClient(wiki.server, auth);
+    return getBotClient(wiki.server, authObj);
   });
   var pPage = pClient.then(function (client) {
     return new Promise(function (resolve, reject) {
@@ -391,32 +390,26 @@ function handleSubject (subject, auth) {
   return pEdit;
 }
 
-function start (dAuth) {
-  dAuth
-    .then(function (auth) {
-      console.log(colors.cyan('Reading %s'), path.resolve(argv.file));
-      var results = fs.readFileSync(argv.file).toString();
-      return new Promise(function (resolve, reject) {
-        async.eachSeries(parseResults(results), function (subject, callback) {
-          handleSubject(subject, auth).then(function () {
-            callback();
-          }, function (err) {
-            failPage(err);
-            callback();
-          });
-        }, function (err) {
-          err ? reject(err) : resolve(); // promisify
-        });
-      });
-    })
-    .catch(function (err) {
-      if (err instanceof AbortError) {
-        return;
+async function start (authDir) {
+  try {
+    var authObj = await auth.getAuth(authDir);
+    console.log(colors.cyan('Reading %s'), path.resolve(argv.file));
+    var results = fs.readFileSync(argv.file).toString();
+    for (let subject of parseResults(results)) {
+      try {
+        await handleSubject(subject, authObj);
+      } catch (err) {
+        failPage(err);
       }
-      if (err) {
-        console.error(err);
-      }
-    });
+    }
+  } catch (mainErr) {
+    if (mainErr instanceof AbortError) {
+      return;
+    }
+    if (mainErr) {
+      console.error(mainErr);
+    }
+  }
 }
 
 module.exports = function cli (authDir) {
@@ -429,6 +422,6 @@ module.exports = function cli (authDir) {
     console.log('  -v, --verbose\t\tBoolean, enable debug logging. Default: false');
     console.log('  -h, --help\t\tBoolean, shows this help page. Default: false');
   } else {
-    start(auth.getAuth(authDir));
+    start(authDir);
   }
 };

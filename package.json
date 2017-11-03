@@ -36,7 +36,6 @@
   },
   "dependencies": {
     "acorn": "^5.1.1",
-    "async": "^2.1.4",
     "colors": "^1.1.2",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
