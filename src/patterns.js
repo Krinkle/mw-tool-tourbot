@@ -2,85 +2,85 @@ module.exports = [
   // Migration
   {
     // Match 'addOnloadHook' - Ignore e.g. 'DatRoot.addOnloadHook'
-    regex: /^((?!.*function addOnloadHook\s*\().*)([^.]|^)(?!\.)(?:window\.)?addOnloadHook\s*\(/g,
+    regex: /^((?!.*function addOnloadHook\s*\().*)([^.]|^)(?!\.)(?:window\.)?addOnloadHook\s*\(/,
     replacement: '$1$2$(',
     summary: 'addOnloadHook is deprecated'
   },
   {
     // Match 'escapeQuotes' and 'window.escapeQuotes' - Ignore e.g. 'pg.escapeQuotes'
-    regex: /([^.]|^)(?!\.)(?:window\.)?escapeQuotesHTML\s*\(/g,
+    regex: /([^.]|^)(?!\.)(?:window\.)?escapeQuotesHTML\s*\(/,
     replacement: '$1mw.html.escape(',
     summary: 'escapeQuotesHTML is deprecated'
   },
   {
-    regex: /mw\.util\.wikiGetlink\s*\(/g,
+    regex: /mw\.util\.wikiGetlink\s*\(/,
     replacement: 'mw.util.getUrl(',
     summary: 'mw.util.wikiGetlink is deprecated'
   },
   {
-    regex: /([^.]|^)(?!\.)(?:window\.)?escapeQuotes\s*\(/g,
+    regex: /([^.]|^)(?!\.)(?:window\.)?escapeQuotes\s*\(/,
     replacement: 'mw.html.escape(',
     summary: 'escapeQuotes is deprecated'
   },
   {
-    regex: /(?:\$|\$j|jQuery)\.trimLeft\s*\(\s*([^\n()]+?)\s*\)/g,
+    regex: /(?:\$|\$j|jQuery)\.trimLeft\s*\(\s*([^\n()]+?)\s*\)/,
     replacement: '$1.replace(/^\\s+/, \'\')',
     summary: '$.trimLeft is deprecated'
   },
   {
-    regex: /(?:\$|\$j|jQuery)\.trimRight\s*\(\s*([^\n()]+?)\s*\)/g,
+    regex: /(?:\$|\$j|jQuery)\.trimRight\s*\(\s*([^\n()]+?)\s*\)/,
     replacement: '$1.replace(/\\s+$/, \'\')',
     summary: '$.trimRight is deprecated'
   },
   {
-    regex: /\bimportScriptURI\s*\(/g,
+    regex: /\bimportScriptURI\s*\(/,
     replacement: 'mw.loader.load(',
     summary: 'importScriptURI is deprecated'
   },
   {
-    regex: /\bimportStylesheetURI\s*\(\s*([^\n)]+?)\s*\)/g,
+    regex: /\bimportStylesheetURI\s*\(\s*([^\n)]+?)\s*\)/,
     replacement: 'mw.loader.load($1, \'text/css\')',
     summary: 'importStylesheetURI is deprecated'
   },
   {
-    regex: /\bmw\s*\.\s*config\s*\.\s*values\s*\.\s*(\w+)/g,
+    regex: /\bmw\s*\.\s*config\s*\.\s*values\s*\.\s*(\w+)/,
     replacement: 'mw.config.get(\'$1\')',
     summary: 'mw.config.values is deprecated'
   },
   {
-    regex: /\bmw\s*\.\s*user\s*\.\s*(options|tokens)\s*\.\s*values\s*\.\s*(\w+)/g,
+    regex: /\bmw\s*\.\s*user\s*\.\s*(options|tokens)\s*\.\s*values\s*\.\s*(\w+)/,
     replacement: 'mw.user.$1.get(\'$2\')',
     summary: 'Map.values is deprecated'
   },
   {
     // Patch for HotCat's use of the entire values object
-    regex: /(\?\s*)mw\.(config|user\.tokens|user\.options)\.values(\s*:)/g,
+    regex: /(\?\s*)mw\.(config|user\.tokens|user\.options)\.values(\s*:)/,
     replacement: '$1mw.$2.get()$3',
     summary: 'Map.values is deprecated'
   },
   {
     // Patch for Wikimedia Commons's use of the entire values object
-    regex: /(\()mw\.(config|user\.tokens|user\.options)\.values(\s*[,)])/g,
+    regex: /(\()mw\.(config|user\.tokens|user\.options)\.values(\s*[,)])/,
     replacement: '$1mw.$2.get()$3',
     summary: 'Map.values is deprecated'
   },
   {
-    regex: /wgTitle\s*===?\s*['"]<siteinfo-mainpage>['"]\s*&&\s*wgNamespaceNumber\s*===?\s*\d+/g,
+    regex: /wgTitle\s*===?\s*['"]<siteinfo-mainpage>['"]\s*&&\s*wgNamespaceNumber\s*===?\s*\d+/,
     replacement: 'mw.config.get(\'wgIsMainPage\')',
     summary: 'Use wgIsMainPage'
   },
   {
-    regex: /mw\.config\.get\(['"]wgTitle['"]\)\s*===?\s*['"]<siteinfo-mainpage>['"]\s*&&\s*mw\.config\.get\(['"]wgNamespaceNumber['"]\)\s*===?\s*\d+/g,
+    regex: /mw\.config\.get\(['"]wgTitle['"]\)\s*===?\s*['"]<siteinfo-mainpage>['"]\s*&&\s*mw\.config\.get\(['"]wgNamespaceNumber['"]\)\s*===?\s*\d+/,
     replacement: 'mw.config.get(\'wgIsMainPage\')',
     summary: 'Use wgIsMainPage'
   },
   {
-    regex: /wgPageName\s*===?\s*['"]<siteinfo-mainpagename>['"]/g,
+    regex: /wgPageName\s*===?\s*['"]<siteinfo-mainpagename>['"]/,
     replacement: 'mw.config.get(\'wgIsMainPage\')',
     summary: 'Use wgIsMainPage'
   },
   {
-    regex: /mw\.config\.get\(['"]wgPageName['"]\)\s*===?\s*['"]<siteinfo-mainpagename>['"]/g,
+    regex: /mw\.config\.get\(['"]wgPageName['"]\)\s*===?\s*['"]<siteinfo-mainpagename>['"]/,
     replacement: 'mw.config.get(\'wgIsMainPage\')',
     summary: 'Use wgIsMainPage'
   },
@@ -106,7 +106,7 @@ module.exports = [
   },
   {
     // A common pattern on pages like MediaWiki:Gadget-UseLangEn.js
-    regex: /,\s*wgServer \+ wgScript \+ '\?title=' \+ encodeURIComponent\(wgPageName\) \+ '&uselang=([a-zA-Z-]+)'/g,
+    regex: /,\s*wgServer \+ wgScript \+ '\?title=' \+ encodeURIComponent\(wgPageName\) \+ '&uselang=([a-zA-Z-]+)'/,
     replacement: ', mw.util.getUrl(null, { uselang: \'$1\' })',
     summary: 'Use mw.util.getUrl'
   },
@@ -117,37 +117,37 @@ module.exports = [
   },
   // bits.wikimedia.org is deprecated – https://phabricator.wikimedia.org/T107430
   {
-    regex: /(https?:)?\/\/bits\.wikimedia\.org\/static[-/]current\//g,
+    regex: /(https?:)?\/\/bits\.wikimedia\.org\/static[-/]current\//,
     replacement: '/static/current/',
     summary: 'bits.wikimedia.org'
   },
   {
-    regex: /(https?:)?\/\/bits\.wikimedia\.org\/skins\//g,
+    regex: /(https?:)?\/\/bits\.wikimedia\.org\/skins\//,
     replacement: '/w/skins/',
     summary: 'bits.wikimedia.org'
   },
   {
-    regex: /(https?:)?\/\/bits\.wikimedia\.org\/skins-1\.5\//g,
+    regex: /(https?:)?\/\/bits\.wikimedia\.org\/skins-1\.5\//,
     replacement: '/w/skins/',
     summary: 'bits.wikimedia.org'
   },
   {
-    regex: /((https?:)?\/\/[a-z.]+\.org)\/skins-1\.5\//g,
+    regex: /((https?:)?\/\/[a-z.]+\.org)\/skins-1\.5\//,
     replacement: '$1/w/skins/',
     summary: 'skins-1.5 is deprecated'
   },
   {
-    regex: /(url\(['"]?)\/skins-1\.5\//g,
+    regex: /(url\(['"]?)\/skins-1\.5\//,
     replacement: '$1/w/skins/',
     summary: 'skins-1.5 is deprecated'
   },
   {
-    regex: /(https?:)?\/\/bits\.wikimedia\.org\/static-([^/]+)\/(skins|extensions|resources)\//g,
+    regex: /(https?:)?\/\/bits\.wikimedia\.org\/static-([^/]+)\/(skins|extensions|resources)\//,
     replacement: '/w/$3/',
     summary: 'bits.wikimedia.org'
   },
   {
-    regex: /((https?:)?\/\/)bits\.wikimedia\.org\/([^/]+)\/load\.php/g,
+    regex: /((https?:)?\/\/)bits\.wikimedia\.org\/([^/]+)\/load\.php/,
     replacement: 'https://$3/w/load.php',
     summary: 'bits.wikimedia.org'
   },
@@ -159,7 +159,7 @@ module.exports = [
   {
     //
     //  popup.document.write('<style type=\"text\/css\" media=\"screen,projection\">/*<![CDATA[*/ @import "\/skins-1.5\/monobook\/main.css?5\";@import \"/skins-1.5/monobook/rtl.css\"; /*]]>*/<\/style>');
-    regex: /^\s+\w+\.document\.write\(['"]<style[^>]+>.+\[CDATA\[.+@import.+\/skins-1\.5.*monobook.*main\.css[^<]+<\\?\/style>['"]\);/g,
+    regex: /^\s+\w+\.document\.write\(['"]<style[^>]+>.+\[CDATA\[.+@import.+\/skins-1\.5.*monobook.*main\.css[^<]+<\\?\/style>['"]\);/,
     replacement: '<tourbot-rm-blank>',
     summary: 'Remove broken popup CSS'
   },
@@ -179,29 +179,29 @@ module.exports = [
   },
   // Clean-up (not worth an edit of itself)
   {
-    regex: /[?&]s?maxage=\d*/g,
+    regex: /[?&]s?maxage=\d*/,
     replacement: ''
   },
   {
-    regex: /[?&]dontcountme=s/g,
+    regex: /[?&]dontcountme=s/,
     replacement: ''
   },
   {
     // Strip old wgStyleVersion.
     // No longer needed with wmfstatic cache-control
-    regex: /(\/(skins|extensions|resources)\/[^?]+)\?30\d-\d\d?\b/g,
+    regex: /(\/(skins|extensions|resources)\/[^?]+)\?30\d-\d\d?\b/,
     replacement: '$1'
   },
   {
-    regex: /\.org\/(\?title=.*&action=raw&ctype=)/g,
+    regex: /\.org\/(\?title=.*&action=raw&ctype=)/,
     replacement: '.org/w/index.php$1'
   },
   {
-    regex: /\.org\/w\/index\.php\?action=raw&ctype=text\/(css|javascript)&title=([^'";]+)/g,
+    regex: /\.org\/w\/index\.php\?action=raw&ctype=text\/(css|javascript)&title=([^'";]+)/,
     replacement: '.org/w/index.php?title=$2&action=raw&ctype=text/$1'
   },
   {
-    regex: /\$j\s*(\(|\.)/g,
+    regex: /\$j\s*(\(|\.)/,
     replacement: '$$$1'
   },
   {
@@ -210,12 +210,12 @@ module.exports = [
   },
   {
     // These urls were already broken by vector>Vector, but let's be nice.
-    regex: /\/w\/skins\/vector\//g,
+    regex: /\/w\/skins\/vector\//,
     replacement: '/w/skins/Vector/'
   },
   {
     // These urls were already broken by vector>Vector, but let's be nice.
-    regex: /\/w\/skins\/monobook\//g,
+    regex: /\/w\/skins\/monobook\//,
     replacement: '/w/skins/MonoBook/'
   }
 ];
