@@ -71,9 +71,14 @@ function testPatterns () {
   function applyPatterns (lines) {
     var output = lines.slice();
     patterns.forEach(function (pattern) {
+      var matchAllPattern = Object.create(pattern);
+      matchAllPattern.regex = new RegExp(
+        pattern.regex.source,
+        pattern.regex.flags.replace(/g/g, '') + 'g'
+      );
       output.forEach(function (line, i) {
         if (line !== null) {
-          output[i] = replace(line, pattern, siteinfo);
+          output[i] = replace(line, matchAllPattern, siteinfo);
         }
       });
     });
