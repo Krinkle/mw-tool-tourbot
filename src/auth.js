@@ -7,39 +7,33 @@ var mkdirp = require('mkdirp');
 var ask = require('./ask');
 var { AbortError } = require('./error');
 
-function saveAuth (authFile) {
+async function saveAuth (authFile) {
   var obj = {};
   var url = 'https://en.wikipedia.org/wiki/Special:BotPasswords';
-  return ask.confirm('Go to ' + colors.bold.underline(url) + '?')
-    .then(function (answer) {
-      if (answer) {
-        opener(url);
-      }
-    }).then(function () {
-      return ask.input('Bot username?', function (data, callback) {
-        obj.botname = data.trim();
-        callback();
-      });
-    }).then(function () {
-      return ask.secret('Bot password token?', function (data, callback) {
-        obj.botpass = data.trim();
-        callback();
-      });
-    }).then(function () {
-      mkdirp.sync(path.dirname(authFile));
-      fs.writeFileSync(authFile, JSON.stringify(obj), {
-        mode: 0o600
-      });
-      console.log('Saved to ' + authFile);
-      return obj;
-    });
+  var answer = await ask.confirm('Go to ' + colors.bold.underline(url) + '?');
+  if (answer) {
+    opener(url);
+  }
+  var data;
+  data = await ask.input('Bot username?');
+  obj.botname = data.trim();
+  data = await ask.secret('Bot password token?');
+  obj.botpass = data.trim();
+
+  mkdirp.sync(path.dirname(authFile));
+  fs.writeFileSync(authFile, JSON.stringify(obj), {
+    mode: 0o600
+  });
+  console.log('Saved to ' + authFile);
+
+  return obj;
 }
 
 function askLogin (authFile) {
   return ask.options('Log in?', {
     yes: function (callback) {
       // de-promisify
-      return saveAuth(authFile).then(callback.bind(null, null), callback);
+      saveAuth(authFile).then(callback.bind(null, null), callback);
     },
     no: function (callback) {
       callback(new AbortError());
@@ -47,9 +41,9 @@ function askLogin (authFile) {
   });
 }
 
-function getAuth (authDir) {
+async function getAuth (authDir) {
   var authFile = path.join(authDir, '.mwauth.json');
-  return new Promise(function (resolve) {
+  try {
     var data = fs.readFileSync(authFile);
     var obj = JSON.parse(data);
     if (!obj.botname || !obj.botpass) {
@@ -60,11 +54,11 @@ function getAuth (authDir) {
       authFile,
       colors.bold(obj.botname)
     );
-    resolve(obj);
-  }).catch(function () {
+    return obj;
+  } catch (err) {
     console.log(colors.red.bold('> Failed to read ' + path.basename(authFile) + '.'));
     return askLogin(authFile);
-  });
+  }
 }
 
 module.exports.getAuth = getAuth;

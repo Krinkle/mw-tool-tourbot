@@ -77,14 +77,13 @@ function confirm (question) {
  *
  * Example:
  *
- *     ask.options('Username?', function (data) {
- *     });
+ *     answer = await ask.options('Username?');
  *
  * @param {string} question
  * @param {Function} handler
- * @return {Promise}
+ * @return {string} answer
  */
-function input (question, handler) {
+async function input (question) {
   return new Promise(function (resolve, reject) {
     function prompt () {
       read({ prompt: question }, function (err, answer) {
@@ -96,9 +95,7 @@ function input (question, handler) {
           prompt();
           return;
         }
-        handler(answer, function (err, data) {
-          err ? reject(err) : resolve(data);
-        });
+        resolve(answer);
       });
     }
     prompt();
@@ -110,14 +107,13 @@ function input (question, handler) {
  *
  * Example:
  *
- *     ask.options('Password?', function (data) {
- *     });
+ *     data = await ask.options('Password?');
  *
  * @param {string} question
  * @param {Function} handler
- * @return {Promise}
+ * @return {string} answer
  */
-function secret (question, handler) {
+function secret (question) {
   return new Promise(function (resolve, reject) {
     function prompt () {
       read({
@@ -129,9 +125,7 @@ function secret (question, handler) {
           prompt();
           return;
         }
-        handler(answer, function (err, data) {
-          err ? reject(err) : resolve(data);
-        });
+        resolve(answer);
       });
     }
     prompt();

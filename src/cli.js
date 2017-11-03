@@ -402,6 +402,7 @@ async function start (authDir) {
     }
     if (mainErr) {
       console.error(mainErr);
+      process.exit(1);
     }
   }
 }
