@@ -8,12 +8,15 @@ var diff = require('../src/diff');
 var patterns = require('../src/patterns');
 var replace = require('../src/replace');
 
-function assertPromise (actual, expected, message) {
-  return actual.then(function () {
-    assert.strictEqual('resolved', expected, message);
-  }, function () {
+async function assertPromise (actual, expected, message) {
+  try {
+    await actual;
+  } catch (err) {
     assert.strictEqual('rejected', expected, message);
-  });
+    return;
+  }
+
+  assert.strictEqual('resolved', expected, message);
 }
 
 function testReplace () {
@@ -45,7 +48,7 @@ function testReplace () {
   assert.deepEqual(actual, expected.split('\n'), 'patterns');
 }
 
-function testContentHandling () {
+async function testContentHandling () {
   console.log('Test: Content handling');
 
   function testcase (title, content) {
@@ -56,29 +59,27 @@ function testContentHandling () {
       { quiet: true }
     );
   }
-  return Promise.all([
-    assertPromise(
-      testcase('foo.css', '.foo {}'),
-      'resolved',
-      'Valid CSS on a CSS page'
-    ),
-    assertPromise(
-      testcase('foo.js', '.foo {}'),
-      'rejected',
-      'Valid CSS on a JS page'
-    ),
-    assertPromise(
-      testcase('foo.js', 'foo();'),
-      'resolved',
-      'Valid JS on a JS page'
-    ),
-    assertPromise(
-      testcase('foo.css', 'foo();'),
-      // CSS is not currently validated
-      'resolved',
-      'Valid JS on a CSS page'
-    )
-  ]);
+  await assertPromise(
+    testcase('foo.css', '.foo {}'),
+    'resolved',
+    'Valid CSS on a CSS page'
+  );
+  await assertPromise(
+    testcase('foo.js', '.foo {}'),
+    'rejected',
+    'Valid CSS on a JS page'
+  );
+  await assertPromise(
+    testcase('foo.js', 'foo();'),
+    'resolved',
+    'Valid JS on a JS page'
+  );
+  await assertPromise(
+    testcase('foo.css', 'foo();'),
+    // CSS is not currently validated
+    'resolved',
+    'Valid JS on a CSS page'
+  );
 }
 
 function testDiff () {
@@ -110,8 +111,7 @@ function testDiff () {
       }
     }
   ];
-  diffTestCases.forEach(testDiff);
-  function testDiff (data, i) {
+  diffTestCases.forEach(function testcase (data, i) {
     process.stdout.write('.');
     var result = diff.simpleDiff(data.input.removed, data.input.added);
     assert.deepEqual(
@@ -129,7 +129,7 @@ function testDiff () {
       data.input.added,
       `diff {$i} reconstruct added`
     );
-  }
+  });
   process.stdout.write('\n');
 }
 
