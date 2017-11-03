@@ -11,7 +11,7 @@ var auth = require('./auth');
 var ask = require('./ask');
 var Content = require('./content');
 var simpleDiff = require('./diff').simpleDiff;
-var replace = require('./replace');
+var Fixer = require('./fixer');
 var { SkipFileError, AbortError } = require('./error');
 var patterns = require('./patterns');
 var argv = minimist(process.argv.slice(2), {
@@ -247,27 +247,22 @@ function printApplyHelp () {
 }
 
 function handleContent (subject, content, siteinfo, callback) {
-  var changedLines = content.split('\n');
-  var summaries = {};
-  var major = false;
   var shown = false;
 
-  function proposeChange (pattern, line, i, nextLine) {
+  function proposeChange (lines, i, line, replacement) {
     if (line === null) {
       // If the line was removed by a previous pattern, skip it
-      setImmediate(nextLine);
       return;
     }
-    // If the line is removed (nulled), give diff the preview as empty string
-    var preview = replace(line, pattern, siteinfo) || '';
+    // If proposal is to remove the line (null), give diff the preview as empty string
+    var preview = replacement || '';
     if (preview === line) {
-      setImmediate(nextLine);
       return;
     }
     var contextSize = 5;
     var contextStart = Math.max(0, i - 5);
-    var linesBefore = changedLines.slice(contextStart, i).join('\n');
-    var linesAfter = changedLines.slice(i + 1, i + contextSize).join('\n');
+    var linesBefore = lines.slice(contextStart, i).join('\n');
+    var linesAfter = lines.slice(i + 1, i + contextSize).join('\n');
     var diff = simpleDiff(line, preview);
     console.log(
       colors.cyan('@@ line ' + contextStart + ' @@') + '\n' +
@@ -280,63 +275,42 @@ function handleContent (subject, content, siteinfo, callback) {
       shown = true;
       return ask.options('Apply change?', {
         yes: function (cb) {
-          changedLines[i] = replace(line, pattern, siteinfo);
-          if (pattern.summary) {
-            major = true;
-            summaries[pattern.summary] = true;
-          }
-          cb();
-          nextLine();
+          cb(null, true);
         },
         no: function (cb) {
           cb();
-          nextLine();
         },
         edit: function (cb) {
-          cb();
+          cb(new SkipFileError('Editing in browser'));
           openPage(subject);
-          nextLine(new SkipFileError('Editing in browser'));
         },
         open: function (cb) {
-          cb();
           openPage(subject);
-          askApply();
+          askApply().then(function (answer) {
+            cb(null, answer);
+          }, cb);
         },
         skip: function (cb) {
-          cb();
-          nextLine(new SkipFileError());
+          cb(new SkipFileError());
         },
         help: function (cb) {
-          cb();
           printApplyHelp();
-          askApply();
+          askApply().then(function (answer) {
+            cb(null, answer);
+          }, cb);
         }
       });
     }
-    askApply();
+    return askApply();
   }
 
   Content.checkSubject(subject, content)
     .then(function () {
-      async.eachSeries(patterns, function (pattern, nextPattern) {
-        // If we reached a minor pattern, but had no major patterns yet, don't propose
-        // other changes. The edit handler requires at least one major change.
-        if (!pattern.summary && !major) {
-          setImmediate(nextPattern);
-          return;
-        }
-        async.forEachOfSeries(changedLines, function (line, i, nextLine) {
-          proposeChange(pattern, line, i, nextLine);
-        }, function (err) {
-          nextPattern(err);
-        });
-      }, function (err) {
-        // Strip nulled-out lines
-        changedLines = changedLines.filter(function (line) {
-          return line !== null;
-        });
-        callback(err, changedLines.join('\n'), Object.keys(summaries), shown);
-      });
+      var fix = new Fixer(content, patterns, siteinfo);
+      return fix.run(proposeChange);
+    })
+    .then(function (result) {
+      callback(null, result.content, result.summaries, shown);
     })
     .catch(function (err) {
       callback(err, null, null, shown);
