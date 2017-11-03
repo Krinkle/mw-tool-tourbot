@@ -1,5 +1,3 @@
-var replace = require('./replace');
-
 /**
  * @class
  * @param {string} content
@@ -13,14 +11,21 @@ function Fixer (content, patterns, siteinfo) {
 }
 
 /**
- * @param {Function} handleChange Callback to approve/reject the change.
- *  To skip this file entirely, throw a SkipFileError error.
- * @param {Object} handleChange.pattern
- * @param {string} handleChange.line
- * @param {undefined} handleChange.return
- * @return {Promise}
+ * @param {Function} replacer Callback to apply the replacement
+ * @param {string} replacer.str Input line
+ * @param {Object} replacer.pattern
+ * @param {Object} replacer.siteinfo
+ * @return {string|null} replacer.return Replacement line or null to remove
+ *
+ * @param {Function} accepter Callback (maybe be async) to approve/reject
+ *  the change. May throw to skip the file.
+ * @param {Object} accepter.pattern
+ * @param {string} accepter.line
+ * @return {bool} accepter.return Whether to accept the replacement
+ *
+ * @return {Object}
  */
-Fixer.prototype.run = async function (handleChange) {
+Fixer.prototype.run = async function (replacer, accepter) {
   var lines = this.content.split('\n');
   var summaries = {};
   var major = false;
@@ -33,8 +38,8 @@ Fixer.prototype.run = async function (handleChange) {
       continue;
     }
     for (let i = 0; i < lines.length; i++) {
-      let replacement = replace(lines[i], pattern, this.siteinfo);
-      let accept = await handleChange(lines, i, lines[i], replacement);
+      let replacement = replacer(lines[i], pattern, this.siteinfo);
+      let accept = await accepter(lines, i, lines[i], replacement);
       if (accept === true) {
         lines[i] = replacement;
         if (pattern.summary) {

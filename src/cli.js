@@ -11,6 +11,7 @@ var ask = require('./ask');
 var Content = require('./content');
 var simpleDiff = require('./diff').simpleDiff;
 var Fixer = require('./fixer');
+var replace = require('./replace');
 var { SkipFileError, AbortError } = require('./error');
 var patterns = require('./patterns');
 var argv = minimist(process.argv.slice(2), {
@@ -306,7 +307,7 @@ function handleContent (subject, content, siteinfo, callback) {
   Content.checkSubject(subject, content)
     .then(function () {
       var fix = new Fixer(content, patterns, siteinfo);
-      return fix.run(proposeChange);
+      return fix.run(replace, proposeChange);
     })
     .then(function (result) {
       callback(null, result.content, result.summaries, shown);

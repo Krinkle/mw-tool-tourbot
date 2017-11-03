@@ -3,6 +3,7 @@ var fs = require('fs');
 var path = require('path');
 
 var Content = require('../src/content');
+var Fixer = require('../src/fixer');
 var diff = require('../src/diff');
 var patterns = require('../src/patterns');
 var replace = require('../src/replace');
@@ -15,8 +16,8 @@ function assertPromise (actual, expected, message) {
   });
 }
 
-function testReplacement () {
-  console.log('Test: Replacement');
+function testReplace () {
+  console.log('Test: Replace');
 
   function applyPatterns (lines) {
     var output = lines.slice();
@@ -132,11 +133,50 @@ function testDiff () {
   process.stdout.write('\n');
 }
 
+async function testFixer () {
+  console.log('Test: Fixer');
+  var calls = [];
+  var fix = new Fixer(
+    'start\nexample\nexams',
+    [ {
+      regex: /([eaoui])xam/g,
+      replacement: '$1-test',
+      summary: 'xam to test'
+    } ],
+    {}
+  );
+  var result = await fix.run(
+    function replacer (str, pattern) {
+      return str.replace(pattern.regex, pattern.replacement);
+    },
+    function accepter (lines, i, line, replacement) {
+      calls.push({ i, replacement });
+      if (line === 'example') {
+        return false;
+      }
+      return true;
+    }
+  );
+  assert.deepEqual(
+    [
+      { i: 0, replacement: 'start' },
+      { i: 1, replacement: 'e-testple' },
+      { i: 2, replacement: 'e-tests' }
+    ],
+    calls
+  );
+  assert.strictEqual(
+    'start\nexample\ne-tests',
+    result.content
+  );
+}
+
 async function test () {
   try {
     testDiff();
     await testContentHandling();
-    testReplacement();
+    testReplace();
+    await testFixer();
   } catch (e) {
     console.error(e);
     process.exit(1);
