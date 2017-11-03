@@ -21,6 +21,52 @@ async function assertPromise (actual, expected, message) {
 
 function testReplace () {
   console.log('Test: Replace');
+  var siteinfo = {
+    mainpage: 'Main Page',
+    mainpagename: 'Main_Page'
+  };
+  var i = 1;
+  var cases = [ {
+    regex: /foo/g,
+    replacement: 'bar',
+    input: 'input',
+    expected: 'input'
+  }, {
+    regex: /foo/g,
+    replacement: 'bar',
+    input: 'input foos and bars',
+    expected: 'input bars and bars'
+  }, {
+    regex: /two/g,
+    replacement: '',
+    input: 'one two three',
+    expected: 'one  three'
+  }, {
+    regex: /two/g,
+    replacement: '<tourbot-rm-blank>',
+    input: 'two',
+    expected: null
+  }, {
+    regex: /two/g,
+    replacement: '<tourbot-rm-blank>',
+    input: 'one two',
+    expected: 'one '
+  } ];
+  for (let data of cases) {
+    assert.strictEqual(
+      replace(
+        data.input,
+        { regex: data.regex, replacement: data.replacement },
+        siteinfo
+      ),
+      data.expected,
+      i++
+    );
+  }
+}
+
+function testPatterns () {
+  console.log('Test: Patterns');
 
   function applyPatterns (lines) {
     var output = lines.slice();
@@ -137,7 +183,7 @@ async function testFixer () {
   console.log('Test: Fixer');
   var calls = [];
   var fix = new Fixer(
-    'start\nexample\nexams',
+    'start\nexample\nexams\nremove me',
     [ {
       regex: /([eaoui])xam/g,
       replacement: '$1-test',
@@ -147,6 +193,9 @@ async function testFixer () {
   );
   var result = await fix.run(
     function replacer (str, pattern) {
+      if (str === 'remove me') {
+        return null;
+      }
       return str.replace(pattern.regex, pattern.replacement);
     },
     function accepter (lines, i, line, replacement) {
@@ -159,9 +208,9 @@ async function testFixer () {
   );
   assert.deepEqual(
     [
-      { i: 0, replacement: 'start' },
       { i: 1, replacement: 'e-testple' },
-      { i: 2, replacement: 'e-tests' }
+      { i: 2, replacement: 'e-tests' },
+      { i: 3, replacement: null }
     ],
     calls
   );
@@ -176,6 +225,7 @@ async function test () {
     testDiff();
     await testContentHandling();
     testReplace();
+    testPatterns();
     await testFixer();
   } catch (e) {
     console.error(e);

@@ -38,7 +38,15 @@ Fixer.prototype.run = async function (replacer, accepter) {
       continue;
     }
     for (let i = 0; i < lines.length; i++) {
+      if (lines[i] === null) {
+        // If the line was removed by a previous pattern, skip it
+        continue;
+      }
       let replacement = replacer(lines[i], pattern, this.siteinfo);
+      if (replacement === lines[i]) {
+        // No-op
+        continue;
+      }
       let accept = await accepter(lines, i, lines[i], replacement);
       if (accept === true) {
         lines[i] = replacement;

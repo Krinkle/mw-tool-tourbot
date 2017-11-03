@@ -250,15 +250,8 @@ function handleContent (subject, content, siteinfo, callback) {
   var shown = false;
 
   function proposeChange (lines, i, line, replacement) {
-    if (line === null) {
-      // If the line was removed by a previous pattern, skip it
-      return;
-    }
     // If proposal is to remove the line (null), give diff the preview as empty string
     var preview = replacement || '';
-    if (preview === line) {
-      return;
-    }
     var contextSize = 5;
     var contextStart = Math.max(0, i - 5);
     var linesBefore = lines.slice(contextStart, i).join('\n');
