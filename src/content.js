@@ -7,7 +7,10 @@ var { SkipFileError } = require('./error');
 /**
  * @private
  */
-function checkScript (content, options) {
+async function checkScript (content, options) {
+  /**
+   * @return {Promise}
+   */
   function confirmError (error) {
     var line = content.split('\n')[error.loc.line - 1];
     var context = line.slice(0, error.loc.column) +
@@ -27,11 +30,14 @@ function checkScript (content, options) {
       }
     );
   }
-  try {
+  if (options.quiet) {
     acorn.parse(content, { ecmaVersion: 5 });
-    return Promise.resolve();
-  } catch (e) {
-    return options.quiet ? Promise.reject(e) : confirmError(e);
+  } else {
+    try {
+      acorn.parse(content, { ecmaVersion: 5 });
+    } catch (e) {
+      return confirmError(e);
+    }
   }
 }
 
@@ -41,11 +47,10 @@ function checkScript (content, options) {
  * @param {string} content
  * @param {Object} [options]
  * @param {boolean} [options.quiet=false]
- * @return {Promise}
  */
-function checkSubject (subject, content, options = {}) {
+async function checkSubject (subject, content, options = {}) {
   if (subject.pageName.slice(-4) === '.css') {
-    return Promise.resolve();
+    return;
   }
   return checkScript(content, options);
 }
