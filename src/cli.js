@@ -162,6 +162,9 @@ function getBotClient (server, authObj) {
   return bots[server];
 }
 
+/**
+ * @return {Promise} Map object
+ */
 function getWikiMap () {
   if (dMap) {
     return dMap;
@@ -246,7 +249,7 @@ function printApplyHelp () {
   console.log(colors.red.bold(help));
 }
 
-function handleContent (subject, content, siteinfo, callback) {
+async function handleContent (subject, content, siteinfo) {
   var shown = false;
 
   function proposeChange (lines, i, line, replacement) {
@@ -297,91 +300,81 @@ function handleContent (subject, content, siteinfo, callback) {
     return askApply();
   }
 
-  Content.checkSubject(subject, content)
-    .then(function () {
-      var fix = new Fixer(content, patterns, siteinfo);
-      return fix.run(replace, proposeChange);
-    })
-    .then(function (result) {
-      callback(null, result.content, result.summaries, shown);
-    })
-    .catch(function (err) {
-      callback(err, null, null, shown);
-    });
+  await Content.checkSubject(subject, content);
+  var fix = new Fixer(content, patterns, siteinfo);
+  var result = await fix.run(replace, proposeChange);
+  return {
+    ...result,
+    shown
+  };
 }
 
-function checkAll (options, subject, content) {
+async function checkAll (options, subject, content) {
   if (options.all &&
     (!options.contains || content.indexOf(argv.contains) !== -1) &&
     (!options.match || new RegExp(options.match).test(content)) &&
     !subject.opened
   ) {
-    return ask.confirm('Open in browser?').then(function (answer) {
-      if (answer) {
-        openPage(subject);
-      }
-    });
+    let answer = await ask.confirm('Open in browser?');
+    if (answer) {
+      openPage(subject);
+    }
   }
-  return Promise.resolve();
 }
 
-function handleSubject (subject, authObj) {
-  var pMap = getWikiMap();
-  var pClient = pMap.then(function (map) {
-    var wiki = map[subject.wikiId];
-    if (!wiki) {
-      printHeading(subject.pageName, subject.wikiId);
-      return Promise.reject(new SkipFileError('Unknown wiki: ' + subject.wikiId));
-    }
-    // Hack for printSaving() and openPage()
-    subject.server = wiki.server;
+async function handleSubject (subject, authObj) {
+  var map = await getWikiMap();
+  var wiki = map[subject.wikiId];
+  if (!wiki) {
+    printHeading(subject.pageName, subject.wikiId);
+    throw new SkipFileError('Unknown wiki: ' + subject.wikiId);
+  }
+  // Hack for printSaving() and openPage()
+  subject.server = wiki.server;
 
-    printHeading(subject.pageName, wiki.server);
-    if (subject.pageName === 'MediaWiki:Gadget-popups.js') {
-      return Promise.reject(new SkipFileError('False positive'));
+  printHeading(subject.pageName, wiki.server);
+  if (subject.pageName === 'MediaWiki:Gadget-popups.js') {
+    throw new SkipFileError('False positive');
+  }
+  var client = await getBotClient(wiki.server, authObj);
+  var page = await new Promise(function (resolve, reject) {
+    client.getPage(subject.pageName, function (err, data) {
+      err ? reject(err) : resolve(data); // promisify
+    });
+  });
+  var siteinfo = await client.siteinfo();
+  var result;
+  try {
+    result = await handleContent(subject, page.revision.content, siteinfo);
+  } catch (err) {
+    // Before discarding, offer to "open" if needed
+    await checkAll(argv, subject, page.revision.content);
+    throw err;
+  }
+
+  // Before saving, offer to "open" if needed
+  await checkAll(argv, subject, page.revision.content);
+
+  var newContent = result.content;
+  var summaries = result.summaries;
+  var shown = result.shown;
+  if (!summaries.length) {
+    if (shown) {
+      // No change made, or only minor cleanup
+      reportNoop();
     }
-    return getBotClient(wiki.server, authObj);
-  });
-  var pPage = pClient.then(function (client) {
-    return new Promise(function (resolve, reject) {
-      client.getPage(subject.pageName, function (err, data) {
-        err ? reject(err) : resolve(data); // promisify
-      });
+    return;
+  }
+
+  await Content.checkSubject(subject, newContent);
+  var summary = 'Maintenance: [[mw:RL/MGU]] / [[mw:RL/JD]] - ' + summaries.join(', ');
+  printSaving(subject, summary);
+  // Save edit
+  await new Promise(function (resolve, reject) {
+    client.edit(page, newContent, summary, function (err) {
+      err ? reject(new SkipFileError(err.message)) : resolve(); // promisify
     });
   });
-  var pSiteinfo = pClient.then(function (client) {
-    return client.siteinfo();
-  });
-  var pEdit = Promise.all([pClient, pPage, pSiteinfo]).then(function (vals) {
-    var [ client, page, siteinfo ] = vals;
-    return new Promise(function (resolve, reject) {
-      handleContent(subject, page.revision.content, siteinfo, function (err, newContent, summaries, shown) {
-        var pShown = checkAll(argv, subject, page.revision.content);
-        pShown.then(function () {
-          if (err) {
-            reject(err);
-            return;
-          }
-          if (!summaries.length) {
-            if (shown) {
-              // No change made, or only cleanup
-              reportNoop();
-            }
-            resolve();
-            return;
-          }
-          return Content.checkSubject(subject, newContent).then(function () {
-            var summary = 'Maintenance: [[mw:RL/MGU]] / [[mw:RL/JD]] - ' + summaries.join(', ');
-            printSaving(subject, summary);
-            client.edit(page, newContent, summary, function (err) {
-              err ? reject(new SkipFileError(err.message)) : resolve(); // promisify
-            });
-          });
-        }).catch(reject);
-      });
-    });
-  });
-  return pEdit;
 }
 
 async function start (authDir) {

@@ -54,14 +54,12 @@ function options (question, handlers) {
  *
  * Example:
  *
- *     ask.options('Do it?').then(function (answer) {
- *         // answer = boolean true or false
- *     });
+ *     answer = await ask.options('Do it?');
  *
  * @param {string} question
- * @return {Promise}
+ * @return {boolean}
  */
-function confirm (question) {
+async function confirm (question) {
   return options(question, {
     yes: function (callback) {
       callback(null, true);
@@ -113,7 +111,7 @@ async function input (question) {
  * @param {Function} handler
  * @return {string} answer
  */
-function secret (question) {
+async function secret (question) {
   return new Promise(function (resolve, reject) {
     function prompt () {
       read({
