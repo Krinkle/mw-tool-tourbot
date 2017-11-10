@@ -9,7 +9,7 @@ var opener = require('opener');
 var auth = require('./auth');
 var ask = require('./ask');
 var Content = require('./content');
-var simpleDiff = require('./diff').simpleDiff;
+var Diff = require('./diff');
 var Fixer = require('./fixer');
 var replace = require('./replace');
 var { SkipFileError, AbortError } = require('./error');
@@ -253,20 +253,12 @@ async function handleContent (subject, content, siteinfo) {
   var shown = false;
 
   function proposeChange (lines, i, line, replacement) {
-    // If proposal is to remove the line (null), give diff the preview as empty string
-    var preview = replacement || '';
     var contextSize = 5;
     var contextStart = Math.max(0, i - 5);
     var linesBefore = lines.slice(contextStart, i).join('\n');
     var linesAfter = lines.slice(i + 1, i + contextSize).join('\n');
-    var diff = simpleDiff(line, preview);
-    console.log(
-      colors.cyan('@@ line ' + contextStart + ' @@') + '\n' +
-      (linesBefore ? colors.grey(linesBefore) + '\n' : '') +
-      colors.red('- ' + diff.textBefore) + colors.bold.bgRed(diff.removed) + colors.red(diff.textAfter) + '\n' +
-      colors.green('+ ' + diff.textBefore) + colors.bold.bgGreen(diff.added) + colors.green(diff.textAfter) + '\n' +
-      colors.grey(linesAfter)
-    );
+    var diff = Diff.simpleDiff(line, replacement);
+    console.log(Diff.formatDiff(diff, contextStart, linesBefore, linesAfter));
     function askApply () {
       shown = true;
       return ask.options('Apply change?', {

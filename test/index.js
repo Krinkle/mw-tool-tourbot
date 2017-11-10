@@ -1,6 +1,7 @@
 var assert = require('assert-diff');
 var fs = require('fs');
 var path = require('path');
+var colors = require('colors/safe');
 
 var Content = require('../src/content');
 var Fixer = require('../src/fixer');
@@ -147,7 +148,13 @@ function testDiff () {
         removed: 'foo, ',
         added: '',
         textAfter: 'bar'
-      }
+      },
+      formatted: `@@ line 1 @@
+  Before 1
+  Before 2
+- Required: foo, bar
++ Required: bar
+  After 1`
     },
     {
       input: {
@@ -159,7 +166,30 @@ function testDiff () {
         removed: 'One thing',
         added: 'Something else',
         textAfter: ''
-      }
+      },
+      formatted: `@@ line 1 @@
+  Before 1
+  Before 2
+- One thing
++ Something else
+  After 1`
+    },
+    {
+      input: {
+        removed: 'One line.',
+        added: null
+      },
+      result: {
+        textBefore: '',
+        removed: 'One line.',
+        added: null,
+        textAfter: ''
+      },
+      formatted: `@@ line 1 @@
+  Before 1
+  Before 2
+- One line.
+  After 1`
     }
   ];
   diffTestCases.forEach(function testcase (data, i) {
@@ -175,10 +205,17 @@ function testDiff () {
       data.input.removed,
       `diff ${i} reconstruct removed`
     );
+    if (data.input.added !== null) {
+      assert.strictEqual(
+        result.textBefore + result.added + result.textAfter,
+        data.input.added,
+        `diff ${i} reconstruct added`
+      );
+    }
     assert.strictEqual(
-      result.textBefore + result.added + result.textAfter,
-      data.input.added,
-      `diff {$i} reconstruct added`
+      colors.strip(diff.formatDiff(result, 1, 'Before 1\nBefore 2', 'After 1')),
+      data.formatted,
+      `diff ${i} formatted`
     );
   });
   process.stdout.write('\n');

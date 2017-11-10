@@ -1,6 +1,11 @@
+var colors = require('colors/safe');
+
 function simpleDiff (removedLine, addedLine) {
   if (removedLine === addedLine) {
     return { textBefore: removedLine, removed: '', added: '', textAfter: '' };
+  }
+  if (addedLine === null) {
+    return { textBefore: '', removed: removedLine, added: null, textAfter: '' };
   }
   var start = 0;
   while (start < removedLine.length && removedLine[start] === addedLine[start]) {
@@ -25,4 +30,16 @@ function simpleDiff (removedLine, addedLine) {
   };
 }
 
-module.exports = { simpleDiff };
+function formatDiff (diff, contextStart, linesBefore, linesAfter) {
+  return colors.cyan('@@ line ' + contextStart + ' @@') + '\n' +
+    // Prefix lines before with two spaces in order to align with "+ "
+    (linesBefore ? colors.grey(linesBefore.replace(/^/gm, '  ')) + '\n' : '') +
+    colors.red('- ' + diff.textBefore) + colors.bold.bgRed(diff.removed) + colors.red(diff.textAfter) + '\n' +
+    (diff.added !== null
+      ? (colors.green('+ ' + diff.textBefore) + colors.bold.bgGreen(diff.added) + colors.green(diff.textAfter) + '\n')
+      : ''
+    ) +
+    colors.grey(linesAfter.replace(/^/gm, '  '));
+}
+
+module.exports = { simpleDiff, formatDiff };
