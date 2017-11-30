@@ -8,6 +8,7 @@ async function main () {
       require('./diff'),
       require('./content'),
       require('./replace'),
+      require('./patterns'),
       require('./fixer')
     ]) {
       if (typeof fns === 'function') {
