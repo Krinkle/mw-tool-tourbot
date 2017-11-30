@@ -147,8 +147,14 @@ module.exports = [
     summary: 'bits.wikimedia.org'
   },
   {
-    regex: /\/?w?\/skins-1\.5\/common\/edit\.js/,
-    replacement: '/w/skins/common/edit.js',
+    // Popular typo "commons/wikibits.js" on various French-language wikis.
+    regex: /\/?w?\/skins-1\.5\/commons\/(wikibits\.js|edit\.js)/,
+    replacement: '/w/skins/common/$1',
+    summary: 'skins-1.5 is deprecated'
+  },
+  {
+    regex: /\/?w?\/skins-1\.5\/(common|monobook)\/(wikibits\.js|edit\.js|main\.css)/,
+    replacement: '/w/skins/$1/$2',
     summary: 'skins-1.5 is deprecated'
   },
   {

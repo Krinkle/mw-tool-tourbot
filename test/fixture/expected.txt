@@ -116,7 +116,9 @@ var x = "https://en.wikipedia.org/w/skins/MonoBook/headbg.jpg";
 url(/w/skins/MonoBook/headbg.jpg);
 url("/w/skins/MonoBook/headbg.jpg");
 
-// This /w/skins/common/edit.js and /w/skins/common/edit.js.
+// This /w/skins/common/edit.js
+// and /w/skins/common/wikibits.js
+// and /w/skins/MonoBook/main.css.
 function popupTableau() {
  var popup = window.open('','name','height=200,width=250');
  popup.document.write('<html><head><title>Example</title>');
