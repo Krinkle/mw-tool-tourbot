@@ -80,6 +80,10 @@ importStylesheetURI("http://test.wikipedia.org/w/index.php?title=Example&action=
 
 importStylesheetURI('//commons.wikimedia.org/w/index.php?action=raw&ctype=text/css&title=MediaWiki:Gadget-Cat-a-lot.css');
 
+/* css:
+@import url('//en.wikipedia.org/w/index.php?title=MediaWiki:Gadget-navpop.css&action=raw&ctype=text/css&smaxage=21600&maxage=86400');
+*/
+
 /**
  * Toolserver url
  */

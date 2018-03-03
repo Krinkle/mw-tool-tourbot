@@ -80,6 +80,10 @@ mw.loader.load("http://test.wikipedia.org/w/index.php?title=Example&action=raw&c
 
 mw.loader.load('//commons.wikimedia.org/w/index.php?title=MediaWiki:Gadget-Cat-a-lot.css&action=raw&ctype=text/css', 'text/css');
 
+/* css:
+@import url('https://en.wikipedia.org/w/index.php?title=MediaWiki:Gadget-navpop.css&action=raw&ctype=text/css');
+*/
+
 /**
  * Toolserver url
  */

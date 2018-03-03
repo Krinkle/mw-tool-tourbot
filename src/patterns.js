@@ -198,6 +198,11 @@ module.exports = [
     regex: /[?&]s?maxage=\d*/,
     replacement: ''
   },
+  // Clean-up (not worth an edit of itself)
+  {
+    regex: /(@import\s+url\(['"])\/\/([a-z.]+\.org)/,
+    replacement: '$1https://$2'
+  },
   {
     regex: /[?&]dontcountme=s/,
     replacement: ''
