@@ -82,6 +82,8 @@ importStylesheetURI('//commons.wikimedia.org/w/index.php?action=raw&ctype=text/c
 
 /* css:
 @import url('//en.wikipedia.org/w/index.php?title=MediaWiki:Gadget-navpop.css&action=raw&ctype=text/css&smaxage=21600&maxage=86400');
+
+@import url('//en.wikipedia.org/w/index.php?title=MediaWiki:Gadget-navpop.css&action=raw&ctype=text/css&bcache=1&smaxage=21600&maxage=86400');
 */
 
 /**

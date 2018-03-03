@@ -208,6 +208,10 @@ module.exports = [
     replacement: ''
   },
   {
+    regex: /[?&]bcache=\d+/,
+    replacement: ''
+  },
+  {
     // Strip old wgStyleVersion.
     // No longer needed with wmfstatic cache-control
     regex: /(\/(skins|extensions|resources)\/[^?]+)\?30\d-\d\d?\b/,

@@ -82,6 +82,8 @@ mw.loader.load('//commons.wikimedia.org/w/index.php?title=MediaWiki:Gadget-Cat-a
 
 /* css:
 @import url('https://en.wikipedia.org/w/index.php?title=MediaWiki:Gadget-navpop.css&action=raw&ctype=text/css');
+
+@import url('https://en.wikipedia.org/w/index.php?title=MediaWiki:Gadget-navpop.css&action=raw&ctype=text/css');
 */
 
 /**
