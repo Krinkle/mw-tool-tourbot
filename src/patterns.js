@@ -193,10 +193,10 @@ module.exports = [
     regex: /attr\(\s*['"](checked|selected|disabled|readonly|required|hidden)['"], (true|['"](checked|selected|disabled|readonly|required|hidden)['"])/,
     replacement: 'prop(\'$1\', true'
   },
-  // Clean-up (not worth an edit of itself)
   {
     regex: /[?&]s?maxage=\d*/,
-    replacement: ''
+    replacement: '',
+    summary: 'Remove unused "maxage" to improve cache performance'
   },
   // Clean-up (not worth an edit of itself)
   {
