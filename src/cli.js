@@ -359,7 +359,7 @@ async function handleSubject (subject, authObj) {
   }
 
   await Content.checkSubject(subject, newContent);
-  var summary = 'Maintenance: [[mw:RL/MGU]] / [[mw:RL/JD]] - ' + summaries.join(', ');
+  var summary = 'Maintenance: [[mw:RL/MGU]] - ' + summaries.join(', ');
   printSaving(subject, summary);
   // Save edit
   await new Promise(function (resolve, reject) {
