@@ -22,6 +22,7 @@ var argv = minimist(process.argv.slice(2), {
 });
 var bots = Object.create(null);
 var dMap = null;
+var getPageCache = { title: null, promise: null };
 
 function parseResults (results) {
   var lines = results.trim().split('\n');
@@ -42,7 +43,7 @@ function parseResults (results) {
 
 function enhanceMwClient (client) {
   // Added method
-  client.getPage = function (title, callback) {
+  client.getPage = function (title) {
     var params = {
       action: 'query',
       prop: 'revisions',
@@ -50,26 +51,28 @@ function enhanceMwClient (client) {
       titles: title,
       formatversion: '2'
     };
-    this.api.call(params, function (err, data) {
-      if (err) {
-        callback(err);
-        return;
-      }
-      var page = data.pages[0];
-      if (page.missing) {
-        callback(new SkipFileError('Page [[' + title + ']] is missing'));
-        return;
-      }
-      var revision = page.revisions && page.revisions[0];
-      var resp = {
-        title: page.title,
-        revision: {
-          timestamp: revision.timestamp,
-          content: revision.content
+    return new Promise((resolve, reject) => {
+      this.api.call(params, function (err, data) {
+        if (err) {
+          reject(err);
+          return;
         }
-      };
+        var page = data.pages[0];
+        if (page.missing) {
+          reject(new SkipFileError('Page [[' + title + ']] is missing'));
+          return;
+        }
+        var revision = page.revisions && page.revisions[0];
+        var resp = {
+          title: page.title,
+          revision: {
+            timestamp: revision.timestamp,
+            content: revision.content
+          }
+        };
 
-      callback(null, resp);
+        resolve(resp);
+      });
     });
   };
   // Replaced method (must be backward-compatible)
@@ -314,8 +317,19 @@ async function checkAll (options, subject, content) {
   }
 }
 
-async function handleSubject (subject, authObj) {
-  var map = await getWikiMap();
+async function prefetchSubject (authObj, map, subject) {
+  var wiki = map[subject.wikiId];
+  if (!wiki) {
+    return;
+  }
+  var client = await getBotClient(wiki.server, authObj);
+  // Start pending promise and put into cache
+  getPageCache.title = subject.pageName;
+  getPageCache.server = wiki.server;
+  getPageCache.promise = client.getPage(subject.pageName);
+}
+
+async function handleSubject (authObj, map, subject, preloadNext) {
   var wiki = map[subject.wikiId];
   if (!wiki) {
     printHeading(subject.pageName, subject.wikiId);
@@ -329,12 +343,16 @@ async function handleSubject (subject, authObj) {
     throw new SkipFileError('False positive');
   }
   var client = await getBotClient(wiki.server, authObj);
-  var page = await new Promise(function (resolve, reject) {
-    client.getPage(subject.pageName, function (err, data) {
-      err ? reject(err) : resolve(data); // promisify
-    });
-  });
+  var page;
+  if (getPageCache.server === wiki.server && getPageCache.title === subject.pageName) {
+    page = await getPageCache.promise;
+  } else {
+    page = await client.getPage(subject.pageName);
+  }
   var siteinfo = await client.siteinfo();
+  // At this point, we've got everything for the current subject,
+  // let's start preloading the next!
+  preloadNext();
   var result;
   try {
     result = await handleContent(subject, page.revision.content, siteinfo);
@@ -370,13 +388,24 @@ async function handleSubject (subject, authObj) {
 }
 
 async function start (authDir) {
+  var parsedResults;
+  var i;
+  function preloadNext () {
+    let nextSubject = parsedResults[i + 1];
+    if (nextSubject) {
+      prefetchSubject(authObj, map, nextSubject);
+    }
+  }
   try {
     var authObj = await auth.getAuth(authDir);
     console.log(colors.cyan('Reading %s'), path.resolve(argv.file));
     var results = fs.readFileSync(argv.file).toString();
-    for (let subject of parseResults(results)) {
+    var map = await getWikiMap();
+    parsedResults = parseResults(results);
+    for (i = 0; i < parsedResults.length; i++) {
+      let subject = parsedResults[i];
       try {
-        await handleSubject(subject, authObj);
+        await handleSubject(authObj, map, subject, preloadNext);
       } catch (err) {
         failPage(err);
       }
