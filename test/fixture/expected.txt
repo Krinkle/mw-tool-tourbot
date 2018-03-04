@@ -71,6 +71,13 @@ Object.keys(mw.user.options.get())
 			.filter()
 
 /**
+ * mediawiki.user, mediawiki.util
+ */
+
+mw.util.addPortletLink( 'p-tb', mw.util.getUrl( 'Special:PrefixIndex' ), 'Unterseiten', 't-subpages' );
+log('<strong>Welcome, ' + mw.user.getName(), mw.user.isAnon());
+
+/**
  * importScriptURI, importStylesheetURI, maxage, normalise action=raw
  */
 

@@ -242,5 +242,17 @@ module.exports = [
     // These urls were already broken by vector>Vector, but let's be nice.
     regex: /\/w\/skins\/monobook\//,
     replacement: '/w/skins/MonoBook/'
+  },
+  // Fixes for mw.user methods that were both deprecated and
+  // removed long before we started fixing them. Given scripts
+  // with these in them are likely broken, they should not get
+  // their own edit.
+  {
+    regex: /mw\.user\.name\s*\(/,
+    replacement: 'mw.user.getName('
+  },
+  {
+    regex: /mw\.user\.anonymous\s*\(/,
+    replacement: 'mw.user.isAnon('
   }
 ];
