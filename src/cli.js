@@ -130,16 +130,6 @@ function enhanceMwClient (client) {
   };
 }
 
-function getSimpleClient (server) {
-  return new MwClient({
-    protocol: 'https',
-    server: server,
-    path: '/w',
-    concurrency: 2,
-    debug: !!argv.verbose
-  });
-}
-
 function getBotClient (server, authObj) {
   if (!bots[server]) {
     bots[server] = new Promise(function (resolve, reject) {
@@ -168,45 +158,48 @@ function getBotClient (server, authObj) {
 /**
  * @return {Promise} Map object
  */
-function getWikiMap () {
+function getWikiMap (authObj) {
   if (dMap) {
     return dMap;
   }
-  dMap = new Promise(function (resolve, reject) {
-    var client = getSimpleClient('meta.wikimedia.org');
-    client.api.call({
-      action: 'sitematrix',
-      smlangprop: 'site',
-      smsiteprop: 'url|dbname'
-    }, function (err, sitematrix) {
-      var map, key, group, i, wiki;
-      if (err) {
-        reject(err);
-        return;
-      }
-      map = Object.create(null);
-      for (key in sitematrix) {
-        if (key === 'count') {
-          continue;
+  dMap = (async function () {
+    var client = await getBotClient('meta.wikimedia.org', authObj);
+
+    return new Promise((resolve, reject) => {
+      client.api.call({
+        action: 'sitematrix',
+        smlangprop: 'site',
+        smsiteprop: 'url|dbname'
+      }, function (err, sitematrix) {
+        var map, key, group, i, wiki;
+        if (err) {
+          reject(err);
+          return;
         }
-        group = key === 'specials' ? sitematrix[key] : sitematrix[key].site;
-        if (group && group.length) {
-          for (i = 0; i < group.length; i++) {
-            if (group[i].private === undefined &&
-              group[i].closed === undefined &&
-              group[i].nonglobal === undefined &&
-              group[i].fishbowl === undefined
-            ) {
-              wiki = group[i];
-              wiki.server = url.parse(wiki.url).host;
-              map[wiki.dbname] = wiki;
+        map = Object.create(null);
+        for (key in sitematrix) {
+          if (key === 'count') {
+            continue;
+          }
+          group = key === 'specials' ? sitematrix[key] : sitematrix[key].site;
+          if (group && group.length) {
+            for (i = 0; i < group.length; i++) {
+              if (group[i].private === undefined &&
+                group[i].closed === undefined &&
+                group[i].nonglobal === undefined &&
+                group[i].fishbowl === undefined
+              ) {
+                wiki = group[i];
+                wiki.server = url.parse(wiki.url).host;
+                map[wiki.dbname] = wiki;
+              }
             }
           }
         }
-      }
-      resolve(map);
+        resolve(map);
+      });
     });
-  });
+  }());
   return dMap;
 }
 
@@ -393,6 +386,7 @@ async function start (authDir) {
   function preloadNext () {
     let nextSubject = parsedResults[i + 1];
     if (nextSubject) {
+      // Ignore async stack
       prefetchSubject(authObj, map, nextSubject);
     }
   }
@@ -400,7 +394,7 @@ async function start (authDir) {
     var authObj = await auth.getAuth(authDir);
     console.log(colors.cyan('Reading %s'), path.resolve(argv.file));
     var results = fs.readFileSync(argv.file).toString();
-    var map = await getWikiMap();
+    var map = await getWikiMap(authObj);
     parsedResults = parseResults(results);
     for (i = 0; i < parsedResults.length; i++) {
       let subject = parsedResults[i];
