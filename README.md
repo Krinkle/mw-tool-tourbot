@@ -22,18 +22,17 @@ Pass parameters like `tourbot --file path/to/results.txt`.
 
 ### Options
 
-* `--file results.txt` - File containing pairs of (wiki dbname, page name) in mwgrep output format.
-* `--all` - Iterate over all page names, even if no tourbot patterns match on this page. Set this
-  to use tourbot as a convenient way to create urls for each result and open them in a web browser.
-* `--contains` - Limit the `all` iteration to pages that currently contain a particular phrase.
-  This is especially useful when multiple people are working on the same list.
-* `--matches` - Like `contains`, but interpreted as a regular expression.
-* `--help` - Show the help page.
-
-[Public results](https://gist.github.com/Krinkle/a18e726fc3af30f30bf9b2ba919820b5).
-
+* `--file FILE`: File that contains a list of pages to process. Default: results.txt
+* `--contains TEXT`: Limit the `all` iteration to pages that currently contain the given text.
+* `--match TEXT`: Similar to the `contains` parmaeter, but interpreted as a regular expression.
+* `--all: `Enable interactive mode for all page names, even without matches.
+* `--help`: Show the help page.
 
 ### Example
+
+The input file must contain pairs of (wiki dbname, page name) in the same format as used by `mwgrep`.
+
+[Public results](https://gist.github.com/Krinkle/a18e726fc3af30f30bf9b2ba919820b5).
 
 ```
 curl -O -L 'https://gist.githubusercontent.com/Krinkle/a18e726fc3af30f30bf9b2ba919820b5/raw/b32b7c3fd646f0ef3f1ba865f1c342d23195c5f5/mwgrep.mwCustomEditButtons.txt -a -c 'mwCustomEditButtons'

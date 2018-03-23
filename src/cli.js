@@ -18,7 +18,7 @@ var argv = minimist(process.argv.slice(2), {
   string: ['file', 'contains', 'match'],
   boolean: ['all', 'verbose', 'help'],
   default: { file: 'results.txt', all: false, verbose: false, help: false },
-  alias: { f: 'file', a: 'all', v: 'verbose', c: 'contains', m: 'match', h: 'help' }
+  alias: { f: 'file', c: 'contains', m: 'match', a: 'all', v: 'verbose', h: 'help' }
 });
 var bots = Object.create(null);
 var dMap = null;
@@ -418,12 +418,12 @@ async function start (authDir) {
 module.exports = function cli (authDir) {
   if (argv.help) {
     console.log('Help for Tourbot v' + require('../package.json').version);
-    console.log('  -f, --file\t\tString, file containing list of pages to process. Default: results.txt');
-    console.log('  -a, --all\t\tBoolean, iterate over all page names even without matches. Default: false');
-    console.log('  -c, --contains\tString, Limit the `all` iteration to pages that currently contain a particular phrase.');
-    console.log('  -m, --match\t\tString, Like `contains`, but interpreted as a regular expression.');
-    console.log('  -v, --verbose\t\tBoolean, enable debug logging. Default: false');
-    console.log('  -h, --help\t\tBoolean, shows this help page. Default: false');
+    console.log('  -f, --file FILE      File that contains a list of pages to process. Default: results.txt');
+    console.log('  -c, --contains TEXT  Limit the `all` iteration to pages that currently contain the given text.');
+    console.log('  -m, --match TEXT     Similar to the `contains` parmaeter, but interpreted as a regular expression.');
+    console.log('  -a, --all            Enable interactive mode for all page names, even without matches. Default: no');
+    console.log('  -v, --verbose        Enable debug logging. Default: yes');
+    console.log('  -h, --help           Show this help page. Default: no');
   } else {
     start(authDir);
   }
