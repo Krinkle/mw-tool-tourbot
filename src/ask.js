@@ -15,10 +15,17 @@ var abbrev = require('./abbrev');
  *     });
  *
  * @param {string} question
+ * @param {Object} [config] For read()'s opt parameter.
+ * @param {number} [config.timeout] Abort with an error after this much time.
  * @param {Object} handlers Callback functions by choice keys (must be lowercase)
  * @return {Promise}
  */
-function options (question, handlers) {
+function options (question, config, handlers) {
+  // The 'config' parameter is optional.
+  if (!handlers) {
+    handlers = config;
+    config = {};
+  }
   var keys = Object.keys(handlers);
   var mapping = abbrev(keys);
   var shorts = abbrev(keys, { shortest: true });
@@ -28,9 +35,10 @@ function options (question, handlers) {
   }
   var legend = keys.map(key => answers[key]);
   var text = question + ' (' + legend.join('/') + ') ';
+  config.prompt = text;
   return new Promise(function (resolve, reject) {
     function prompt () {
-      read({ prompt: text }, function (err, answer) {
+      read(config, function (err, answer) {
         if (err) {
           reject(err);
           return;

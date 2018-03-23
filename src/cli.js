@@ -8,6 +8,7 @@ var opener = require('opener');
 
 var auth = require('./auth');
 var ask = require('./ask');
+var DecisionStore = require('./store').DecisionStore;
 var Content = require('./content');
 var Diff = require('./diff');
 var Fixer = require('./fixer');
@@ -16,13 +17,14 @@ var { SkipFileError, AbortError } = require('./error');
 var patterns = require('./patterns');
 var argv = minimist(process.argv.slice(2), {
   string: ['file', 'contains', 'match'],
-  boolean: ['all', 'verbose', 'help'],
-  default: { file: 'results.txt', all: false, verbose: false, help: false },
-  alias: { f: 'file', c: 'contains', m: 'match', a: 'all', v: 'verbose', h: 'help' }
+  boolean: ['all', 'auto', 'verbose', 'help'],
+  default: { file: 'results.txt', all: false, auto: false, xt: 3, verbose: false, help: false },
+  alias: { f: 'file', c: 'contains', m: 'match', a: 'all', x: 'auto', v: 'verbose', h: 'help' }
 });
 var bots = Object.create(null);
 var dMap = null;
 var getPageCache = { title: null, promise: null };
+var decisionCache;
 
 function parseResults (results) {
   var lines = results.trim().split('\n');
@@ -248,20 +250,45 @@ function printApplyHelp () {
 async function handleContent (subject, content, siteinfo) {
   var shown = false;
 
-  function proposeChange (lines, i, line, replacement) {
+  async function proposeChange (lines, i, line, replacement) {
     var contextSize = 5;
     var contextStart = Math.max(0, i - 5);
     var linesBefore = lines.slice(contextStart, i).join('\n');
     var linesAfter = lines.slice(i + 1, i + contextSize).join('\n');
     var diff = Diff.simpleDiff(line, replacement);
     console.log(Diff.formatDiff(diff, contextStart, linesBefore, linesAfter));
+    // Save yes/no decisions in a cache for convenient re-use.
+    // The significant serialisation of the change is similar to diffStr,
+    // but *including* linesBefore+After, and *without* line numbers.
+    var decideCacheKey = JSON.stringify([
+      [linesBefore, linesAfter],
+      [diff.textBefore, diff.removed, diff.added, diff.textAfter]
+    ]);
+    var decision = decisionCache.get(decideCacheKey);
+    var decisionName = (decision !== undefined ? (decision ? 'Yes' : 'No') : null);
     function askApply () {
+      var readTimeout;
       shown = true;
+      if (decisionName) {
+        // We've previously made a yes/no decision on a similar diff.
+        // Assume the same response after a (configurable) timeout.
+        // Round 0 to 1ms because read() interprets 0 as false.
+        readTimeout = Math.max(argv.xt * 1000, 1);
+        console.log('You previously decided for a similar diff: ' +
+          colors.bold(decisionName) + '. ' +
+          'Will assume ' + colors.bold(decisionName) + ' in ' +
+          Math.round(argv.xt) + ' seconds...'
+        );
+      }
       return ask.options('Apply change?', {
+        timeout: readTimeout
+      }, {
         yes: function (cb) {
+          decisionCache.set(decideCacheKey, true);
           cb(null, true);
         },
         no: function (cb) {
+          decisionCache.set(decideCacheKey, false);
           cb();
         },
         edit: function (cb) {
@@ -285,7 +312,17 @@ async function handleContent (subject, content, siteinfo) {
         }
       });
     }
-    return askApply();
+    try {
+      return await askApply();
+    } catch (err) {
+      // Sanity check auto mode and decision
+      if (argv.auto && decision !== undefined && err && err.message === 'timed out') {
+        console.log(decisionName + ' [assumed from cache]');
+        return decision === true;
+      } else {
+        throw err;
+      }
+    }
   }
 
   await Content.checkSubject(subject, content);
@@ -297,10 +334,10 @@ async function handleContent (subject, content, siteinfo) {
   };
 }
 
-async function checkAll (options, subject, content) {
-  if (options.all &&
-    (!options.contains || content.indexOf(argv.contains) !== -1) &&
-    (!options.match || new RegExp(options.match).test(content)) &&
+async function checkAll (subject, content) {
+  if (argv.all &&
+    (!argv.contains || content.indexOf(argv.contains) !== -1) &&
+    (!argv.match || new RegExp(argv.match).test(content)) &&
     !subject.opened
   ) {
     let answer = await ask.confirm('Open in browser?');
@@ -351,12 +388,12 @@ async function handleSubject (authObj, map, subject, preloadNext) {
     result = await handleContent(subject, page.revision.content, siteinfo);
   } catch (err) {
     // Before discarding, offer to "open" if needed
-    await checkAll(argv, subject, page.revision.content);
+    await checkAll(subject, page.revision.content);
     throw err;
   }
 
   // Before saving, offer to "open" if needed
-  await checkAll(argv, subject, page.revision.content);
+  await checkAll(subject, page.revision.content);
 
   var newContent = result.content;
   var summaries = result.summaries;
@@ -381,6 +418,7 @@ async function handleSubject (authObj, map, subject, preloadNext) {
 }
 
 async function start (authDir) {
+  decisionCache = new DecisionStore({ enabled: argv.auto });
   var parsedResults;
   var i;
   function preloadNext () {
@@ -422,9 +460,17 @@ module.exports = function cli (authDir) {
     console.log('  -c, --contains TEXT  Limit the `all` iteration to pages that currently contain the given text.');
     console.log('  -m, --match TEXT     Similar to the `contains` parmaeter, but interpreted as a regular expression.');
     console.log('  -a, --all            Enable interactive mode for all page names, even without matches. Default: no');
+    console.log('  -x, --auto           Enable remembering of decisions and re-apply them automatically to similar diffs. Default: no');
+    console.log('  -xt NUM              Change the timeout used by --auto mode (in seconds). Default: 3');
     console.log('  -v, --verbose        Enable debug logging. Default: yes');
     console.log('  -h, --help           Show this help page. Default: no');
-  } else {
-    start(authDir);
+    return;
   }
+  if (typeof argv.xt !== 'number' || !isFinite(argv.xt) || argv.xt < 0) {
+    // Rejects: non-numbers, NaN, (-)Infinity, and negative numbers.
+    // Accepts: 0 and any finite positive number.
+    console.error('Invalid parameter for --xt. Must be a non-negative number.');
+    process.exit(1);
+  }
+  start(authDir);
 };
