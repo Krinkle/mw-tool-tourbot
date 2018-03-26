@@ -46,7 +46,10 @@ async function checkScript (content, options) {
  * @param {string} subject.pageName
  * @param {string} content
  * @param {Object} [options]
- * @param {boolean} [options.quiet=false]
+ * @param {boolean} [options.quiet=false] In quiet mode, a script error will
+ * automatically result in an exception that skips the file. By default, a
+ * script error results in an interactive prompt asking the user to decide
+ * whether to skip the file, or to override the error and process anyway.
  */
 async function checkSubject (subject, content, options = {}) {
   if (subject.pageName.slice(-4) === '.css') {

@@ -18,8 +18,25 @@ var patterns = require('./patterns');
 var argv = minimist(process.argv.slice(2), {
   string: ['file', 'contains', 'match'],
   boolean: ['all', 'auto', 'verbose', 'help'],
-  default: { file: 'results.txt', all: false, auto: false, xt: 3, verbose: false, help: false },
-  alias: { f: 'file', c: 'contains', m: 'match', a: 'all', x: 'auto', v: 'verbose', h: 'help' }
+  default: {
+    file: 'results.txt',
+    contains: null,
+    match: null,
+    all: false,
+    auto: false,
+    xt: 3,
+    verbose: false,
+    help: false
+  },
+  alias: {
+    f: 'file',
+    c: 'contains',
+    m: 'match',
+    a: 'all',
+    x: 'auto',
+    v: 'verbose',
+    h: 'help'
+  }
 });
 var bots = Object.create(null);
 var dMap = null;
@@ -459,11 +476,11 @@ module.exports = function cli (authDir) {
     console.log('  -f, --file FILE      File that contains a list of pages to process. Default: results.txt');
     console.log('  -c, --contains TEXT  Limit the `all` iteration to pages that currently contain the given text.');
     console.log('  -m, --match TEXT     Similar to the `contains` parmaeter, but interpreted as a regular expression.');
-    console.log('  -a, --all            Enable interactive mode for all page names, even without matches. Default: no');
-    console.log('  -x, --auto           Enable remembering of decisions and re-apply them automatically to similar diffs. Default: no');
+    console.log('  -a, --all            Enable interactive mode for all page names, even without matches. Default: off');
+    console.log('  -x, --auto           Enable remembering of decisions and re-apply them automatically to similar diffs. Default: off');
     console.log('  -xt NUM              Change the timeout used by --auto mode (in seconds). Default: 3');
-    console.log('  -v, --verbose        Enable debug logging. Default: yes');
-    console.log('  -h, --help           Show this help page. Default: no');
+    console.log('  -v, --verbose        Enable debug logging. Default: off');
+    console.log('  -h, --help           Show this help page, instead of running the tourbot.');
     return;
   }
   if (typeof argv.xt !== 'number' || !isFinite(argv.xt) || argv.xt < 0) {
