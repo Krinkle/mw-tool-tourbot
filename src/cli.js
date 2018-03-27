@@ -478,9 +478,9 @@ module.exports = function cli (authDir) {
   if (argv.help) {
     console.log('Help for Tourbot v' + require('../package.json').version);
     console.log('  -f, --file FILE      File that contains a list of pages to process. Default: results.txt');
-    console.log('  -c, --contains TEXT  Limit the `all` iteration to pages that currently contain the given text.');
-    console.log('  -m, --match TEXT     Similar to the `contains` parmaeter, but interpreted as a regular expression.');
     console.log('  -a, --all            Enable interactive mode for all page names, even without matches. Default: off');
+    console.log('  -c, --contains TEXT  Limit the `all` iteration to pages that currently contain the given text.');
+    console.log('  -m, --match TEXT     Similar to the `contains` parameter, but interpreted as a regular expression.');
     console.log('  -x, --auto           Enable remembering of decisions and re-apply them automatically to similar diffs. Default: off');
     console.log('  -xt NUM              Change the timeout used by --auto mode (in seconds). Default: 3');
     console.log('  -v, --verbose        Enable debug logging. Default: off');

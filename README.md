@@ -19,14 +19,15 @@ npm install -g mw-tool-tourbot
 To start the interactive process, run the `tourbot` program.
 Pass parameters like `tourbot --file path/to/results.txt`.
 
-
 ### Options
 
 * `--file FILE`: File that contains a list of pages to process. Default: results.txt
-* `--contains TEXT`: Limit the `all` iteration to pages that currently contain the given text.
-* `--match TEXT`: Similar to the `contains` parmaeter, but interpreted as a regular expression.
 * `--all: `Enable interactive mode for all page names, even without matches.
-* `--help`: Show the help page.
+* `--contains TEXT`: Limit the `all` iteration to pages that currently contain the given text.
+* `--match TEXT`: Similar to the `contains` parameter, but interpreted as a regular expression.
+* `--auto`: Enable remembering of decisions and re-apply them automatically to similar diffs. Default: off.
+* `--quick-skip`: Skip files with script errors without an interactive prompt. Default: off.
+* `--help`: Show the help page, instead of running the tourbot.
 
 ### Example
 
@@ -35,16 +36,14 @@ The input file must contain pairs of (wiki dbname, page name) in the same format
 [Public results](https://gist.github.com/Krinkle/a18e726fc3af30f30bf9b2ba919820b5).
 
 ```
-curl -O -L 'https://gist.githubusercontent.com/Krinkle/a18e726fc3af30f30bf9b2ba919820b5/raw/b32b7c3fd646f0ef3f1ba865f1c342d23195c5f5/mwgrep.mwCustomEditButtons.txt -a -c 'mwCustomEditButtons'
+$ curl -O -L 'https://gist.githubusercontent.com/Krinkle/a18e726fc3af30f30bf9b2ba919820b5/raw/b32b7c3fd646f0ef3f1ba865f1c342d23195c5f5/mwgrep.mwCustomEditButtons.txt -a -c 'mwCustomEditButtons'
+
+$ tourbot -f mwgrep.mwCustomEditButtons.txt
 
  Reading /Users/krinkle/Downloads/mwgrep.mwCustomEditButtons.txt
 
- MediaWiki:Editpage.js (ab.wikipedia.org)
-
- Open in browser? (yes/no) y
- Opening https://ab.wikipedia.org/wiki/MediaWiki:Editpage.js...
+ [..]
 ```
-
 
 ### Development
 
