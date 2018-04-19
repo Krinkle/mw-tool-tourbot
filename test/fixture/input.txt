@@ -175,6 +175,14 @@ xhr.open('POST', wgServer + wgScriptPath + '/api' + wgScriptExtension + '?format
 xhr.open('/api' + wgScriptExtension + "?format=xml&action=");
 xhr.open("/api" + wgScriptExtension + "?format=xml&action=");
 
+this.url = wgScriptPath + "/api" + wgScriptExtension
+this.url = wgScriptPath + "/api" + wgScriptExtension;
+set({
+ api_uri: window.location.protocol + wgServer + wgScriptPath + "/api" + wgScriptExtension,
+ api_uri: window.location.protocol + wgServer + wgScriptPath + '/api' + wgScriptExtension,
+ x: 1
+});
+
 /**
  * jQuery
  */

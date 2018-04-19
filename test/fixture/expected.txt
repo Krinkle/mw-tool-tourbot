@@ -170,6 +170,14 @@ xhr.open('POST', wgServer + wgScriptPath + '/api.php?format=xml&action=' + actio
 xhr.open('/api' + '.php' + "?format=xml&action=");
 xhr.open("/api.php?format=xml&action=");
 
+this.url = wgScriptPath + "/api.php"
+this.url = wgScriptPath + "/api.php";
+set({
+ api_uri: window.location.protocol + wgServer + wgScriptPath + "/api.php",
+ api_uri: window.location.protocol + wgServer + wgScriptPath + '/api.php',
+ x: 1
+});
+
 /**
  * jQuery
  */

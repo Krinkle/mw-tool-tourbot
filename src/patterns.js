@@ -85,16 +85,25 @@ module.exports = [
     summary: 'Use wgIsMainPage'
   },
   {
+    // Embed between single-quoted strings
     regex: /'(\s*\+\s*)wgScriptExtension(\s*\+\s*)'/,
     replacement: '.php',
     summary: 'wgScriptExtension is deprecated'
   },
   {
+    // Embed between double-quoted strings
     regex: /"(\s*\+\s*)wgScriptExtension(\s*\+\s*)"/,
     replacement: '.php',
     summary: 'wgScriptExtension is deprecated'
   },
   {
+    // Embed after any string as last part of a statement
+    regex: /(["'])(\s*\+\s*)wgScriptExtension(\s*[;,]|$)/,
+    replacement: '.php$1$3',
+    summary: 'wgScriptExtension is deprecated'
+  },
+  {
+    // Fallback
     regex: /(['"=+]\s+)wgScriptExtension(\s+)/,
     replacement: '$1\'.php\'$2',
     summary: 'wgScriptExtension is deprecated'
