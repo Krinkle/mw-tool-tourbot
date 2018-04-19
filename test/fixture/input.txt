@@ -156,7 +156,6 @@ mw.config.get('wgPageName').charAt(0).toUpperCase();
 addPortletLink('p-cactions',wgServer + wgScript + '?title=' + encodeURIComponent(wgPageName) + '&uselang=en', 'en');
 addPortletLink('p-cactions', wgServer + wgScript + '?title=' + encodeURIComponent(wgPageName) + '&action=purge', 'purge', 'ca-purge', 'Purge the internal cache for this page'); });
 
-
 /**
  * wgIsMainPage
  */
@@ -169,6 +168,16 @@ if(wgTitle == 'Main Page' && wgNamespaceNumber == 0) {
 if (mw.config.get('wgPageName') == 'Main_Page' || mw.config.get('wgPageName') == 'Tartışma:Ana_Sayfa') {
 }
 
+/**
+ * wgScriptPaath
+ */
+xhr.open('POST', wgServer + wgScriptPath + '/api' + wgScriptExtension + '?format=xml&action=' + action, true);
+xhr.open('/api' + wgScriptExtension + "?format=xml&action=");
+xhr.open("/api" + wgScriptExtension + "?format=xml&action=");
+
+/**
+ * jQuery
+ */
 .size()
 
 obj.removeAttr('disabled');

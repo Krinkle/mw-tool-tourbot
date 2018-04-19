@@ -85,6 +85,21 @@ module.exports = [
     summary: 'Use wgIsMainPage'
   },
   {
+    regex: /'(\s*\+\s*)wgScriptExtension(\s*\+\s*)'/,
+    replacement: '.php',
+    summary: 'wgScriptExtension is deprecated'
+  },
+  {
+    regex: /"(\s*\+\s*)wgScriptExtension(\s*\+\s*)"/,
+    replacement: '.php',
+    summary: 'wgScriptExtension is deprecated'
+  },
+  {
+    regex: /(['"=+]\s+)wgScriptExtension(\s+)/,
+    replacement: '$1\'.php\'$2',
+    summary: 'wgScriptExtension is deprecated'
+  },
+  {
     regex: /(https?:)?\/\/toolserver\.org\/~kolossos\/openlayers\/kml-on-ol\.php/,
     replacement: 'https://tools.wmflabs.org/wiwosm/osm-on-ol/kml-on-ol.php',
     summary: 'Update old toolserver url'

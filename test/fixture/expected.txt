@@ -151,7 +151,6 @@ mw.config.get('wgPageName')[0].toUpperCase();
 addPortletLink('p-cactions', mw.util.getUrl(null, { uselang: 'en' }), 'en');
 addPortletLink('p-cactions', mw.util.getUrl(null, { action: 'purge' }), 'purge', 'ca-purge', 'Purge the internal cache for this page'); });
 
-
 /**
  * wgIsMainPage
  */
@@ -164,6 +163,16 @@ if(mw.config.get('wgIsMainPage')) {
 if (mw.config.get('wgIsMainPage') || mw.config.get('wgPageName') == 'Tartışma:Ana_Sayfa') {
 }
 
+/**
+ * wgScriptPaath
+ */
+xhr.open('POST', wgServer + wgScriptPath + '/api.php?format=xml&action=' + action, true);
+xhr.open('/api' + '.php' + "?format=xml&action=");
+xhr.open("/api.php?format=xml&action=");
+
+/**
+ * jQuery
+ */
 .length
 
 obj.prop('disabled', false);
