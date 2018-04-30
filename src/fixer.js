@@ -19,8 +19,6 @@ function Fixer (content, patterns, siteinfo) {
  *
  * @param {Function} accepter Callback (maybe be async) to approve/reject
  *  the change. May throw to skip the file.
- * @param {Object} accepter.pattern
- * @param {string} accepter.line
  * @return {bool} accepter.return Whether to accept the replacement
  *
  * @return {Object}
@@ -50,7 +48,7 @@ Fixer.prototype.run = async function (replacer, accepter) {
           // but not anymore.
           break;
         }
-        let accept = await accepter(lines, i, line, replacement);
+        let accept = await accepter(lines, i, line, replacement, pattern);
         if (accept !== true) {
           // Don't propose the same pattern multiple times,
           // given the next match would be the same.

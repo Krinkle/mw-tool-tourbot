@@ -227,11 +227,6 @@ function getWikiMap (authObj) {
 function printHeading (pageName, wiki) {
   console.log('\n' + colors.bold.underline(pageName) + ' (%s)\n', wiki);
 }
-function printSaving (subject, summary) {
-  var wiki = subject.server || subject.wikiId;
-  console.log('\nEdit summary: %s\nSaving edit on [[%s]] (%s)...',
-    summary, colors.bold(subject.pageName), wiki);
-}
 function reportNoop () {
   console.log('No major changes. Loading next subject...');
 }
@@ -257,6 +252,7 @@ function openPage (subject) {
 function printApplyHelp () {
   var help = (
     'y - apply this change\n' +
+    'a - apply all instances of this pattern in the current file\n' +
     'n - skip this change\n' +
     'e - open the page in a web browser, and skip the rest of this file\n' +
     'o - open the page in a web browser, but keep the change undecided\n' +
@@ -266,10 +262,47 @@ function printApplyHelp () {
   console.log(colors.red.bold(help));
 }
 
+async function confirmSaving (subject, summary, result) {
+  var wiki = subject.server || subject.wikiId;
+
+  if (result.didSomeAllOrAuto) {
+    console.log('\nEdit summary: %s\n', summary);
+    await ask.options(
+      'One or more proposed changes were applied automatically.' +
+        '\nDo you want to save these changes on ' + colors.bold.underline(subject.pageName) + '?',
+      {
+        yes: function (callback) {
+          callback();
+        },
+        no: function (callback) {
+          callback(new SkipFileError());
+        }
+      }
+    );
+  }
+
+  console.log('\nSaving edit on [[%s]] (%s)...', summary, colors.bold(subject.pageName), wiki);
+}
+
 async function handleContent (subject, content, siteinfo) {
   var shown = false;
+  var didSomeAllOrAuto = false;
+  // A reference to a pattern object for which the user
+  // has indicated they want to automatically accept all
+  // replacements in the current file content.
+  var currentAllOfPattern = null;
 
-  async function proposeChange (lines, i, line, replacement) {
+  /**
+   * Accepter callback for Fixer#run.
+   *
+   * @param {string[]} lines All lines of current file
+   * @param {number} i Current line number
+   * @param {string} line Current line (original)
+   * @param {string} replacement Current line (proposed)
+   * @param {Object} pattern A pattern object for reference
+   * @return {boolean} Whether to accept the change
+   */
+  async function proposeChange (lines, i, line, replacement, pattern) {
     var contextSize = 5;
     var contextStart = Math.max(0, i - 5);
     var linesBefore = lines.slice(contextStart, i).join('\n');
@@ -288,7 +321,15 @@ async function handleContent (subject, content, siteinfo) {
     function askApply () {
       var readTimeout;
       shown = true;
-      if (decisionName) {
+      if (currentAllOfPattern !== pattern) {
+        // Different pattern, stop any all-replacement
+        currentAllOfPattern = null;
+      }
+
+      if (currentAllOfPattern === pattern) {
+        // Active all-replacement, apply in 100ms.
+        readTimeout = 100;
+      } else if (decisionName) {
         // We've previously made a yes/no decision on a similar diff.
         // Assume the same response after a (configurable) timeout.
         // Round 0 to 1ms because read() interprets 0 as false.
@@ -302,12 +343,19 @@ async function handleContent (subject, content, siteinfo) {
       return ask.options('Apply change?', {
         timeout: readTimeout
       }, {
+        all: function (cb) {
+          // Start all-replacement
+          currentAllOfPattern = pattern;
+          cb(null, true);
+        },
         yes: function (cb) {
           decisionCache.set(decideCacheKey, true);
           cb(null, true);
         },
         no: function (cb) {
           decisionCache.set(decideCacheKey, false);
+          // Stop any all-replacement
+          currentAllOfPattern = null;
           cb();
         },
         edit: function (cb) {
@@ -334,13 +382,23 @@ async function handleContent (subject, content, siteinfo) {
     try {
       return await askApply();
     } catch (err) {
-      // Sanity check auto mode and decision
-      if (argv.auto && decision !== undefined && err && err.message === 'timed out') {
-        console.log(decisionName + ' [assumed from cache]');
-        return decision === true;
-      } else {
-        throw err;
+      // Time-outs are used to communicate "all" and "auto" mode
+      if (err && err.message === 'timed out') {
+        if (argv.auto && decision !== undefined) {
+          // Re-use cached decision in "auto" mode.
+          console.log(decisionName + ' [assumed from cache]');
+          didSomeAllOrAuto = true;
+          return decision === true;
+        } else if (currentAllOfPattern === pattern) {
+          // Fix the same pattern blindly within a single file.
+          console.log('[auto-accepted current pattern]');
+          didSomeAllOrAuto = true;
+          return true;
+        }
       }
+
+      // Re-throw as actual error
+      throw err;
     }
   }
 
@@ -351,7 +409,8 @@ async function handleContent (subject, content, siteinfo) {
   var result = await fix.run(replace, proposeChange);
   return {
     ...result,
-    shown
+    shown,
+    didSomeAllOrAuto
   };
 }
 
@@ -417,10 +476,10 @@ async function handleSubject (authObj, map, subject, preloadNext) {
   await checkAll(subject, page.revision.content);
 
   var newContent = result.content;
-  var summaries = result.summaries;
-  var shown = result.shown;
-  if (!summaries.length) {
-    if (shown) {
+  if (!result.summaries.length) {
+    if (result.shown) {
+      // Before skipping, offer to "open" if needed
+      await checkAll(subject, page.revision.content);
       // No change made, or only minor cleanup
       reportNoop();
     }
@@ -428,8 +487,10 @@ async function handleSubject (authObj, map, subject, preloadNext) {
   }
 
   await Content.checkSubject(subject, newContent);
-  var summary = 'Maintenance: [[mw:RL/MGU]] - ' + summaries.join(', ');
-  printSaving(subject, summary);
+  var summary = 'Maintenance: [[mw:RL/MGU]] - ' + result.summaries.join(', ');
+
+  await confirmSaving(subject, summary, result);
+
   // Save edit
   await new Promise(function (resolve, reject) {
     client.edit(page, newContent, summary, function (err) {
