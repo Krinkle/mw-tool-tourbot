@@ -281,7 +281,7 @@ async function confirmSaving (subject, summary, result) {
     );
   }
 
-  console.log('\nSaving edit on [[%s]] (%s)...', summary, colors.bold(subject.pageName), wiki);
+  console.log('\nEdit summary: %s\nSaving edit on [[%s]] (%s)...', summary, colors.bold(subject.pageName), wiki);
 }
 
 async function handleContent (subject, content, siteinfo) {
