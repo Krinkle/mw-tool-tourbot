@@ -37,6 +37,7 @@ window.escapeQuotesHTML("foo")
 $j ( "#test" );
 $j( function () {} );
 $j.ajax();
+var $jay = $('.jay');
 
 /**
  * jquery.mwExtension

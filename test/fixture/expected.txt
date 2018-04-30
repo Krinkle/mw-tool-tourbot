@@ -37,6 +37,7 @@ mw.html.escape("foo")
 $( "#test" );
 $( function () {} );
 $.ajax();
+var $jay = $('.jay');
 
 /**
  * jquery.mwExtension
