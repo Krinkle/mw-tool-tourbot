@@ -13,9 +13,18 @@ async function checkScript (content, options) {
    */
   function confirmError (error) {
     var line = content.split('\n')[error.loc.line - 1];
-    var context = line.slice(0, error.loc.column) +
-      colors.bold.underline(line[error.loc.column]) +
-      line.slice(error.loc.column + 1);
+    var context;
+    // Fallback to empty string because the error may be that
+    // the script ended unexpectedly, in which case the column
+    // is length+1, which yields undefined and we don't want
+    // to display a String(undefined) as part of the preview.
+    if (line[error.loc.column] !== undefined) {
+      context = line.slice(0, error.loc.column) +
+        colors.bold.underline(line[error.loc.column]) +
+        line.slice(error.loc.column + 1);
+    } else {
+      context = colors.bold.underline('End of script') + '\n' + line;
+    }
     return ask.options(
       colors.red.bold(error.toString()) +
         '\n' + context +
