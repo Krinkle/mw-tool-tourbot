@@ -187,3 +187,16 @@ set({
 obj.prop('disabled', false);
 prop('disabled', true)
 $(form).find(':submit').prop('disabled', false);
+
+/**
+ * es5-shim
+ */
+
+{
+	if ( !$.jStorage ) dependencies.push( 'jquery.jStorage' );
+}
+// ...
+    mw.loader.using( ['mediawiki.util', 'x'], function() { $(function(){
+    mw.loader.using( ['mediawiki.util', 'x'], function() { $(function(){
+    mw.loader.using( ['mediawiki.util', 'x'], function() { $(function(){
+// ...

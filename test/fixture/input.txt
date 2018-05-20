@@ -192,3 +192,17 @@ set({
 obj.removeAttr('disabled');
 attr('disabled', true)
 $(form).find(':submit').removeAttr('disabled');
+
+/**
+ * es5-shim
+ */
+
+{
+	if ( !$.jStorage ) dependencies.push( 'jquery.jStorage' );
+	if ( !Object.keys ) dependencies.push( 'es5-shim' );
+}
+// ...
+    mw.loader.using( ['es5-shim', 'mediawiki.util', 'x'], function() { $(function(){
+    mw.loader.using( ['mediawiki.util', 'es5-shim', 'x'], function() { $(function(){
+    mw.loader.using( ['mediawiki.util', 'x', 'es5-shim'], function() { $(function(){
+// ...

@@ -222,6 +222,26 @@ module.exports = [
     replacement: '',
     summary: 'Remove unused "maxage" to improve cache performance'
   },
+  {
+    regex: /^\s*if\s*\(\s*!Object\.keys\s*\)\s*dep(endencies)?\.push\(\s*['"]es5-shim['"]\s*\);?/,
+    replacement: '<tourbot-rm-blank>',
+    summary: 'Removed redundant "es5-shim"'
+  },
+  {
+    regex: /(mw\.loader\.using\(\s*\[)['"]es5-shim['"]\s*,\s*/,
+    replacement: '$1',
+    summary: 'Removed redundant "es5-shim"'
+  },
+  {
+    regex: /(mw\.loader\.using\(\s*\[[^\]]*)['"]es5-shim['"]\s*,\s*/,
+    replacement: '$1',
+    summary: 'Removed redundant "es5-shim"'
+  },
+  {
+    regex: /(mw\.loader\.using\(\s*\[[^\]]*),\s*['"]es5-shim['"]/,
+    replacement: '$1',
+    summary: 'Removed redundant "es5-shim"'
+  },
   // Clean-up (not worth an edit of itself)
   {
     regex: /(@import\s+url\(['"])\/\/([a-z.]+\.org)/,
