@@ -2,12 +2,6 @@
   "name": "mw-tool-tourbot",
   "version": "1.5.0",
   "description": "Semi-automated bot for migrating on-wiki JavaScript.",
-  "bin": {
-    "tourbot": "./bin/tourbot.js"
-  },
-  "scripts": {
-    "test": "node test/ && eslint ."
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Krinkle/mw-tool-tourbot.git"
@@ -21,18 +15,18 @@
     "url": "https://github.com/Krinkle/mw-tool-tourbot/issues"
   },
   "homepage": "https://github.com/Krinkle/mw-tool-tourbot#readme",
+  "files": [
+    "bin/",
+    "src/"
+  ],
+  "bin": {
+    "tourbot": "./bin/tourbot.js"
+  },
+  "scripts": {
+    "test": "node test/ && eslint ."
+  },
   "engines": {
     "node": ">=7.0"
-  },
-  "devDependencies": {
-    "assert-diff": "^1.2.0",
-    "eslint": "^4.4.1",
-    "eslint-config-semistandard": "^11.0.0",
-    "eslint-config-standard": "^10.2.1",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-node": "^5.1.1",
-    "eslint-plugin-promise": "^3.4.2",
-    "eslint-plugin-standard": "^3.0.1"
   },
   "dependencies": {
     "acorn": "^5.1.1",
@@ -43,5 +37,15 @@
     "opener": "^1.4.2",
     "read": "^1.0.7",
     "user-home": "^2.0.0"
+  },
+  "devDependencies": {
+    "assert-diff": "^1.2.0",
+    "eslint": "^4.4.1",
+    "eslint-config-semistandard": "^11.0.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.4.2",
+    "eslint-plugin-standard": "^3.0.1"
   }
 }
