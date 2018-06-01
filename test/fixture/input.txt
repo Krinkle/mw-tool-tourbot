@@ -194,15 +194,33 @@ attr('disabled', true)
 $(form).find(':submit').removeAttr('disabled');
 
 /**
- * es5-shim
+ * Obsolete modules: es5-shim, json, dom-level2-shim
  */
 
 {
 	if ( !$.jStorage ) dependencies.push( 'jquery.jStorage' );
 	if ( !Object.keys ) dependencies.push( 'es5-shim' );
+	if ( !Object.keys ) dependencies.push( 'json' );
 }
 // ...
     mw.loader.using( ['es5-shim', 'mediawiki.util', 'x'], function() { $(function(){
     mw.loader.using( ['mediawiki.util', 'es5-shim', 'x'], function() { $(function(){
     mw.loader.using( ['mediawiki.util', 'x', 'es5-shim'], function() { $(function(){
+    mw.loader.using( ["json", "x","dom-level2-shim", "es5-shim"], func)
 // ...
+
+/**
+ * Renamed module: WikiEditor
+ */
+
+mw.loader.using( [ "x', 'ext.wikiEditor.toolbar'] );
+mw.loader.using( [ "ext.wikiEditor.toolbar" ] );
+mw.loader.load( "ext.wikiEditor.toolbar");
+
+/**
+ * Renamed module: mediawiki.api
+ */
+
+mw.loader.using( [ "x', 'mediawiki.api.edit'] );
+mw.loader.using( [ "mediawiki.api.edit" ] );
+mw.loader.load( "mediawiki.api.edit");

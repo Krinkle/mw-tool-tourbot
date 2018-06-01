@@ -223,24 +223,39 @@ module.exports = [
     summary: 'Remove unused "maxage" to improve cache performance'
   },
   {
-    regex: /^\s*if\s*\(\s*!Object\.keys\s*\)\s*dep(endencies)?\.push\(\s*['"]es5-shim['"]\s*\);?/,
+    regex: /^\s*if\s*\(\s*!Object\.keys\s*\)\s*dep(endencies)?\.push\(\s*['"](?:es5-shim|json|dom-level2-shim)['"]\s*\);?/,
     replacement: '<tourbot-rm-blank>',
-    summary: 'Removed redundant "es5-shim"'
+    summary: 'Removed redundant module'
   },
   {
-    regex: /(mw\.loader\.using\(\s*\[)['"]es5-shim['"]\s*,\s*/,
+    regex: /(mw\.loader\.using\(\s*\[)['"](?:es5-shim|json|dom-level2-shim)['"]\s*,\s*/,
     replacement: '$1',
-    summary: 'Removed redundant "es5-shim"'
+    summary: 'Removed obsolete module'
   },
   {
-    regex: /(mw\.loader\.using\(\s*\[[^\]]*)['"]es5-shim['"]\s*,\s*/,
+    regex: /(mw\.loader\.using\(\s*\[[^\]]*)['"](?:es5-shim|json|dom-level2-shim)['"]\s*,\s*/,
     replacement: '$1',
-    summary: 'Removed redundant "es5-shim"'
+    summary: 'Removed obsolete module'
   },
   {
-    regex: /(mw\.loader\.using\(\s*\[[^\]]*),\s*['"]es5-shim['"]/,
+    regex: /(mw\.loader\.using\(\s*\[[^\]]*),\s*['"](?:es5-shim|json|dom-level2-shim)['"]/,
     replacement: '$1',
-    summary: 'Removed redundant "es5-shim"'
+    summary: 'Removed obsolete module'
+  },
+  {
+    regex: /(mw\.loader\.(?:using|load)\(\s*[^\])]*['"])ext\.wikiEditor\.toolbar(['"])/,
+    replacement: '$1ext.wikiEditor$2',
+    summary: 'Updated deprecated module name'
+  },
+  {
+    regex: /(mw\.loader\.(?:using|load)\(\s*[^\])]*['"])jquery\.byteLimit(['"])/,
+    replacement: '$1jquery.lengthLimit$2',
+    summary: 'Updated deprecated module name'
+  },
+  {
+    regex: /(mw\.loader\.(?:using|load)\(\s*[^\])]*['"])mediawiki\.api\.(?:category|edit|login|options|parse|upload|user|watch|messages|rollback)(['"])/,
+    replacement: '$1mediawiki.api$2',
+    summary: 'Updated deprecated module name'
   },
   // Clean-up (not worth an edit of itself)
   {

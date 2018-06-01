@@ -189,7 +189,7 @@ prop('disabled', true)
 $(form).find(':submit').prop('disabled', false);
 
 /**
- * es5-shim
+ * Obsolete modules: es5-shim, json, dom-level2-shim
  */
 
 {
@@ -199,4 +199,21 @@ $(form).find(':submit').prop('disabled', false);
     mw.loader.using( ['mediawiki.util', 'x'], function() { $(function(){
     mw.loader.using( ['mediawiki.util', 'x'], function() { $(function(){
     mw.loader.using( ['mediawiki.util', 'x'], function() { $(function(){
+    mw.loader.using( ["x"], func)
 // ...
+
+/**
+ * Renamed module: WikiEditor
+ */
+
+mw.loader.using( [ "x', 'ext.wikiEditor'] );
+mw.loader.using( [ "ext.wikiEditor" ] );
+mw.loader.load( "ext.wikiEditor");
+
+/**
+ * Renamed module: mediawiki.api
+ */
+
+mw.loader.using( [ "x', 'mediawiki.api'] );
+mw.loader.using( [ "mediawiki.api" ] );
+mw.loader.load( "mediawiki.api");
