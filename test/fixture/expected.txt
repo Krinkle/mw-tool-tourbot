@@ -94,21 +94,6 @@ mw.loader.load('//commons.wikimedia.org/w/index.php?title=MediaWiki:Gadget-Cat-a
 @import url('https://en.wikipedia.org/w/index.php?title=MediaWiki:Gadget-navpop.css&action=raw&ctype=text/css');
 */
 
-try {
-	$.parseJSON( optionsText );
-} catch ( e ) {
-	// Literal plain text
-	mw.notify("Could not parse twinkleoptions.js");
-	mw.notify( 'Could not parse twinkleoptions.js', opt );
-}
-
-// Literal HTML (must call $.parseHTML before mw.notify)
-mw.util.jsMessage("<div>Hi</div>");
-mw.util.jsMessage( '<div>Hi</div>' );
-
-// Variable (unsure whether text or HTML)
-mw.util.jsMessage( data.watch.message, 'watch' );
-
 /**
  * Toolserver url
  */

@@ -94,21 +94,6 @@ importStylesheetURI('//commons.wikimedia.org/w/index.php?action=raw&ctype=text/c
 @import url('//en.wikipedia.org/w/index.php?title=MediaWiki:Gadget-navpop.css&action=raw&ctype=text/css&bcache=1&smaxage=21600&maxage=86400');
 */
 
-try {
-	$.parseJSON( optionsText );
-} catch ( e ) {
-	// Literal plain text
-	mw.util.jsMessage("Could not parse twinkleoptions.js");
-	mw.util.jsMessage( 'Could not parse twinkleoptions.js', opt );
-}
-
-// Literal HTML (must call $.parseHTML before mw.notify)
-mw.util.jsMessage("<div>Hi</div>");
-mw.util.jsMessage( '<div>Hi</div>' );
-
-// Variable (unsure whether text or HTML)
-mw.util.jsMessage( data.watch.message, 'watch' );
-
 /**
  * Toolserver url
  */

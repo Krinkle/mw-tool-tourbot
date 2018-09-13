@@ -139,16 +139,6 @@ module.exports = [
     replacement: ', mw.util.getUrl(null, { action: \'purge\' })',
     summary: 'Use mw.util.getUrl'
   },
-  {
-    // Probably literal plain text (not HTML, or variable expression)
-    // - Operator must review diff to make sure.
-    // - Operator must separately ensure a dependency on 'mediawiki.util'
-    //   (e.g. use "o" to open the page before saving when reviewing the diff,
-    //   add the dependency to Gadgets-definition, then come back to save).
-    regex: /mw\.util\.jsMessage(\s*\(\s*['"][^<>]+['"]\s*[,)])/,
-    replacement: 'mw.notify$1',
-    summary: 'jsMessage is deprecated'
-  },
   // bits.wikimedia.org is deprecated – https://phabricator.wikimedia.org/T107430
   {
     regex: /(https?:)?\/\/bits\.wikimedia\.org\/static[-/]current\//,
