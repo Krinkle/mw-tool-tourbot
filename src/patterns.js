@@ -253,6 +253,13 @@ module.exports = [
     summary: 'Updated deprecated module name'
   },
   {
+    // Remove old alias when destination is already present before it
+    regex: /(mw\.loader\.(?:using|load)\(\s*[^\])]*['"]mediawiki\.api['"][^\])]*)\s*,\s*['"]mediawiki\.api\.(?:category|edit|login|options|parse|upload|user|watch|messages|rollback)['"]/,
+    replacement: '$1',
+    summary: 'Updated deprecated module name'
+  },
+  {
+    // Replace old alias with destination
     regex: /(mw\.loader\.(?:using|load)\(\s*[^\])]*['"])mediawiki\.api\.(?:category|edit|login|options|parse|upload|user|watch|messages|rollback)(['"])/,
     replacement: '$1mediawiki.api$2',
     summary: 'Updated deprecated module name'

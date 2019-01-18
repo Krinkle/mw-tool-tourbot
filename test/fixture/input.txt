@@ -224,3 +224,4 @@ mw.loader.load( "ext.wikiEditor.toolbar");
 mw.loader.using( [ "x', 'mediawiki.api.edit'] );
 mw.loader.using( [ "mediawiki.api.edit" ] );
 mw.loader.load( "mediawiki.api.edit");
+mw.loader.using( [ 'jquery.ui.dialog', 'mediawiki.api', 'mediawiki.api.edit' ] );
