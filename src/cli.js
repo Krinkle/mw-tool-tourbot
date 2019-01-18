@@ -1,6 +1,6 @@
 var fs = require('fs');
 var path = require('path');
-var url = require('url');
+var URL = require('url').URL;
 var colors = require('colors/safe');
 var minimist = require('minimist');
 var MwClient = require('nodemw');
@@ -211,7 +211,7 @@ function getWikiMap (authObj) {
                 group[i].fishbowl === undefined
               ) {
                 wiki = group[i];
-                wiki.server = url.parse(wiki.url).host;
+                wiki.server = new URL(wiki.url).host;
                 map[wiki.dbname] = wiki;
               }
             }
