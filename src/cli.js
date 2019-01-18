@@ -543,7 +543,7 @@ module.exports = function cli (authDir) {
     console.log('  -c, --contains TEXT  Limit the `all` iteration to pages that currently contain the given text.');
     console.log('  -m, --match TEXT     Similar to the `contains` parameter, but interpreted as a regular expression.');
     console.log('  -x, --auto           Enable remembering of decisions and re-apply them automatically to similar diffs. Default: off');
-    console.log('  -xt NUM              Change the timeout used by --auto mode (in seconds). Default: 3');
+    console.log('  --xt NUM             Change the timeout used by --auto mode (in seconds). Default: 3');
     console.log('  -v, --verbose        Enable debug logging. Default: off');
     console.log('  --quick-skip         Skip files with script errors without an interactive prompt. Default: off');
     console.log('  -h, --help           Show this help page, instead of running the tourbot.');
