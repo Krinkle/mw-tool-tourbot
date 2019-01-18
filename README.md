@@ -4,9 +4,10 @@
 
 ## Usage
 
-<img width="668" alt="screen shot" src="https://cloud.githubusercontent.com/assets/156867/24174412/b148335c-0e4d-11e7-9ef4-ada243de1fe7.png">
-<img width="589" alt="screen shot" src="https://cloud.githubusercontent.com/assets/156867/24174411/b14480c2-0e4d-11e7-8fcb-1c794d22f310.png">
-<img width="594" alt="screen shot" src="https://cloud.githubusercontent.com/assets/156867/16357410/220259be-3af6-11e6-9479-c4205972e3bf.png">
+<img height="327" alt="Screen shot" src="https://cloud.githubusercontent.com/assets/156867/24174412/b148335c-0e4d-11e7-9ef4-ada243de1fe7.png">
+<img height="298" alt="" src="https://user-images.githubusercontent.com/156867/51370710-d4e53900-1aac-11e9-9359-6f5f0af7671e.png">
+<img height="122" alt="" src="https://cloud.githubusercontent.com/assets/156867/24174411/b14480c2-0e4d-11e7-8fcb-1c794d22f310.png">
+<img height="140" alt="" src="https://cloud.githubusercontent.com/assets/156867/16357410/220259be-3af6-11e6-9479-c4205972e3bf.png">
 
 ## Quick start
 
