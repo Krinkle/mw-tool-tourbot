@@ -243,7 +243,7 @@ module.exports = [
     summary: 'Removed obsolete module'
   },
   {
-    regex: /(mw\.loader\.(?:using|load)\(\s*[^\])]*['"])ext\.wikiEditor\.toolbar(['"])/,
+    regex: /(['"])(?:jquery\.wikiEditor|jquery\.wikiEditor\.core|jquery\.wikiEditor\.toolbar|ext\.wikiEditor\.toolbar)(['"])/,
     replacement: '$1ext.wikiEditor$2',
     summary: 'Updated deprecated module name'
   },

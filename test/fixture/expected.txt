@@ -209,6 +209,7 @@ $(form).find(':submit').prop('disabled', false);
 mw.loader.using( [ "x', 'ext.wikiEditor'] );
 mw.loader.using( [ "ext.wikiEditor" ] );
 mw.loader.load( "ext.wikiEditor");
+mods = [ 'ext.wikiEditor' ];
 
 /**
  * Renamed module: mediawiki.api

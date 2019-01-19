@@ -216,6 +216,7 @@ $(form).find(':submit').removeAttr('disabled');
 mw.loader.using( [ "x', 'ext.wikiEditor.toolbar'] );
 mw.loader.using( [ "ext.wikiEditor.toolbar" ] );
 mw.loader.load( "ext.wikiEditor.toolbar");
+mods = [ 'ext.wikiEditor.toolbar' ];
 
 /**
  * Renamed module: mediawiki.api
