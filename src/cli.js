@@ -13,7 +13,7 @@ var Content = require('./content');
 var Diff = require('./diff');
 var Fixer = require('./fixer');
 var replace = require('./replace');
-var { SkipFileError, AbortError } = require('./error');
+var { SkipFileError, SkipPatternError, AbortError } = require('./error');
 var patterns = require('./patterns');
 var argv = minimist(process.argv.slice(2), {
   string: ['file', 'contains', 'match'],
@@ -251,12 +251,13 @@ function openPage (subject) {
 }
 function printApplyHelp () {
   var help = (
-    'y - apply this change\n' +
-    'a - apply all instances of this pattern in the current file\n' +
-    'n - skip this change\n' +
-    'e - open the page in a web browser, and skip the rest of this file\n' +
-    'o - open the page in a web browser, but keep the change undecided\n' +
-    's - skip this change and the rest of this file\n' +
+    'y - yes, accept this change\n' +
+    'n - no, reject this change\n' +
+    'a - accept all changes for this pattern in the current file\n' +
+    'r - reject all changes for this pattern in the current file\n' +
+    'e - edit the page in a web browser, and skip the rest of this file\n' +
+    'o - open the page in a web browser for inspection, but keep the change undecided\n' +
+    's - skip all remaining changes and patterns in this file\n' +
     'h - print help\n'
   );
   console.log(colors.red.bold(help));
@@ -343,11 +344,6 @@ async function handleContent (subject, content, siteinfo) {
       return ask.options('Apply change?', {
         timeout: readTimeout
       }, {
-        all: function (cb) {
-          // Start all-replacement
-          currentAllOfPattern = pattern;
-          cb(null, true);
-        },
         yes: function (cb) {
           decisionCache.set(decideCacheKey, true);
           cb(null, true);
@@ -357,6 +353,16 @@ async function handleContent (subject, content, siteinfo) {
           // Stop any all-replacement
           currentAllOfPattern = null;
           cb();
+        },
+        all: function (cb) {
+          // Start all-replacement
+          currentAllOfPattern = pattern;
+          cb(null, true);
+        },
+        reject: function (cb) {
+          currentAllOfPattern = null;
+
+          cb(new SkipPatternError());
         },
         edit: function (cb) {
           cb(new SkipFileError('Editing in browser'));

@@ -7,6 +7,13 @@ function SkipFileError (message) {
 }
 util.inherits(SkipFileError, Error);
 
+function SkipPatternError (message) {
+  this.name = 'SkipPatternError';
+  this.message = message || '';
+  Error.captureStackTrace(this, SkipPatternError);
+}
+util.inherits(SkipPatternError, Error);
+
 function AbortError (message) {
   this.name = 'AbortError';
   this.message = message || '';
@@ -14,4 +21,4 @@ function AbortError (message) {
 }
 util.inherits(AbortError, Error);
 
-module.exports = { SkipFileError, AbortError };
+module.exports = { SkipFileError, SkipPatternError, AbortError };

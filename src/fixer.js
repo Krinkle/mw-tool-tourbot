@@ -1,3 +1,5 @@
+var { SkipPatternError } = require('./error');
+
 /**
  * @class
  * @param {string} content
@@ -35,32 +37,40 @@ Fixer.prototype.run = async function (replacer, accepter) {
     if (!pattern.summary && !major) {
       continue;
     }
-    for (let i = 0; i < lines.length; i++) {
-      let line = lines[i];
-      while (true) {
-        if (line === null) {
-          // If the line was removed by a previous pattern, skip it
-          break;
+    try {
+      for (let i = 0; i < lines.length; i++) {
+        let line = lines[i];
+        while (true) {
+          if (line === null) {
+            // If the line was removed by a previous pattern, skip it
+            break;
+          }
+          let replacement = replacer(line, pattern, this.siteinfo);
+          if (replacement === line) {
+            // This pattern doesn't match, or matched previously
+            // but not anymore.
+            break;
+          }
+          let accept = await accepter(lines, i, line, replacement, pattern);
+          if (accept !== true) {
+            // Don't propose the same pattern multiple times,
+            // given the next match would be the same.
+            break;
+          }
+          line = replacement;
+          if (pattern.summary) {
+            major = true;
+            summaries[pattern.summary] = true;
+          }
         }
-        let replacement = replacer(line, pattern, this.siteinfo);
-        if (replacement === line) {
-          // This pattern doesn't match, or matched previously
-          // but not anymore.
-          break;
-        }
-        let accept = await accepter(lines, i, line, replacement, pattern);
-        if (accept !== true) {
-          // Don't propose the same pattern multiple times,
-          // given the next match would be the same.
-          break;
-        }
-        line = replacement;
-        if (pattern.summary) {
-          major = true;
-          summaries[pattern.summary] = true;
-        }
+        lines[i] = line;
       }
-      lines[i] = line;
+    } catch (err) {
+      if (err instanceof SkipPatternError) {
+        // Thrown by cli.proposeChange (known as 'accepter' here)
+        continue;
+      }
+      throw err;
     }
   }
 
