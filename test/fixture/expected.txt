@@ -198,6 +198,7 @@ $(form).find(':submit').prop('disabled', false);
 
 // Do not, es5-shimZ
 // Do not, jsonIify
+// Do not, get('action=json', fn)
 
 load( first );
 load( mid, dle );

@@ -205,6 +205,7 @@ $(form).find(':submit').removeAttr('disabled');
 
 // Do not, es5-shimZ
 // Do not, jsonIify
+// Do not, get('action=json', fn)
 
 load( 'es5-shim', first );
 load( mid, 'es5-shim', dle );
