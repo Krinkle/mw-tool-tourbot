@@ -64,6 +64,9 @@ async function checkSubject (subject, content, options = {}) {
   if (subject.pageName.slice(-4) === '.css') {
     return;
   }
+  if (subject.pageName === 'MediaWiki:Gadgets-definition') {
+    return;
+  }
   return checkScript(content, options);
 }
 
