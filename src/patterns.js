@@ -228,29 +228,29 @@ module.exports = [
     summary: 'Removed redundant module'
   },
   {
-    regex: /(mw\.loader\.using\(\s*\[)['"](?:es5-shim|json|dom-level2-shim)['"]\s*,\s*/,
+    // First item: using('X', z)
+    // First item:  ['X', z]
+    // First or middle item:  'X',
+    // First item:  foo[deps=X, z]
+    regex: /(^\s*|[([=]\s*)['"]?(?:es5-shim|json|dom-level2-shim)['"]?\s*,\s*/,
+    replacement: '$1<tourbot-rm-blank>',
+    summary: 'Removed obsolete module'
+  },
+  {
+    // Middle item: using(y, 'X', z)
+    // Middle item: [y, 'X', z]
+    // Middle item: foo[deps=y, X, z]
+    regex: /(,\s*)['"]?(?:es5-shim|json|dom-level2-shim)['"]?\s*,\s*/,
     replacement: '$1',
     summary: 'Removed obsolete module'
   },
   {
-    regex: /(mw\.loader\.using\(\s*\[[^\]]*)['"](?:es5-shim|json|dom-level2-shim)['"]\s*,\s*/,
-    replacement: '$1',
+    // Last item: using(y, z, 'X')
+    // Last item: [y, z, 'X']
+    // Last item: foo[deps=y, z, X]
+    regex: /(^\s*|,\s*)['"]?(?:es5-shim|json|dom-level2-shim)['"]?/,
+    replacement: '<tourbot-rm-blank>',
     summary: 'Removed obsolete module'
-  },
-  {
-    regex: /(mw\.loader\.using\(\s*\[[^\]]*),\s*['"](?:es5-shim|json|dom-level2-shim)['"]/,
-    replacement: '$1',
-    summary: 'Removed obsolete module'
-  },
-  {
-    regex: /(['"])(?:jquery\.wikiEditor|jquery\.wikiEditor\.core|jquery\.wikiEditor\.toolbar|ext\.wikiEditor\.toolbar)(['"])/,
-    replacement: '$1ext.wikiEditor$2',
-    summary: 'Updated deprecated module name'
-  },
-  {
-    regex: /(['"])jquery\.byteLimit(['"])/,
-    replacement: '$1jquery.lengthLimit$2',
-    summary: 'Updated deprecated module name'
   },
   {
     // Remove old alias when destination is already present before it
@@ -259,8 +259,18 @@ module.exports = [
     summary: 'Updated deprecated module name'
   },
   {
+    regex: /(['"]|[,=]\s*)(?:jquery\.wikiEditor|jquery\.wikiEditor\.core|jquery\.wikiEditor\.toolbar|ext\.wikiEditor\.toolbar)(['"]|\s*[,\]])/,
+    replacement: '$1ext.wikiEditor$2',
+    summary: 'Updated deprecated module name'
+  },
+  {
+    regex: /(['"]|[,=]\s*)jquery\.byteLimit(['"]|\s*[,\]])/,
+    replacement: '$1jquery.lengthLimit$2',
+    summary: 'Updated deprecated module name'
+  },
+  {
     // Replace old alias with destination
-    regex: /(mw\.loader\.(?:using|load)\(\s*[^\])]*['"])mediawiki\.api\.(?:category|edit|login|options|parse|upload|user|watch|messages|rollback)(['"])/,
+    regex: /(['"]|[,=]\s*)mediawiki\.api\.(?:category|edit|login|options|parse|upload|user|watch|messages|rollback)(['"]|\s*[,\]])/,
     replacement: '$1mediawiki.api$2',
     summary: 'Updated deprecated module name'
   },

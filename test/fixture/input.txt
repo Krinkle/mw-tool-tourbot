@@ -194,7 +194,7 @@ attr('disabled', true)
 $(form).find(':submit').removeAttr('disabled');
 
 /**
- * Obsolete modules: es5-shim, json, dom-level2-shim
+ * Obsolete modules
  */
 
 {
@@ -202,27 +202,59 @@ $(form).find(':submit').removeAttr('disabled');
 	if ( !Object.keys ) dependencies.push( 'es5-shim' );
 	if ( !Object.keys ) dependencies.push( 'json' );
 }
-// ...
-    mw.loader.using( ['es5-shim', 'mediawiki.util', 'x'], function() { $(function(){
-    mw.loader.using( ['mediawiki.util', 'es5-shim', 'x'], function() { $(function(){
-    mw.loader.using( ['mediawiki.util', 'x', 'es5-shim'], function() { $(function(){
-    mw.loader.using( ["json", "x","dom-level2-shim", "es5-shim"], func)
-// ...
+
+load( 'es5-shim', first );
+load( mid, 'es5-shim', dle );
+load( last, 'es5-shim' );
+load( 'es5-shim' );
+
+mods = [ "es5-shim", first ];
+mods = [ mid, 'es5-shim', dle ];
+mods = [ last, 'es5-shim' ];
+mods = [ 'es5-shim' ];
+
+mods = [
+	'es5-shim',
+	first
+];
+mods = [
+	last,
+	'es5-shim'
+];
+
+/*
+example[dependencies=es5-shim, first]
+example[dependencies=mid, es5-shim, dle]
+example[dependencies=last, es5-shim]
+example[dependencies=es5-shim]
+*/
 
 /**
- * Renamed module: WikiEditor
+ * Renamed or merged modules
  */
 
-mw.loader.using( [ "x', 'ext.wikiEditor.toolbar'] );
-mw.loader.using( [ "ext.wikiEditor.toolbar" ] );
-mw.loader.load( "ext.wikiEditor.toolbar");
+load( 'ext.wikiEditor.toolbar', first );
+load( mid, 'ext.wikiEditor.toolbar', dle );
+load( last, 'ext.wikiEditor.toolbar' );
+load( 'ext.wikiEditor.toolbar' );
+
+mods = [ "ext.wikiEditor.toolbar", first ];
+mods = [ mid, 'ext.wikiEditor.toolbar', dle ];
+mods = [ last, 'ext.wikiEditor.toolbar' ];
 mods = [ 'ext.wikiEditor.toolbar' ];
 
-/**
- * Renamed module: mediawiki.api
- */
+mods = [
+	'ext.wikiEditor.toolbar',
+	first
+];
+mods = [
+	last,
+	'ext.wikiEditor.toolbar'
+];
 
-mw.loader.using( [ "x', 'mediawiki.api.edit'] );
-mw.loader.using( [ "mediawiki.api.edit" ] );
-mw.loader.load( "mediawiki.api.edit");
-mw.loader.using( [ 'jquery.ui.dialog', 'mediawiki.api', 'mediawiki.api.edit' ] );
+/*
+example[dependencies=ext.wikiEditor.toolbar, first]
+example[dependencies=mid, ext.wikiEditor.toolbar, dle]
+example[dependencies=last, ext.wikiEditor.toolbar]
+example[dependencies=ext.wikiEditor.toolbar]
+*/

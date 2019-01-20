@@ -189,33 +189,63 @@ prop('disabled', true)
 $(form).find(':submit').prop('disabled', false);
 
 /**
- * Obsolete modules: es5-shim, json, dom-level2-shim
+ * Obsolete modules
  */
 
 {
 	if ( !$.jStorage ) dependencies.push( 'jquery.jStorage' );
 }
-// ...
-    mw.loader.using( ['mediawiki.util', 'x'], function() { $(function(){
-    mw.loader.using( ['mediawiki.util', 'x'], function() { $(function(){
-    mw.loader.using( ['mediawiki.util', 'x'], function() { $(function(){
-    mw.loader.using( ["x"], func)
-// ...
+
+load( first );
+load( mid, dle );
+load( last );
+load( 'es5-shim' );
+
+mods = [ first ];
+mods = [ mid, dle ];
+mods = [ last ];
+mods = [ 'es5-shim' ];
+
+mods = [
+	first
+];
+mods = [
+	last,
+];
+
+/*
+example[dependencies=first]
+example[dependencies=mid, dle]
+example[dependencies=last]
+example[dependencies=es5-shim]
+*/
 
 /**
- * Renamed module: WikiEditor
+ * Renamed or merged modules
  */
 
-mw.loader.using( [ "x', 'ext.wikiEditor'] );
-mw.loader.using( [ "ext.wikiEditor" ] );
-mw.loader.load( "ext.wikiEditor");
+load( 'ext.wikiEditor', first );
+load( mid, 'ext.wikiEditor', dle );
+load( last, 'ext.wikiEditor' );
+load( 'ext.wikiEditor' );
+
+mods = [ "ext.wikiEditor", first ];
+mods = [ mid, 'ext.wikiEditor', dle ];
+mods = [ last, 'ext.wikiEditor' ];
 mods = [ 'ext.wikiEditor' ];
 
-/**
- * Renamed module: mediawiki.api
- */
+mods = [
+	'ext.wikiEditor',
+	first
+];
+mods = [
+	last,
+	'ext.wikiEditor'
+];
 
-mw.loader.using( [ "x', 'mediawiki.api'] );
-mw.loader.using( [ "mediawiki.api" ] );
-mw.loader.load( "mediawiki.api");
-mw.loader.using( [ 'jquery.ui.dialog', 'mediawiki.api' ] );
+/*
+example[dependencies=ext.wikiEditor, first]
+example[dependencies=mid, ext.wikiEditor, dle]
+example[dependencies=last, ext.wikiEditor]
+example[dependencies=ext.wikiEditor]
+*/

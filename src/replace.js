@@ -23,7 +23,7 @@ function fixupReplacement (str) {
   // If a line is empty as a consequence of this, the line will be nulled.
   if (str.indexOf('<tourbot-rm-blank>') !== -1) {
     str = str.replace('<tourbot-rm-blank>', '');
-    if (str === '') {
+    if (str.trim() === '') {
       str = null;
     }
   }
