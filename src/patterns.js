@@ -243,8 +243,8 @@ module.exports = [
     // Last item: using(y, z, 'X')
     // Last item: [y, z, 'X']
     // Last item: foo[deps=y, z, X]
-    regex: /(^\s*|,\s*)['"]?(?:es5-shim|json|dom-level2-shim)['"]?/,
-    replacement: '<tourbot-rm-blank>',
+    regex: /(,\s*)['"]?(?:es5-shim|json|dom-level2-shim)['"]?(\s*[|\])])/,
+    replacement: '$2',
     summary: 'Removed obsolete module'
   },
   {

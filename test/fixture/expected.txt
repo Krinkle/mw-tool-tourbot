@@ -196,6 +196,9 @@ $(form).find(':submit').prop('disabled', false);
 	if ( !$.jStorage ) dependencies.push( 'jquery.jStorage' );
 }
 
+// Do not, es5-shimZ
+// Do not, jsonIify
+
 load( first );
 load( mid, dle );
 load( last );
@@ -211,6 +214,7 @@ mods = [
 ];
 mods = [
 	last,
+	'es5-shim'
 ];
 
 /*

@@ -203,6 +203,9 @@ $(form).find(':submit').removeAttr('disabled');
 	if ( !Object.keys ) dependencies.push( 'json' );
 }
 
+// Do not, es5-shimZ
+// Do not, jsonIify
+
 load( 'es5-shim', first );
 load( mid, 'es5-shim', dle );
 load( last, 'es5-shim' );
