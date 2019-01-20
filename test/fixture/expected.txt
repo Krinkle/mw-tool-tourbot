@@ -216,7 +216,7 @@ mods = [
 /*
 example[dependencies=first]
 example[dependencies=mid, dle]
-example[dependencies=last]
+example[dependencies=last|misc]
 example[dependencies=es5-shim]
 */
 
@@ -246,6 +246,6 @@ mods = [
 /*
 example[dependencies=ext.wikiEditor, first]
 example[dependencies=mid, ext.wikiEditor, dle]
-example[dependencies=last, ext.wikiEditor]
+example[dependencies=last, ext.wikiEditor|misc]
 example[dependencies=ext.wikiEditor]
 */

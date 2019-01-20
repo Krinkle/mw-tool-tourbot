@@ -225,7 +225,7 @@ mods = [
 /*
 example[dependencies=es5-shim, first]
 example[dependencies=mid, es5-shim, dle]
-example[dependencies=last, es5-shim]
+example[dependencies=last, es5-shim|misc]
 example[dependencies=es5-shim]
 */
 
@@ -255,6 +255,6 @@ mods = [
 /*
 example[dependencies=ext.wikiEditor.toolbar, first]
 example[dependencies=mid, ext.wikiEditor.toolbar, dle]
-example[dependencies=last, ext.wikiEditor.toolbar]
+example[dependencies=last, ext.wikiEditor.toolbar|misc]
 example[dependencies=ext.wikiEditor.toolbar]
 */
