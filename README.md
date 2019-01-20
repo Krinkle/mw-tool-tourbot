@@ -73,10 +73,6 @@ then either accept it all, or cancel the edit.
   has lots of matches like this in the single file, use "r" (Reject all) to
   skip this pattern, and continue with another.
 
-## Safeguards
-
-
-
 ## Example
 
 The input file for Tourbot follow the output format used by [`mwgrep`](https://wikitech.wikimedia.org/wiki/Wikimedia_binaries#mwgrep), which has on each line a pair of (wiki-id, pagename). For example:
