@@ -248,7 +248,7 @@ module.exports = [
     summary: 'Updated deprecated module name'
   },
   {
-    regex: /(mw\.loader\.(?:using|load)\(\s*[^\])]*['"])jquery\.byteLimit(['"])/,
+    regex: /(['"])jquery\.byteLimit(['"])/,
     replacement: '$1jquery.lengthLimit$2',
     summary: 'Updated deprecated module name'
   },
