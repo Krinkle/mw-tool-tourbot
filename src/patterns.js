@@ -218,11 +218,6 @@ module.exports = [
     replacement: 'prop(\'$1\', true'
   },
   {
-    regex: /[?&]s?maxage=\d*/,
-    replacement: '',
-    summary: 'Remove unused "maxage" to improve cache performance'
-  },
-  {
     regex: /^\s*if\s*\(\s*!Object\.keys\s*\)\s*dep(endencies)?\.push\(\s*['"](?:es5-shim|json|dom-level2-shim)['"]\s*\);?/,
     replacement: '<tourbot-rm-blank>',
     summary: 'Removed redundant module'
@@ -273,6 +268,11 @@ module.exports = [
     regex: /(['"]|[,=]\s*)mediawiki\.api\.(?:category|edit|login|options|parse|upload|user|watch|messages|rollback)(['"]|\s*[,|\]])/,
     replacement: '$1mediawiki.api$2',
     summary: 'Updated deprecated module name'
+  },
+  {
+    regex: /[?&]s?maxage=\d*/,
+    replacement: '',
+    summary: 'Remove unused "maxage" to improve cache performance'
   },
   // Clean-up (not worth an edit of itself)
   {
