@@ -17,16 +17,14 @@ var { SkipFileError, SkipPatternError, AbortError } = require('./error');
 var patterns = require('./patterns');
 var argv = minimist(process.argv.slice(2), {
   string: ['file', 'contains', 'match'],
-  boolean: ['all', 'auto', 'verbose', 'quickSkip', 'help'],
+  boolean: ['all', 'auto', 'verbose', 'help'],
   default: {
     file: 'results.txt',
     contains: null,
     match: null,
     all: false,
     auto: false,
-    xt: 3,
     verbose: false,
-    quickSkip: false,
     help: false
   },
   alias: {
@@ -36,7 +34,6 @@ var argv = minimist(process.argv.slice(2), {
     a: 'all',
     x: 'auto',
     v: 'verbose',
-    'quick-skip': 'quickSkip',
     h: 'help'
   }
 });
@@ -328,18 +325,12 @@ async function handleContent (subject, content, siteinfo) {
       }
 
       if (currentAllOfPattern === pattern) {
-        // Active all-replacement, apply in 100ms.
-        readTimeout = 100;
+        // Active all-replacement of a pattern, apply in 50ms.
+        readTimeout = 50;
       } else if (decisionName) {
         // We've previously made a yes/no decision on a similar diff.
-        // Assume the same response after a (configurable) timeout.
-        // Round 0 to 1ms because read() interprets 0 as false.
-        readTimeout = Math.max(argv.xt * 1000, 1);
-        console.log('You previously decided for a similar diff: ' +
-          colors.bold(decisionName) + '. ' +
-          'Will assume ' + colors.bold(decisionName) + ' in ' +
-          Math.round(argv.xt) + ' seconds...'
-        );
+        // Assume the same response after 50ms.
+        readTimeout = 50;
       }
       return ask.options('Apply change?', {
         timeout: readTimeout
@@ -392,7 +383,7 @@ async function handleContent (subject, content, siteinfo) {
       if (err && err.message === 'timed out') {
         if (argv.auto && decision !== undefined) {
           // Re-use cached decision in "auto" mode.
-          console.log(decisionName + ' [assumed from cache]');
+          console.log(decisionName + ' [assumed from decision cache]');
           didSomeAllOrAuto = true;
           return decision === true;
         } else if (currentAllOfPattern === pattern) {
@@ -409,7 +400,7 @@ async function handleContent (subject, content, siteinfo) {
   }
 
   await Content.checkSubject(subject, content, {
-    quiet: argv.quickSkip === true
+    quiet: true
   });
   var fix = new Fixer(content, patterns, siteinfo);
   var result = await fix.run(replace, proposeChange);
@@ -549,17 +540,9 @@ module.exports = function cli (authDir) {
     console.log('  -c, --contains TEXT  Limit the `all` iteration to pages that currently contain the given text.');
     console.log('  -m, --match TEXT     Similar to the `contains` parameter, but interpreted as a regular expression.');
     console.log('  -x, --auto           Enable remembering of decisions and re-apply them automatically to similar diffs. Default: off');
-    console.log('  --xt NUM             Change the timeout used by --auto mode (in seconds). Default: 3');
     console.log('  -v, --verbose        Enable debug logging. Default: off');
-    console.log('  --quick-skip         Skip files with script errors without an interactive prompt. Default: off');
     console.log('  -h, --help           Show this help page, instead of running the tourbot.');
     return;
-  }
-  if (typeof argv.xt !== 'number' || !isFinite(argv.xt) || argv.xt < 0) {
-    // Rejects: non-numbers, NaN, (-)Infinity, and negative numbers.
-    // Accepts: 0 and any finite positive number.
-    console.error('Invalid parameter for --xt. Must be a non-negative number.');
-    process.exit(1);
   }
   start(authDir);
 };
