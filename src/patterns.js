@@ -85,6 +85,11 @@ module.exports = [
     summary: 'Use wgIsMainPage'
   },
   {
+    regex: /mw\.config\.get\(['"]wgPageName['"]\)\s*===?\s*mw\.config\.get\(['"]wgMainPageTitle['"]\)/,
+    replacement: 'mw.config.get(\'wgIsMainPage\')',
+    summary: 'Use wgIsMainPage'
+  },
+  {
     // Embed between single-quoted strings
     regex: /'(\s*\+\s*)wgScriptExtension(\s*\+\s*)'/,
     replacement: '.php',
