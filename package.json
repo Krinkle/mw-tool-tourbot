@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "assert-diff": "^2.0.3",
-    "eslint": "^5.5.0",
+    "eslint": "^5.16.0",
     "eslint-config-semistandard": "^13.0.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.14.0",
