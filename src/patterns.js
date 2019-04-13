@@ -65,28 +65,33 @@ module.exports = [
     summary: 'Map.values is deprecated'
   },
   {
-    regex: /(wgPageName|wgTitle)\s*===?\s*['"]<siteinfo-mainpage>['"]\s*&&\s*wgNamespaceNumber\s*===?\s*\d+/,
-    replacement: 'mw.config.get(\'wgIsMainPage\')',
+    regex: /(?:wgPageName|wgTitle)\s*(!)?===?\s*['"]<siteinfo-mainpage>['"]\s*&&\s*wgNamespaceNumber\s*===?\s*\d+/,
+    replacement: '$1mw.config.get(\'wgIsMainPage\')',
     summary: 'Use wgIsMainPage'
   },
   {
-    regex: /mw\.config\.get\(['"](wgPageName|wgTitle)['"]\)\s*===?\s*['"]<siteinfo-mainpage>['"]\s*&&\s*mw\.config\.get\(['"]wgNamespaceNumber['"]\)\s*===?\s*\d+/,
-    replacement: 'mw.config.get(\'wgIsMainPage\')',
+    regex: /mw\.config\.get\(['"](?:wgPageName|wgTitle)['"]\)\s*(!)?===?\s*['"]<siteinfo-mainpage>['"]\s*&&\s*mw\.config\.get\(['"]wgNamespaceNumber['"]\)\s*===?\s*\d+/,
+    replacement: '$1mw.config.get(\'wgIsMainPage\')',
     summary: 'Use wgIsMainPage'
   },
   {
-    regex: /(wgPageName|wgTitle)\s*===?\s*['"]<siteinfo-mainpagename>['"]/,
-    replacement: 'mw.config.get(\'wgIsMainPage\')',
+    regex: /(?:wgPageName|wgTitle)\s*(!)?===?\s*['"]<siteinfo-mainpagename>['"]/,
+    replacement: '$1mw.config.get(\'wgIsMainPage\')',
     summary: 'Use wgIsMainPage'
   },
   {
-    regex: /mw\.config\.get\(['"](wgPageName|wgTitle)['"]\)\s*===?\s*['"]<siteinfo-mainpagename>['"]/,
-    replacement: 'mw.config.get(\'wgIsMainPage\')',
+    regex: /mw\.config\.get\(['"](?:wgPageName|wgTitle)['"]\)\s*(!)?===?\s*['"]<siteinfo-mainpagename>['"]/,
+    replacement: '$1mw.config.get(\'wgIsMainPage\')',
     summary: 'Use wgIsMainPage'
   },
   {
-    regex: /mw\.config\.get\(['"](wgPageName|wgTitle)['"]\)\s*===?\s*mw\.config\.get\(['"]wgMainPageTitle['"]\)/,
-    replacement: 'mw.config.get(\'wgIsMainPage\')',
+    regex: /mw\.config\.get\(['"](?:wgPageName|wgTitle)['"]\)\s*(!)?===?\s*mw\.config\.get\(['"]wgMainPageTitle['"]\)/,
+    replacement: '$1mw.config.get(\'wgIsMainPage\')',
+    summary: 'Use wgIsMainPage'
+  },
+  {
+    regex: /mw\.config\.get\(['"]wgMainPageTitle['"]\)\s*(!)?===?\s*mw\.config\.get\(['"](?:wgPageName|wgTitle)['"]\)/,
+    replacement: '$1mw.config.get(\'wgIsMainPage\')',
     summary: 'Use wgIsMainPage'
   },
   {
