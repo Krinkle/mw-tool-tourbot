@@ -171,6 +171,8 @@ if (mw.config.get('wgPageName') === mw.config.get('wgMainPageTitle')) {
 }
 if (mw.config.get('wgPageName') == 'Main_Page' || mw.config.get('wgPageName') == 'Tartışma:Ana_Sayfa') {
 }
+if (!window.load_extratabs && wgMainPageTitle !== wgTitle )
+}
 
 /**
  * wgScriptPaath
