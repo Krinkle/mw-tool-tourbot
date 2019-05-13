@@ -190,13 +190,15 @@ set({
 });
 
 /**
- * jQuery
+ * jQuery-related deprecations, bug fixes, and other improvements.
  */
 .size()
 
 obj.removeAttr('disabled');
 attr('disabled', true)
 $(form).find(':submit').removeAttr('disabled');
+
+$(this).nextUntil("h2").andSelf().wrapAll('<div class="mw-h2section"></div>');
 
 /**
  * Obsolete modules

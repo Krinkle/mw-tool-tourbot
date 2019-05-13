@@ -224,14 +224,19 @@ module.exports = [
     summary: 'Remove broken popop import'
   },
   {
-    regex: /\.size\(\)/,
+    regex: /\.\s*size\s*\(\s*\)/,
     replacement: '.length',
-    summary: 'Replaced .size() (removed in jQuery 3.0) [[phab:T169385]]'
+    summary: 'Replace jQuery#size ([[phab:T169385|deprecated]])'
+  },
+  {
+    regex: /\.\s*andSelf\s*\(\s*\)/,
+    replacement: '.addBack()',
+    summary: 'Replace jQuery#andSelf ([[phab:T169385|deprecated]])'
   },
   {
     regex: /removeAttr\(\s*['"](checked|selected|disabled|readonly|required|hidden)['"]/,
     replacement: 'prop(\'$1\', false',
-    summary: 'Replace deprecated types of removeAttr calls [[phab:T169385]]'
+    summary: 'Replace jQuery#removeAttr ([[phab:T169385|deprecated]])'
   },
   {
     regex: /attr\(\s*['"](checked|selected|disabled|readonly|required|hidden)['"], (true|['"](checked|selected|disabled|readonly|required|hidden)['"])/,
