@@ -264,5 +264,6 @@ example[dependencies=ext.wikiEditor]
 urldecoder[ResourceLoader|dependencies=mediawiki.Uri,mediawiki.util]|urldecoder.js
 urldecoder[ResourceLoader|dependencies=mediawiki.util]|urldecoder.js
 urldecoder[ResourceLoader|dependencies=mediawiki.util]|urldecoder.js
+urldecoder[ResourceLoader|foo=bar]|urldecoder.js
 urldecoder[ResourceLoader]|urldecoder.js
 */

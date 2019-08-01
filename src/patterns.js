@@ -282,13 +282,13 @@ module.exports = [
   {
     // Only item: foo[dependencies=X]
     // (This regex must be handled before the below one for "First item")
-    regex: /(\[[^\]]*?)\|?\bdependencies=\s*mediawiki\.legacy\.wikibits\s*(\])/,
+    regex: /(\[[^\]]*?)\|?\bdependencies=\s*mediawiki\.legacy\.wikibits\s*(\]|\|)/,
     replacement: '$1$2',
     summary: 'Removed redundant module'
   },
   {
     // First item: foo[dependencies=X, z]
-    regex: /(\[[^\]]*dependencies=\s*)mediawiki\.legacy\.wikibits\s*,?/,
+    regex: /(\[[^\]]*dependencies=\s*)mediawiki\.legacy\.wikibits\s*,/,
     replacement: '$1',
     summary: 'Removed redundant module'
   },
