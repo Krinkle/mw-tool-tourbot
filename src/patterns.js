@@ -273,6 +273,26 @@ module.exports = [
     summary: 'Removed obsolete module'
   },
   {
+    // Middle item: foo[dependencies=z, X z]
+    // Last item: foo[dependencies=z, X]
+    regex: /(\[[^\]]*dependencies=[^\]]*),\s*mediawiki\.legacy\.wikibits\s*\b/,
+    replacement: '$1',
+    summary: 'Removed redundant module'
+  },
+  {
+    // Only item: foo[dependencies=X]
+    // (This regex must be handled before the below one for "First item")
+    regex: /(\[[^\]]*?)\|?\bdependencies=\s*mediawiki\.legacy\.wikibits\s*(\])/,
+    replacement: '$1$2',
+    summary: 'Removed redundant module'
+  },
+  {
+    // First item: foo[dependencies=X, z]
+    regex: /(\[[^\]]*dependencies=\s*)mediawiki\.legacy\.wikibits\s*,?/,
+    replacement: '$1',
+    summary: 'Removed redundant module'
+  },
+  {
     // Remove old alias when destination is already present before it
     regex: /(mw\.loader\.(?:using|load)\(\s*[^\])]*['"]mediawiki\.api['"][^\])]*)\s*,\s*['"]mediawiki\.api\.(?:category|edit|login|options|parse|upload|user|watch|messages|rollback)['"]/,
     replacement: '$1',

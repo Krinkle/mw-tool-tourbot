@@ -260,4 +260,9 @@ example[dependencies=ext.wikiEditor, first]
 example[dependencies=mid, ext.wikiEditor, dle]
 example[dependencies=last, ext.wikiEditor|misc]
 example[dependencies=ext.wikiEditor]
+
+urldecoder[ResourceLoader|dependencies=mediawiki.Uri,mediawiki.util]|urldecoder.js
+urldecoder[ResourceLoader|dependencies=mediawiki.util]|urldecoder.js
+urldecoder[ResourceLoader|dependencies=mediawiki.util]|urldecoder.js
+urldecoder[ResourceLoader]|urldecoder.js
 */

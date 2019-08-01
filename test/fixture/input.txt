@@ -268,4 +268,9 @@ example[dependencies=ext.wikiEditor.toolbar, first]
 example[dependencies=mid, ext.wikiEditor.toolbar, dle]
 example[dependencies=last, ext.wikiEditor.toolbar|misc]
 example[dependencies=ext.wikiEditor.toolbar]
+
+urldecoder[ResourceLoader|dependencies=mediawiki.Uri,mediawiki.legacy.wikibits,mediawiki.util]|urldecoder.js
+urldecoder[ResourceLoader|dependencies=mediawiki.legacy.wikibits,mediawiki.util]|urldecoder.js
+urldecoder[ResourceLoader|dependencies=mediawiki.util,mediawiki.legacy.wikibits]|urldecoder.js
+urldecoder[ResourceLoader|dependencies=mediawiki.legacy.wikibits]|urldecoder.js
 */
