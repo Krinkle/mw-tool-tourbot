@@ -1,0 +1,47 @@
+/**
+ * addOnloadHook
+ */
+
+function addOnloadHook() {
+}
+
+call(function addOnloadHook() {
+	// ..
+})
+
+addOnloadHook(function addOnloadHook() {});
+$(function () {});
+ $(funcRef );
+  $(function() {
+    // ..
+  })
+  // $(function() {})
+
+DatRoot.addOnloadHook();
+
+/**
+ * escapeQuotesHTML
+ */
+
+pg.escapeQuotesHTML("foo")
+	+ pg.escapeQuotesHTML(bar);
+mw.html.escape("foo")
+	+ mw.html.escape(bar);
+mw.html.escape("foo")
+	+ mw.html.escape(bar);
+
+/**
+ * importScriptURI, importStylesheetURI, maxage, normalise action=raw
+ */
+
+mw.loader.load( '//test.wikipedia.org/w/index.php?title=Example&action=raw&ctype=text/javascript');
+
+mw.loader.load("http://test.wikipedia.org/w/index.php?title=Example&action=raw&ctype=text/css", 'text/css');
+
+mw.loader.load('//commons.wikimedia.org/w/index.php?title=MediaWiki:Gadget-Cat-a-lot.css&action=raw&ctype=text/css', 'text/css');
+
+/* css:
+@import url('https://en.wikipedia.org/w/index.php?title=MediaWiki:Gadget-navpop.css&action=raw&ctype=text/css');
+
+@import url('https://en.wikipedia.org/w/index.php?title=MediaWiki:Gadget-navpop.css&action=raw&ctype=text/css');
+*/

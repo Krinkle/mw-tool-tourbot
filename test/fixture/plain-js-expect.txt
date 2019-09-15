@@ -1,0 +1,4 @@
+/**
+ * Clean up
+ */
+x.get('pageName')[0].toUpperCase();

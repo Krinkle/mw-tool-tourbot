@@ -1,0 +1,76 @@
+/**
+ * jquery.mwExtension
+ */
+
+'foo'.replace(/^\s+/, '');
+$.trimLeft( 'foo'.replace('foo', 'bar') );
+
+'foo'.replace(/\s+$/, '');
+$.trimRight( 'foo'.replace('foo', 'bar') );
+
+/**
+ * mw.Map
+ */
+
+	if( !mw.config.get('wgArticleId') || $(frm.wpSection).val() == 'new' ) {
+		return
+	}
+
+	if (nstab && ((mw.config.get('wgUserLanguage')=='cdo') || (mw.config.get('wgUserLanguage')=='cdo'))) {
+
+var conf = window.mw ? mw.config.get() : window;
+
+{
+'token' : mw.user.tokens.get('editToken'),
+'rows' : mw.user.options.get('rows')
+}
+
+$.each(mw.user.options.get(), function (key) {
+});
+Object.keys(mw.user.options.get())
+			.filter()
+
+/**
+ * mediawiki.user, mediawiki.util
+ */
+
+mw.util.addPortletLink( 'p-tb', mw.util.getUrl( 'Special:PrefixIndex' ), 'Unterseiten', 't-subpages' );
+log('<strong>Welcome, ' + mw.user.getName(), mw.user.isAnon());
+
+/**
+ * Clean up
+ */
+addPortletLink('p-cactions', mw.util.getUrl(null, { uselang: 'en' }), 'en');
+addPortletLink('p-cactions', mw.util.getUrl(null, { action: 'purge' }), 'purge', 'ca-purge', 'Purge the internal cache for this page'); });
+
+/**
+ * wgIsMainPage
+ */
+if(mw.config.get('wgIsMainPage')) {
+	a;
+}
+if(mw.config.get('wgIsMainPage')) {
+	b;
+}
+if (mw.config.get('wgIsMainPage')) {
+	c;
+}
+if (mw.config.get('wgIsMainPage') || mw.config.get('wgPageName') == 'Tartışma:Ana_Sayfa') {
+}
+if (!window.load_extratabs && !mw.config.get('wgIsMainPage') )
+}
+
+/**
+ * wgScriptPaath
+ */
+xhr.open('POST', wgServer + wgScriptPath + '/api.php?format=xml&action=' + action, true);
+xhr.open('/api' + '.php' + "?format=xml&action=");
+xhr.open("/api.php?format=xml&action=");
+
+this.url = wgScriptPath + "/api.php"
+this.url = wgScriptPath + "/api.php";
+set({
+ api_uri: window.location.protocol + wgServer + wgScriptPath + "/api.php",
+ api_uri: window.location.protocol + wgServer + wgScriptPath + '/api.php',
+ x: 1
+});

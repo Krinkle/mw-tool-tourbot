@@ -1,0 +1,12 @@
+$j ( "#test" );
+$j( function () {} );
+$j.ajax();
+var $jay = $('.jay');
+
+.size()
+
+obj.removeAttr('disabled');
+attr('disabled', true)
+$(form).find(':submit').removeAttr('disabled');
+
+$(this).nextUntil("h2").andSelf().wrapAll('<div class="mw-h2section"></div>');

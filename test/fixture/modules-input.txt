@@ -1,0 +1,75 @@
+/**
+ * Obsolete modules
+ */
+
+{
+	if ( !$.jStorage ) dependencies.push( 'jquery.jStorage' );
+	if ( !Object.keys ) dependencies.push( 'es5-shim' );
+	if ( !Object.keys ) dependencies.push( 'json' );
+}
+
+// Do not, es5-shimZ
+// Do not, jsonIify
+// Do not, get('action=json', fn)
+
+load( 'es5-shim', first );
+load( mid, 'es5-shim', dle );
+load( last, 'es5-shim' );
+load( 'es5-shim' );
+
+mods = [ "es5-shim", first ];
+mods = [ mid, 'es5-shim', dle ];
+mods = [ last, 'es5-shim' ];
+mods = [ 'es5-shim' ];
+
+mods = [
+	'es5-shim',
+	first
+];
+mods = [
+	last,
+	'es5-shim'
+];
+
+/*
+example[dependencies=es5-shim, first]
+example[dependencies=mid, es5-shim, dle]
+example[dependencies=last, es5-shim|misc]
+example[dependencies=es5-shim]
+*/
+
+/**
+ * Renamed or merged modules
+ */
+
+load( 'ext.wikiEditor.toolbar', first );
+load( mid, 'ext.wikiEditor.toolbar', dle );
+load( last, 'ext.wikiEditor.toolbar' );
+load( 'ext.wikiEditor.toolbar' );
+
+mods = [ "ext.wikiEditor.toolbar", first ];
+mods = [ mid, 'ext.wikiEditor.toolbar', dle ];
+mods = [ last, 'ext.wikiEditor.toolbar' ];
+mods = [ 'ext.wikiEditor.toolbar' ];
+
+mods = [
+	'ext.wikiEditor.toolbar',
+	first
+];
+mods = [
+	last,
+	'ext.wikiEditor.toolbar'
+];
+
+/*
+example[dependencies=ext.wikiEditor.toolbar, first]
+example[dependencies=mid, ext.wikiEditor.toolbar, dle]
+example[dependencies=last, ext.wikiEditor.toolbar|misc]
+example[dependencies=ext.wikiEditor.toolbar]
+
+urldecoder[ResourceLoader|dependencies=mediawiki.Uri,mediawiki.legacy.wikibits,mediawiki.util]|urldecoder.js
+urldecoder[ResourceLoader|dependencies=mediawiki.legacy.wikibits,mediawiki.util]|urldecoder.js
+urldecoder[ResourceLoader|dependencies=mediawiki.util,mediawiki.legacy.wikibits]|urldecoder.js
+urldecoder[ResourceLoader|dependencies=mediawiki.legacy.wikibits|foo=bar]|urldecoder.js
+urldecoder[ResourceLoader|dependencies=mediawiki.legacy.wikibits]|urldecoder.js
+*/

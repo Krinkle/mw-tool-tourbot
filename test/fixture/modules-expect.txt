@@ -1,0 +1,72 @@
+/**
+ * Obsolete modules
+ */
+
+{
+	if ( !$.jStorage ) dependencies.push( 'jquery.jStorage' );
+}
+
+// Do not, es5-shimZ
+// Do not, jsonIify
+// Do not, get('action=json', fn)
+
+load( first );
+load( mid, dle );
+load( last );
+load( 'es5-shim' );
+
+mods = [ first ];
+mods = [ mid, dle ];
+mods = [ last ];
+mods = [ 'es5-shim' ];
+
+mods = [
+	first
+];
+mods = [
+	last,
+	'es5-shim'
+];
+
+/*
+example[dependencies=first]
+example[dependencies=mid, dle]
+example[dependencies=last|misc]
+example[dependencies=es5-shim]
+*/
+
+/**
+ * Renamed or merged modules
+ */
+
+load( 'ext.wikiEditor', first );
+load( mid, 'ext.wikiEditor', dle );
+load( last, 'ext.wikiEditor' );
+load( 'ext.wikiEditor' );
+
+mods = [ "ext.wikiEditor", first ];
+mods = [ mid, 'ext.wikiEditor', dle ];
+mods = [ last, 'ext.wikiEditor' ];
+mods = [ 'ext.wikiEditor' ];
+
+mods = [
+	'ext.wikiEditor',
+	first
+];
+mods = [
+	last,
+	'ext.wikiEditor'
+];
+
+/*
+example[dependencies=ext.wikiEditor, first]
+example[dependencies=mid, ext.wikiEditor, dle]
+example[dependencies=last, ext.wikiEditor|misc]
+example[dependencies=ext.wikiEditor]
+
+urldecoder[ResourceLoader|dependencies=mediawiki.Uri,mediawiki.util]|urldecoder.js
+urldecoder[ResourceLoader|dependencies=mediawiki.util]|urldecoder.js
+urldecoder[ResourceLoader|dependencies=mediawiki.util]|urldecoder.js
+urldecoder[ResourceLoader|foo=bar]|urldecoder.js
+urldecoder[ResourceLoader]|urldecoder.js
+*/

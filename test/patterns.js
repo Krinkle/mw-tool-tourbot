@@ -30,9 +30,39 @@ function applyPatterns (lines) {
 }
 
 module.exports = function testPatterns () {
-  var input = fs.readFileSync(path.join(__dirname, 'fixture', 'input.txt')).toString();
-  var expected = fs.readFileSync(path.join(__dirname, 'fixture', 'expected.txt')).toString();
-  var actual = applyPatterns(input.split('\n'));
-  assert.strictEqual(typeof actual, 'object', 'return type');
-  assert.deepEqual(actual, expected.split('\n'), 'patterns');
+  // Read test cases
+  var fixtureDir = path.join(__dirname, 'fixture');
+  var inputSuffix = '-input.txt';
+  var expectSuffix = '-expect.txt';
+  var testCases = {};
+  var filenames = fs.readdirSync(fixtureDir);
+  filenames.forEach((filename) => {
+    if (filename.endsWith(inputSuffix)) {
+      let label = filename.replace(inputSuffix, '');
+      let inputFile = filename;
+      let expectFile = filename.replace(inputSuffix, expectSuffix);
+      if (!filenames.includes(expectFile)) {
+        throw new Error(`File ${inputFile} needs ${expectFile} to exist`);
+      }
+      testCases[label] = [inputFile, expectFile];
+    } else if (filename.endsWith(expectSuffix)) {
+      let label = filename.replace(expectSuffix, '');
+      let expectFile = filename;
+      let inputFile = filename.replace(expectSuffix, inputSuffix);
+      if (!filenames.includes(inputFile)) {
+        throw new Error(`File ${expectFile} needs ${inputFile} to exist`);
+      }
+      testCases[label] = [inputFile, expectFile];
+    } else {
+      throw new Error(`Unexpected file ${filename} found in fixture directory`);
+    }
+  });
+  // Run them
+  for (let label in testCases) {
+    let input = fs.readFileSync(path.join(fixtureDir, testCases[label][0])).toString();
+    let expect = fs.readFileSync(path.join(fixtureDir, testCases[label][1])).toString();
+    let actual = applyPatterns(input.split('\n'));
+    assert.strictEqual(typeof actual, 'object', `return type for "${label}" fixture`);
+    assert.deepEqual(actual, expect.split('\n'), `output of "${label}" fixture`);
+  }
 };

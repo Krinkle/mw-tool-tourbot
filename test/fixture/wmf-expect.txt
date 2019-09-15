@@ -1,0 +1,50 @@
+/**
+ * Toolserver url
+ */
+
+load('https://tools.wmflabs.org/wiwosm/osm-on-ol/kml-on-ol.php');
+load( 'https://tools.wmflabs.org/wiwosm/osm-on-ol/kml-on-ol.php' );
+load( "https://tools.wmflabs.org/wiwosm/osm-on-ol/kml-on-ol.php");
+var sLink = 'https://tools.wmflabs.org/xtools-articleinfo/?';
+  "https://tools.wmflabs.org/guc/?user=" + encodeURI(user);
+add('p-tb', 'https://tools.wmflabs.org/fist/fist.php?doit=1', 't-fist');
+
+/*
+ * bits.wikimedia.org, static-current, and skins-1.5
+ */
+
+var x = "/w/skins/Vector/images/watch-icon.png";
+url(/static/current/skins/MonoBook/bullet.gif);
+url(/static/current/skins/MonoBook/bullet.gif);
+
+var s=document.createElement('script');
+s.setAttribute('src',"https://he.wikipedia.org/w/load.php?modules=jquery&only=scripts");
+s.setAttribute('src',"https://he.wikipedia.org/w/load.php?modules=jquery&only=scripts");
+
+url(/w/skins/Vector/images/search-ltr.png);
+url(/w/skins/Vector/images/search-ltr.png);
+
+url(/w/skins/Vector/images/search-ltr.png);
+url(https://example.org/logo.png?303-4);
+
+url(/w/skins/Vector/images/watch-icon.png);
+url(/w/skins/Vector/images/watch-icon.png);
+
+var x = "https://en.wikipedia.org/w/skins/MonoBook/headbg.jpg";
+url(/w/skins/MonoBook/headbg.jpg);
+url("/w/skins/MonoBook/headbg.jpg");
+
+// This /w/skins/common/edit.js
+// and /w/skins/common/wikibits.js
+// and /w/skins/MonoBook/main.css.
+function popupTableau() {
+ var popup = window.open('','name','height=200,width=250');
+ popup.document.write('<html><head><title>Example</title>');
+ popup.document.write('<script src="\/skins-1.5\/unrelated.js"><\/script>');
+ popup.document.write('</head><body>');
+}
+
+/**
+ * Wdsearch
+ */
+mw.loader.load( '//en.wikipedia.org/w/index.php?title=MediaWiki:Wdsearch.js&action=raw&ctype=text/javascript' );

@@ -1,0 +1,55 @@
+/**
+ * Toolserver url
+ */
+
+load('https://toolserver.org/~kolossos/openlayers/kml-on-ol.php');
+load( 'http://toolserver.org/~kolossos/openlayers/kml-on-ol.php' );
+load( "//toolserver.org/~kolossos/openlayers/kml-on-ol.php");
+var sLink = 'http://tools.wikimedia.de/~daniel/WikiSense/Contributors.php?';
+  "http://tools.wikimedia.de/~luxo/contributions/contributions.php?user=" + encodeURI(user);
+add('p-tb', 'http://tools.wikimedia.de/~magnus/fist.php?doit=1', 't-fist');
+
+/*
+ * bits.wikimedia.org, static-current, and skins-1.5
+ */
+
+var x = "//bits.wikimedia.org/skins/Vector/images/watch-icon.png";
+url(//bits.wikimedia.org/static-current/skins/MonoBook/bullet.gif);
+url(//bits.wikimedia.org/static/current/skins/MonoBook/bullet.gif);
+
+var s=document.createElement('script');
+s.setAttribute('src',"//bits.wikimedia.org/he.wikipedia.org/load.php?modules=jquery&only=scripts");
+s.setAttribute('src',"http://bits.wikimedia.org/he.wikipedia.org/load.php?modules=jquery&only=scripts");
+
+url(//bits.wikimedia.org/static-1.22wmf1/skins/vector/images/search-ltr.png?303-4);
+url(//bits.wikimedia.org/static-1.25wmf1/skins/Vector/images/search-ltr.png);
+
+url(/w/skins/Vector/images/search-ltr.png?303-4);
+url(https://example.org/logo.png?303-4);
+
+url(//bits.wikimedia.org/skins-1.5/vector/images/watch-icon.png);
+url(//bits.wikimedia.org/skins-1.5/Vector/images/watch-icon.png);
+
+var x = "https://en.wikipedia.org/skins-1.5/monobook/headbg.jpg";
+url(/skins-1.5/monobook/headbg.jpg);
+url("/skins-1.5/monobook/headbg.jpg");
+
+// This /skins-1.5/common/edit.js
+// and /skins-1.5/commons/wikibits.js
+// and /w/skins-1.5/monobook/main.css.
+function popupTableau() {
+ var popup = window.open('','name','height=200,width=250');
+ popup.document.write('<html><head><title>Example</title>');
+ popup.document.write('<script type="text\/javascript" src="\/skins-1.5\/common\/wikibits.js"><!-- wikibits js --><\/script>');
+ popup.document.write('<script src="\/skins-1.5\/common\/wikibits.js"><!-- wikibits js --><\/script>');
+ popup.document.write('<script src="\/skins-1.5\/common\/wikibits.js"><\/script>');
+ popup.document.write("<script src='\/w\/skins-1.5\/common\/wikibits.js'><\/script>");
+ popup.document.write('<script src="\/skins-1.5\/unrelated.js"><\/script>');
+ popup.document.write('</head><body>');
+ popup.document.write('<style type=\"text\/css\" media=\"screen,projection\">/*<![CDATA[*/ @import "\/skins-1.5\/monobook\/main.css?5\";@import \"/skins-1.5/monobook/rtl.css\"; /*]]>*/<\/style>');
+}
+
+/**
+ * Wdsearch
+ */
+mw.loader.load( '//sv.wikipedia.org/w/index.php?title=MediaWiki:Gadget-Wdsearch.js&action=raw&ctype=text/javascript' );

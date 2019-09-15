@@ -1,0 +1,47 @@
+/**
+ * addOnloadHook
+ */
+
+function addOnloadHook() {
+}
+
+call(function addOnloadHook() {
+	// ..
+})
+
+addOnloadHook(function addOnloadHook() {});
+addOnloadHook(function () {});
+ addOnloadHook(funcRef );
+  addOnloadHook(function() {
+    // ..
+  })
+  // addOnloadHook(function() {})
+
+DatRoot.addOnloadHook();
+
+/**
+ * escapeQuotesHTML
+ */
+
+pg.escapeQuotesHTML("foo")
+	+ pg.escapeQuotesHTML(bar);
+escapeQuotesHTML("foo")
+	+ escapeQuotesHTML(bar);
+window.escapeQuotesHTML("foo")
+	+ window.escapeQuotesHTML(bar);
+
+/**
+ * importScriptURI, importStylesheetURI, maxage, normalise action=raw
+ */
+
+importScriptURI( '//test.wikipedia.org/w/index.php?title=Example&action=raw&ctype=text/javascript&maxage=0&smaxage=0');
+
+importStylesheetURI("http://test.wikipedia.org/w/index.php?title=Example&action=raw&ctype=text/css&maxage=0&smaxage=0");
+
+importStylesheetURI('//commons.wikimedia.org/w/index.php?action=raw&ctype=text/css&title=MediaWiki:Gadget-Cat-a-lot.css');
+
+/* css:
+@import url('//en.wikipedia.org/w/index.php?title=MediaWiki:Gadget-navpop.css&action=raw&ctype=text/css&smaxage=21600&maxage=86400');
+
+@import url('//en.wikipedia.org/w/index.php?title=MediaWiki:Gadget-navpop.css&action=raw&ctype=text/css&bcache=1&smaxage=21600&maxage=86400');
+*/
