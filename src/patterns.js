@@ -309,6 +309,11 @@ module.exports = [
     summary: 'Updated deprecated module name'
   },
   {
+    regex: /(['"]|[,=]\s*)jquery\.accessKeyLabel(['"]|\s*[,|\]])/,
+    replacement: '$1mediawiki.util$2',
+    summary: 'Updated deprecated module name'
+  },
+  {
     // Replace old alias with destination
     regex: /(['"]|[,=]\s*)mediawiki\.api\.(?:category|edit|login|options|parse|upload|user|watch|messages|rollback)(['"]|\s*[,|\]])/,
     replacement: '$1mediawiki.api$2',
