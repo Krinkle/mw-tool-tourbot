@@ -73,3 +73,8 @@ urldecoder[ResourceLoader|dependencies=mediawiki.util,mediawiki.legacy.wikibits]
 urldecoder[ResourceLoader|dependencies=mediawiki.legacy.wikibits|foo=bar]|urldecoder.js
 urldecoder[ResourceLoader|dependencies=mediawiki.legacy.wikibits]|urldecoder.js
 */
+
+mw.loader.using('jquery.accessKeyLabel');
+/*
+example[dependencies=x,jquery.accessKeyLabel|misc]
+*/

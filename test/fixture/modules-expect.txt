@@ -70,3 +70,8 @@ urldecoder[ResourceLoader|dependencies=mediawiki.util]|urldecoder.js
 urldecoder[ResourceLoader|foo=bar]|urldecoder.js
 urldecoder[ResourceLoader]|urldecoder.js
 */
+
+mw.loader.using('mediawiki.util');
+/*
+example[dependencies=x,mediawiki.util|misc]
+*/
