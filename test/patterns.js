@@ -59,10 +59,11 @@ module.exports = function testPatterns () {
   });
   // Run them
   for (let label in testCases) {
-    let input = fs.readFileSync(path.join(fixtureDir, testCases[label][0])).toString();
-    let expect = fs.readFileSync(path.join(fixtureDir, testCases[label][1])).toString();
-    let actual = applyPatterns(input.split('\n'));
+    let input = fs.readFileSync(path.join(fixtureDir, testCases[label][0])).toString().split('\n');
+    let expect = fs.readFileSync(path.join(fixtureDir, testCases[label][1])).toString().split('\n');
+    let actual = applyPatterns(input);
     assert.strictEqual(typeof actual, 'object', `return type for "${label}" fixture`);
-    assert.deepEqual(actual, expect.split('\n'), `output of "${label}" fixture`);
+    assert.strictEqual(actual.length, expect.length, `number of lines for "${label}" fixture`);
+    assert.deepEqual(actual, expect, `output of "${label}" fixture`);
   }
 };
