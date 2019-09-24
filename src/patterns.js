@@ -320,6 +320,11 @@ module.exports = [
     summary: 'Updated deprecated module name'
   },
   {
+    regex: /(mw\s*\.\s*user\s*\.\s*tokens\s*\.\s*get\s*\(\s*)(?:(')editToken(')|(")editToken("))(\s*\))/,
+    replacement: '$1$2$4csrfToken$3$5$6',
+    summary: 'Updated deprecated user.tokens key'
+  },
+  {
     regex: /[?&]s?maxage=\d*/,
     replacement: '',
     summary: 'Remove unused "maxage" to improve cache performance'

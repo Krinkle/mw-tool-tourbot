@@ -21,7 +21,7 @@ $.trimRight( 'foo'.replace('foo', 'bar') );
 var conf = window.mw ? mw.config.get() : window;
 
 {
-'token' : mw.user.tokens.get('editToken'),
+'token' : mw.user.tokens.get('csrfToken'),
 'rows' : mw.user.options.get('rows')
 }
 
@@ -74,3 +74,9 @@ set({
  api_uri: window.location.protocol + wgServer + wgScriptPath + '/api.php',
  x: 1
 });
+
+/**
+ * mw.user.tokens
+ */
+fuwMakeHiddenfield('token', mw.user.tokens.get('csrfToken'), 'apiToken');
+new mw.Api().post({ minor: '', token: mw.user.tokens.get("csrfToken") }).then;

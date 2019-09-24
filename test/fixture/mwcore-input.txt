@@ -74,3 +74,9 @@ set({
  api_uri: window.location.protocol + wgServer + wgScriptPath + '/api' + wgScriptExtension,
  x: 1
 });
+
+/**
+ * mw.user.tokens
+ */
+fuwMakeHiddenfield('token', mw.user.tokens.get('editToken'), 'apiToken');
+new mw.Api().post({ minor: '', token: mw.user.tokens.get("editToken") }).then;
