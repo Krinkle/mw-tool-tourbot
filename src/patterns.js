@@ -353,10 +353,6 @@ module.exports = [
     replacement: '.org/w/index.php$1'
   },
   {
-    regex: /\.org\/w\/index\.php\?action=raw&ctype=text\/(css|javascript)&title=([^'";]+)/,
-    replacement: '.org/w/index.php?title=$2&action=raw&ctype=text/$1'
-  },
-  {
     regex: /\$j\s*(\(|\.)/,
     replacement: '$$$1'
   },
