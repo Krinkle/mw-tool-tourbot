@@ -75,3 +75,8 @@ mw.loader.using('mediawiki.util');
 /*
 example[dependencies=x,mediawiki.util|misc]
 */
+
+mw.loader.using('mediawiki.util');
+/*
+example[dependencies=x,mediawiki.util|misc]
+*/

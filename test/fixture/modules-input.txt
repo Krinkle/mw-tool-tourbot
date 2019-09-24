@@ -78,3 +78,8 @@ mw.loader.using('jquery.accessKeyLabel');
 /*
 example[dependencies=x,jquery.accessKeyLabel|misc]
 */
+
+mw.loader.using('mediawiki.RegExp');
+/*
+example[dependencies=x,mediawiki.RegExp|misc]
+*/

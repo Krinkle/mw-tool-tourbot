@@ -309,7 +309,7 @@ module.exports = [
     summary: 'Updated deprecated module name'
   },
   {
-    regex: /(['"]|[,=]\s*)jquery\.accessKeyLabel(['"]|\s*[,|\]])/,
+    regex: /(['"]|[,=]\s*)(?:jquery\.accessKeyLabel|mediawiki\.RegExp)(['"]|\s*[,|\]])/,
     replacement: '$1mediawiki.util$2',
     summary: 'Updated deprecated module name'
   },
