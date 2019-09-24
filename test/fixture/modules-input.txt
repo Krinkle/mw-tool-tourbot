@@ -83,3 +83,10 @@ mw.loader.using('mediawiki.RegExp');
 /*
 example[dependencies=x,mediawiki.RegExp|misc]
 */
+
+mw.loader.using(['mediawiki.util', 'mediawiki.RegExp']);
+mw.loader.using(['mediawiki.RegExp', 'mediawiki.util']);
+/*
+example[dependencies=x,mediawiki.RegExp,mediawiki.util|misc]
+example[dependencies=x,mediawiki.util,mediawiki.RegExp|misc]
+*/

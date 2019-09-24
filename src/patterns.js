@@ -309,6 +309,24 @@ module.exports = [
     summary: 'Updated deprecated module name'
   },
   {
+    // Superseded module in previous array element
+    regex: /(['"]mediawiki\.util['"]\s*),\s*['"](?:jquery\.accessKeyLabel|mediawiki\.RegExp)['"]/,
+    replacement: '$1',
+    summary: 'Updated deprecated module name'
+  },
+  {
+    // Superseded module in next array element
+    regex: /['"](?:jquery\.accessKeyLabel|mediawiki\.RegExp)['"]\s*,\s*(['"]mediawiki\.util['"]\s*)/,
+    replacement: '$1',
+    summary: 'Updated deprecated module name'
+  },
+  {
+    // Superseded module in gadget definition
+    regex: /\bmediawiki\.util\s*,\s*(?:jquery\.accessKeyLabel|mediawiki\.RegExp)\b|\b(?:jquery\.accessKeyLabel|mediawiki\.RegExp)\b\s*,\s*mediawiki\.util\b/,
+    replacement: 'mediawiki.util',
+    summary: 'Updated deprecated module name'
+  },
+  {
     regex: /(['"]|[,=]\s*)(?:jquery\.accessKeyLabel|mediawiki\.RegExp)(['"]|\s*[,|\]])/,
     replacement: '$1mediawiki.util$2',
     summary: 'Updated deprecated module name'
