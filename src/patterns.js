@@ -248,27 +248,44 @@ module.exports = [
     summary: 'Removed redundant module'
   },
   {
-    // First item: using('X', z)
-    // First item:  ['X', z]
-    // First or middle item:  'X',
-    // First item:  foo[dependencies=X, z]
-    regex: /(^\s*|[([]\s*|dependencies=\s*)['"]?(?:es5-shim|json|dom-level2-shim)['"]?\s*,\s*/,
+    // First item: foo[dependencies=X, z]
+    regex: /(dependencies=\s*)(?:es5-shim|json|dom-level2-shim)\s*,\s*/,
     replacement: '$1<tourbot-rm-blank>',
     summary: 'Removed obsolete module'
   },
   {
-    // Middle item: using(y, 'X', z)
-    // Middle item: [y, 'X', z]
     // Middle item: foo[dependencies=y, X, z]
-    regex: /(,\s*)['"]?(?:es5-shim|json|dom-level2-shim)['"]?\s*,\s*/,
+    regex: /(,\s*)(?:es5-shim|json|dom-level2-shim)\s*,\s*/,
     replacement: '$1',
     summary: 'Removed obsolete module'
   },
   {
-    // Last item: using(y, z, 'X')
-    // Last item: [y, z, 'X']
     // Last item: foo[dependencies=y, z, X]
-    regex: /(,\s*)['"]?(?:es5-shim|json|dom-level2-shim)['"]?(\s*[|\])])/,
+    regex: /(,\s*)(?:es5-shim|json|dom-level2-shim)(\s*[|\]])/,
+    replacement: '$2',
+    summary: 'Removed obsolete module'
+  },
+  {
+    // Sole param (no callback): using('X') or load('X')
+    regex: /(mw\.loader\.|^\s*)(?:load|using)\s*\(\s*['"](?:es5-shim|json|dom-level2-shim)['"]\s*\)\s*;?\s*/,
+    replacement: '<tourbot-rm-blank>',
+    summary: 'Removed obsolete module'
+  },
+  {
+    // First item: ['X', z]
+    regex: /(\[)\s*['"](?:es5-shim|json|dom-level2-shim)['"]\s*,?/,
+    replacement: '$1',
+    summary: 'Removed obsolete module'
+  },
+  {
+    // Middle item: [y, 'X', z]
+    regex: /(\[.+,\s*)['"](?:es5-shim|json|dom-level2-shim)['"]\s*,\s*/,
+    replacement: '$1',
+    summary: 'Removed obsolete module'
+  },
+  {
+    // Last item: [y, z, 'X']
+    regex: /(,\s*)['"](?:es5-shim|json|dom-level2-shim)['"](\s*\])/,
     replacement: '$2',
     summary: 'Removed obsolete module'
   },

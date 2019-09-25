@@ -10,17 +10,21 @@
 // Do not, jsonIify
 // Do not, get('action=json', fn)
 
-load( first );
-load( mid, dle );
-load( last );
-load( 'es5-shim' );
+formData.append('format', 'json');
+using('json', fn);
+
+using([ first ]);
+using([ mid, dle ]);
+using([ last ]);
+using([]);
 
 mods = [ first ];
 mods = [ mid, dle ];
 mods = [ last ];
-mods = [ 'es5-shim' ];
+mods = [];
 
 mods = [
+	'es5-shim',
 	first
 ];
 mods = [
