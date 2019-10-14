@@ -446,9 +446,6 @@ async function handleSubject (authObj, map, subject, preloadNext) {
   subject.server = wiki.server;
 
   printHeading(subject.pageName, wiki.server);
-  if (subject.pageName === 'MediaWiki:Gadget-popups.js') {
-    throw new SkipFileError('False positive');
-  }
   var client = await getBotClient(wiki.server, authObj);
   var page;
   if (getPageCache.server === wiki.server && getPageCache.title === subject.pageName) {
