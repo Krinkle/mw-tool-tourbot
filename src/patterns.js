@@ -33,16 +33,6 @@ module.exports = [
     summary: '$.trimRight is deprecated'
   },
   {
-    regex: /\bimportScriptURI\s*\(/,
-    replacement: 'mw.loader.load(',
-    summary: 'importScriptURI is deprecated'
-  },
-  {
-    regex: /\bimportStylesheetURI\s*\(\s*([^\n)]+?)\s*\)/,
-    replacement: 'mw.loader.load($1, \'text/css\')',
-    summary: 'importStylesheetURI is deprecated'
-  },
-  {
     regex: /\bmw\s*\.\s*config\s*\.\s*values\s*\.\s*(\w+)/,
     replacement: 'mw.config.get(\'$1\')',
     summary: 'mw.config.values is deprecated'
