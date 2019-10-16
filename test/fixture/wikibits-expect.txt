@@ -34,11 +34,11 @@ mw.html.escape("foo")
  * importScriptURI, importStylesheetURI, maxage, normalise action=raw
  */
 
-mw.loader.load( '//test.wikipedia.org/w/index.php?title=Example&action=raw&ctype=text/javascript');
+importScriptURI( '//test.wikipedia.org/w/index.php?title=Example&action=raw&ctype=text/javascript');
 
-mw.loader.load("http://test.wikipedia.org/w/index.php?title=Example&action=raw&ctype=text/css", 'text/css');
+importStylesheetURI("http://test.wikipedia.org/w/index.php?title=Example&action=raw&ctype=text/css");
 
-mw.loader.load('//commons.wikimedia.org/w/index.php?action=raw&ctype=text/css&title=MediaWiki:Gadget-Cat-a-lot.css', 'text/css');
+importStylesheetURI('//commons.wikimedia.org/w/index.php?action=raw&ctype=text/css&title=MediaWiki:Gadget-Cat-a-lot.css');
 
 /* css:
 @import url('https://en.wikipedia.org/w/index.php?title=MediaWiki:Gadget-navpop.css&action=raw&ctype=text/css');
