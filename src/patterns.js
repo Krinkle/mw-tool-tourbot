@@ -345,6 +345,30 @@ module.exports = [
     summary: 'Updated deprecated module name'
   },
   {
+    // Replace old alias with new name (JS quoted)
+    regex: /(['"])(?:jquery\.ui\.core|jquery\.ui\.core\.styles|jquery\.ui\.accordion|jquery\.ui\.autocomplete|jquery\.ui\.button|jquery\.ui\.datepicker|jquery\.ui\.dialog|jquery\.ui\.draggable|jquery\.ui\.droppable|jquery\.ui\.menu|jquery\.ui\.mouse|jquery\.ui\.position|jquery\.ui\.progressbar|jquery\.ui\.resizable|jquery\.ui\.selectable|jquery\.ui\.slider|jquery\.ui\.sortable|jquery\.ui\.tabs|jquery\.ui\.tooltip|jquery\.ui\.widget|jquery\.effects\.blind|jquery\.effects\.clip|jquery\.effects\.drop|jquery\.effects\.highlight|jquery\.effects\.scale|jquery\.effects\.shake)(['"])/,
+    replacement: '$1jquery.ui$2',
+    summary: 'Updated deprecated module name'
+  },
+  {
+    // Remove duplicate of a new name (JS quoted)
+    regex: /(['"]jquery\.ui['"].*),\s*['"]jquery\.ui['"]\s*/,
+    replacement: '$1',
+    summary: 'Updated deprecated module name'
+  },
+  {
+    // Replace old alias with new name (Gadget definition)
+    regex: /(dependencies=[^|\]]*)(?:jquery\.ui\.core|jquery\.ui\.core\.styles|jquery\.ui\.accordion|jquery\.ui\.autocomplete|jquery\.ui\.button|jquery\.ui\.datepicker|jquery\.ui\.dialog|jquery\.ui\.draggable|jquery\.ui\.droppable|jquery\.ui\.menu|jquery\.ui\.mouse|jquery\.ui\.position|jquery\.ui\.progressbar|jquery\.ui\.resizable|jquery\.ui\.selectable|jquery\.ui\.slider|jquery\.ui\.sortable|jquery\.ui\.tabs|jquery\.ui\.tooltip|jquery\.ui\.widget|jquery\.effects\.blind|jquery\.effects\.clip|jquery\.effects\.drop|jquery\.effects\.highlight|jquery\.effects\.scale|jquery\.effects\.shake)([\s,|\]])/,
+    replacement: '$1jquery.ui$2',
+    summary: 'Updated deprecated module name'
+  },
+  {
+    // Remove duplicate of a new name (Gadget definition)
+    regex: /(dependencies=[^|\]]*jquery\.ui\s*)(,\s*[^|,]+)?,\s*jquery\.ui([\s,|\]])/g,
+    replacement: '$1$2$3',
+    summary: 'Updated deprecated module name'
+  },
+  {
     regex: /(mw\s*\.\s*user\s*\.\s*tokens\s*\.\s*get\s*\(\s*)(?:(')editToken(')|(")editToken("))(\s*\))/,
     replacement: '$1$2$4csrfToken$3$5$6',
     summary: 'Updated deprecated user.tokens key'

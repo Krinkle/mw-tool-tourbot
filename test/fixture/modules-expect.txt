@@ -81,13 +81,22 @@ example[dependencies=x,mediawiki.util|misc]
 */
 
 mw.loader.using('mediawiki.util');
+mw.loader.using(['mediawiki.util']);
+mw.loader.using(['mediawiki.util']);
 /*
+example[dependencies=x,mediawiki.util|misc]
+example[dependencies=x,mediawiki.util|misc]
 example[dependencies=x,mediawiki.util|misc]
 */
 
-mw.loader.using(['mediawiki.util']);
-mw.loader.using(['mediawiki.util']);
+mw.loader.using('jquery.ui');
+mw.loader.using(['jquery.ui']);
+mw.loader.using(['jquery.ui', 'mediawiki.util']);
+mw.loader.using(['mediawiki.util', 'jquery.ui']);
+mediaWiki.loader.using(['jquery.ui'], fn);
 /*
-example[dependencies=x,mediawiki.util|misc]
-example[dependencies=x,mediawiki.util|misc]
+Twinkle-start3[ResourceLoader|dependencies=jquery.ui,jquery.tipsy,moment|rights=autoconfirmed]|Twinkle.js
+Twinkle-end1[ResourceLoader|dependencies=mediawiki.user,mediawiki.util,jquery.ui,jquery.tipsy|rights=autoconfirmed]|Twinkle.js
+Twinkle-mid2[ResourceLoader|dependencies=mediawiki.user,mediawiki.util,jquery.ui,jquery.tipsy,moment|rights=autoconfirmed]|Twinkle.js
+misc-lone[ResourceLoader|default|hidden|dependencies=jquery.ui]
 */

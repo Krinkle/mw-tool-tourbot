@@ -85,13 +85,22 @@ example[dependencies=x,jquery.accessKeyLabel|misc]
 */
 
 mw.loader.using('mediawiki.RegExp');
-/*
-example[dependencies=x,mediawiki.RegExp|misc]
-*/
-
 mw.loader.using(['mediawiki.util', 'mediawiki.RegExp']);
 mw.loader.using(['mediawiki.RegExp', 'mediawiki.util']);
 /*
+example[dependencies=x,mediawiki.RegExp|misc]
 example[dependencies=x,mediawiki.RegExp,mediawiki.util|misc]
 example[dependencies=x,mediawiki.util,mediawiki.RegExp|misc]
+*/
+
+mw.loader.using('jquery.ui.dialog');
+mw.loader.using(['jquery.ui.dialog']);
+mw.loader.using(['jquery.ui.dialog', 'mediawiki.util']);
+mw.loader.using(['mediawiki.util', 'jquery.ui.dialog']);
+mediaWiki.loader.using(['jquery.ui.dialog', 'jquery.ui.autocomplete'], fn);
+/*
+Twinkle-start3[ResourceLoader|dependencies=jquery.ui.dialog,jquery.ui.button,jquery.ui.core,jquery.tipsy,moment|rights=autoconfirmed]|Twinkle.js
+Twinkle-end1[ResourceLoader|dependencies=mediawiki.user,mediawiki.util,jquery.ui.dialog,jquery.tipsy|rights=autoconfirmed]|Twinkle.js
+Twinkle-mid2[ResourceLoader|dependencies=mediawiki.user,mediawiki.util,jquery.ui.dialog,jquery.tipsy,jquery.ui.button,moment|rights=autoconfirmed]|Twinkle.js
+misc-lone[ResourceLoader|default|hidden|dependencies=jquery.ui.button]
 */
