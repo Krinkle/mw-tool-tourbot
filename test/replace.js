@@ -9,27 +9,27 @@ module.exports = function testReplace () {
   };
   var i = 1;
   var cases = [ {
-    regex: /foo/g,
+    regex: /foo/,
     replacement: 'bar',
     input: 'input',
     expected: 'input'
   }, {
-    regex: /foo/g,
+    regex: /foo/,
     replacement: 'bar',
     input: 'input foos and bars',
     expected: 'input bars and bars'
   }, {
-    regex: /two/g,
+    regex: /two/,
     replacement: '',
     input: 'one two three',
     expected: 'one  three'
   }, {
-    regex: /two/g,
+    regex: /two/,
     replacement: '<tourbot-rm-blank>',
     input: 'two',
     expected: null
   }, {
-    regex: /two/g,
+    regex: /two/,
     replacement: '<tourbot-rm-blank>',
     input: 'one two',
     expected: 'one '

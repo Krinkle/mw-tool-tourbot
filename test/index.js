@@ -8,8 +8,8 @@ async function main () {
       require('./diff'),
       require('./content'),
       require('./replace'),
-      require('./patterns'),
-      require('./fixer')
+      require('./fixer'),
+      require('./patterns')
     ]) {
       if (typeof fns === 'function') {
         fns = { [fns.name]: fns };

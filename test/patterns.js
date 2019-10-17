@@ -12,15 +12,24 @@ function applyPatterns (lines) {
     mainpagename: 'Main_Page'
   };
   patterns.forEach(function (pattern) {
-    var matchAllPattern = Object.create(pattern);
-    matchAllPattern.regex = new RegExp(
-      pattern.regex.source,
-      pattern.regex.flags.replace(/g/g, '') + 'g'
-    );
-    output.forEach(function (line, i) {
-      if (line !== null) {
-        output[i] = replace(line, matchAllPattern, siteinfo);
-      }
+    output.forEach(function (input, i) {
+      let result = input;
+      // Emulate what fixer.js does:
+      // Create a clone of the pattern and match multiple times until it no longer changes
+      do {
+        if (result === null) {
+          break;
+        }
+        const clonePattern = Object.create(pattern);
+        clonePattern.regex = new RegExp(
+          pattern.regex.source,
+          pattern.regex.flags
+        );
+        input = result;
+        result = replace(input, clonePattern, siteinfo);
+      } while (input !== result);
+
+      output[i] = result;
     });
   });
   output = output.filter(function (line) {
