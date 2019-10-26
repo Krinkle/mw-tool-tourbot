@@ -12,12 +12,6 @@ $.trimRight( 'foo'.replace('foo', 'bar') );
  * mw.Map
  */
 
-	if( !mw.config.get('wgArticleId') || $(frm.wpSection).val() == 'new' ) {
-		return
-	}
-
-	if (nstab && ((mw.config.get('wgUserLanguage')=='cdo') || (mw.config.get('wgUserLanguage')=='cdo'))) {
-
 var conf = window.mw ? mw.config.get() : window;
 
 {

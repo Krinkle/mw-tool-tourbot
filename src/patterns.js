@@ -33,11 +33,6 @@ module.exports = [
     summary: '$.trimRight is deprecated'
   },
   {
-    regex: /\bmw\s*\.\s*config\s*\.\s*values\s*\.\s*(\w+)/,
-    replacement: 'mw.config.get(\'$1\')',
-    summary: 'mw.config.values is deprecated'
-  },
-  {
     regex: /\bmw\s*\.\s*user\s*\.\s*(options|tokens)\s*\.\s*values\s*\.\s*(\w+)/,
     replacement: 'mw.user.$1.get(\'$2\')',
     summary: 'Map.values is deprecated'
