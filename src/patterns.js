@@ -341,7 +341,7 @@ module.exports = [
   },
   {
     // Replace old alias with new name (JS quoted)
-    regex: /(['"])(?:jquery\.ui\.core|jquery\.ui\.core\.styles|jquery\.ui\.accordion|jquery\.ui\.autocomplete|jquery\.ui\.button|jquery\.ui\.datepicker|jquery\.ui\.dialog|jquery\.ui\.draggable|jquery\.ui\.droppable|jquery\.ui\.menu|jquery\.ui\.mouse|jquery\.ui\.position|jquery\.ui\.progressbar|jquery\.ui\.resizable|jquery\.ui\.selectable|jquery\.ui\.slider|jquery\.ui\.sortable|jquery\.ui\.tabs|jquery\.ui\.tooltip|jquery\.ui\.widget|jquery\.effects\.blind|jquery\.effects\.clip|jquery\.effects\.drop|jquery\.effects\.highlight|jquery\.effects\.scale|jquery\.effects\.shake)(['"])/,
+    regex: /(['"])(?:jquery\.ui\.core|jquery\.ui\.core\.styles|jquery\.ui\.accordion|jquery\.ui\.autocomplete|jquery\.ui\.button|jquery\.ui\.datepicker|jquery\.ui\.dialog|jquery\.ui\.draggable|jquery\.ui\.droppable|jquery\.ui\.menu|jquery\.ui\.mouse|jquery\.ui\.position|jquery\.ui\.progressbar|jquery\.ui\.resizable|jquery\.ui\.selectable|jquery\.ui\.slider|jquery\.ui\.sortable|jquery\.ui\.tabs|jquery\.ui\.tooltip|jquery\.ui\.widget|jquery\.effects\.core|jquery\.effects\.blind|jquery\.effects\.clip|jquery\.effects\.drop|jquery\.effects\.highlight|jquery\.effects\.scale|jquery\.effects\.shake)(['"])/,
     replacement: '$1jquery.ui$2',
     summary: 'Updated deprecated module name'
   },
@@ -353,7 +353,7 @@ module.exports = [
   },
   {
     // Replace old alias with new name (Gadget definition)
-    regex: /(dependencies=[^|\]]*)(?:jquery\.ui\.core|jquery\.ui\.core\.styles|jquery\.ui\.accordion|jquery\.ui\.autocomplete|jquery\.ui\.button|jquery\.ui\.datepicker|jquery\.ui\.dialog|jquery\.ui\.draggable|jquery\.ui\.droppable|jquery\.ui\.menu|jquery\.ui\.mouse|jquery\.ui\.position|jquery\.ui\.progressbar|jquery\.ui\.resizable|jquery\.ui\.selectable|jquery\.ui\.slider|jquery\.ui\.sortable|jquery\.ui\.tabs|jquery\.ui\.tooltip|jquery\.ui\.widget|jquery\.effects\.blind|jquery\.effects\.clip|jquery\.effects\.drop|jquery\.effects\.highlight|jquery\.effects\.scale|jquery\.effects\.shake)([\s,|\]])/,
+    regex: /(dependencies=[^|\]]*)(?:jquery\.ui\.core|jquery\.ui\.core\.styles|jquery\.ui\.accordion|jquery\.ui\.autocomplete|jquery\.ui\.button|jquery\.ui\.datepicker|jquery\.ui\.dialog|jquery\.ui\.draggable|jquery\.ui\.droppable|jquery\.ui\.menu|jquery\.ui\.mouse|jquery\.ui\.position|jquery\.ui\.progressbar|jquery\.ui\.resizable|jquery\.ui\.selectable|jquery\.ui\.slider|jquery\.ui\.sortable|jquery\.ui\.tabs|jquery\.ui\.tooltip|jquery\.ui\.widget|jquery\.effects\.core|jquery\.effects\.blind|jquery\.effects\.clip|jquery\.effects\.drop|jquery\.effects\.highlight|jquery\.effects\.scale|jquery\.effects\.shake)([\s,|\]])/,
     replacement: '$1jquery.ui$2',
     summary: 'Updated deprecated module name'
   },
