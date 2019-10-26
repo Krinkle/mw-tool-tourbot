@@ -64,7 +64,15 @@ async function checkSubject (subject, content, options = {}) {
   if (subject.pageName.slice(-4) === '.css') {
     return;
   }
-  if (subject.pageName === 'MediaWiki:Gadgets-definition') {
+  if (
+    (
+      subject.pageName.includes('Gadgets-definition') ||
+      subject.pageName.includes('Centralnotice-template-')
+    ) && !subject.pageName.includes('.js')
+  ) {
+    // "MediaWiki:Gadgets-definition"
+    // "MediaWiki:Wp/khw/Gadgets-definition" (incubator.wikimedia.org)
+    // "MediaWiki:Centralnotice-template-B13 121022 sldSl enYY" (meta.wikimedia.org)
     return;
   }
   return checkScript(content, options);
