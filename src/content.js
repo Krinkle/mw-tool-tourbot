@@ -75,6 +75,15 @@ async function checkSubject (subject, content, options = {}) {
     // "MediaWiki:Centralnotice-template-B13 121022 sldSl enYY" (meta.wikimedia.org)
     return;
   }
+
+  if (
+    (content.includes('<nowiki>') && !content.includes('</nowiki>')) ||
+    (content.includes('<source') && !content.includes('</source>')) ||
+    (content.includes('<syntaxhighlight') && !content.includes('</syntaxhighlight>'))
+  ) {
+    throw new SkipFileError('Page contains unsafe nowiki see T236828');
+  }
+
   return checkScript(content, options);
 }
 

@@ -31,12 +31,22 @@ module.exports = async function testContent () {
   await assertPromise(
     testcase('foo.js', '.foo {}'),
     'rejected',
-    'Valid CSS on a JS page'
+    'CSS on a JS page'
   );
   await assertPromise(
     testcase('foo.js', 'foo();'),
     'resolved',
     'Valid JS on a JS page'
+  );
+  await assertPromise(
+    testcase('foo.js', '// <nowiki>\nfoo();\n// </nowiki>'),
+    'resolved',
+    'Valid JS on a JS page with balanced <nowiki>'
+  );
+  await assertPromise(
+    testcase('foo.js', '// <nowiki>\nfoo();'),
+    'rejected',
+    'Valid JS on a JS page with unclosed <nowiki>'
   );
   await assertPromise(
     testcase('foo.css', 'foo();'),
