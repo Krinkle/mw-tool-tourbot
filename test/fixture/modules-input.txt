@@ -105,8 +105,14 @@ Twinkle-mid2[ResourceLoader|dependencies=mediawiki.user,mediawiki.util,jquery.ui
 misc-lone[ResourceLoader|default|hidden|dependencies=jquery.ui.button]
 */
 
-@required modules: mediawiki.util, mediawiki.user, jquery.ui.dialog, ext.gadget.libCommons, ext.gadget.libJQuery, ext.gadget.libUtil, mediawiki.util, query.ui.progressbar, ext.gadget.libGlobalReplace, ext.gadget.AjaxQuickDelete
+/**
+ * @required modules: mediawiki.util, jquery.ui.dialog
+ * @required modules: mediawiki.util, mediawiki.user, jquery.ui.dialog, ext.gadget.libCommons, ext.gadget.libJQuery, ext.gadget.libUtil, mediawiki.util, query.ui.progressbar, ext.gadget.libGlobalReplace, ext.gadget.AjaxQuickDelete
+ */
 
 // Load jquery.ui.button so button styles work in wikitext
 // Unchanged url:
 // https://github.com/jquery/jquery-ui/blob/master/ui/jquery.ui.widget.js#L16-24
+/*
+		 * Preferences are edited by the user via a jquery.ui.dialog and are
+*/
