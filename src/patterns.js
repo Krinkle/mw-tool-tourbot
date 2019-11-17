@@ -372,7 +372,7 @@ module.exports = [
   {
     // Update false-positive result in comments that refer to the functionality
     // by using the (now-outdated) module name.
-    regex: /(\/\/.*jquery\.(?:effects|ui))\.([a-zA-Z.]+)/,
+    regex: /(\/\/.*\sjquery\.(?:effects|ui))\.([a-zA-Z.]+)/,
     replacement: '$1 $2',
     summary: 'Updated deprecated module name'
   },
