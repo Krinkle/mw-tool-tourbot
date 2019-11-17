@@ -100,3 +100,5 @@ Twinkle-end1[ResourceLoader|dependencies=mediawiki.user,mediawiki.util,jquery.ui
 Twinkle-mid2[ResourceLoader|dependencies=mediawiki.user,mediawiki.util,jquery.ui,jquery.tipsy,moment|rights=autoconfirmed]|Twinkle.js
 misc-lone[ResourceLoader|default|hidden|dependencies=jquery.ui]
 */
+
+@required modules: mediawiki.util, mediawiki.user, jquery.ui, ext.gadget.libCommons, ext.gadget.libJQuery, ext.gadget.libUtil, mediawiki.util, ext.gadget.libGlobalReplace, ext.gadget.AjaxQuickDelete

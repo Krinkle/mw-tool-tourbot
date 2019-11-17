@@ -352,14 +352,20 @@ module.exports = [
     summary: 'Updated deprecated module name'
   },
   {
-    // Replace old alias with new name (Gadget definition)
-    regex: /(dependencies=[^|\]]*)(?:jquery\.ui\.core|jquery\.ui\.core\.styles|jquery\.ui\.accordion|jquery\.ui\.autocomplete|jquery\.ui\.button|jquery\.ui\.datepicker|jquery\.ui\.dialog|jquery\.ui\.draggable|jquery\.ui\.droppable|jquery\.ui\.menu|jquery\.ui\.mouse|jquery\.ui\.position|jquery\.ui\.progressbar|jquery\.ui\.resizable|jquery\.ui\.selectable|jquery\.ui\.slider|jquery\.ui\.sortable|jquery\.ui\.tabs|jquery\.ui\.tooltip|jquery\.ui\.widget|jquery\.effects\.core|jquery\.effects\.blind|jquery\.effects\.clip|jquery\.effects\.drop|jquery\.effects\.highlight|jquery\.effects\.scale|jquery\.effects\.shake)([\s,|\]])/,
+    // Fix common typo in some copy-pasted file comments
+    regex: /, query\.ui\.progressbar, /,
+    replacement: ', ',
+    summary: 'Updated deprecated module name'
+  },
+  {
+    // Replace old alias with new name (Gadget definition, and file comment)
+    regex: /((?:@required modules:|dependencies=)[^|\]]*)(?:jquery\.ui\.core|jquery\.ui\.core\.styles|jquery\.ui\.accordion|jquery\.ui\.autocomplete|jquery\.ui\.button|jquery\.ui\.datepicker|jquery\.ui\.dialog|jquery\.ui\.draggable|jquery\.ui\.droppable|jquery\.ui\.menu|jquery\.ui\.mouse|jquery\.ui\.position|jquery\.ui\.progressbar|jquery\.ui\.resizable|jquery\.ui\.selectable|jquery\.ui\.slider|jquery\.ui\.sortable|jquery\.ui\.tabs|jquery\.ui\.tooltip|jquery\.ui\.widget|jquery\.effects\.core|jquery\.effects\.blind|jquery\.effects\.clip|jquery\.effects\.drop|jquery\.effects\.highlight|jquery\.effects\.scale|jquery\.effects\.shake)([\s,|\]])/,
     replacement: '$1jquery.ui$2',
     summary: 'Updated deprecated module name'
   },
   {
-    // Remove duplicate of a new name (Gadget definition)
-    regex: /(dependencies=[^|\]]*jquery\.ui\s*)(,\s*[^|,]+)?,\s*jquery\.ui([\s,|\]])/g,
+    // Remove duplicate of a new name (Gadget definition, and file comment)
+    regex: /((?:@required modules:|dependencies=)[^|\]]*jquery\.ui\s*)(,\s*[^|,]+)?,\s*jquery\.ui([\s,|\]])/g,
     replacement: '$1$2$3',
     summary: 'Updated deprecated module name'
   },
@@ -368,12 +374,11 @@ module.exports = [
     replacement: '$1$2$4csrfToken$3$5$6',
     summary: 'Updated deprecated user.tokens key'
   },
+  // Clean-up (not worth an edit of itself)
   {
     regex: /[?&]s?maxage=\d*/,
-    replacement: '',
-    summary: 'Remove unused "maxage" to improve cache performance'
+    replacement: ''
   },
-  // Clean-up (not worth an edit of itself)
   {
     regex: /(@import\s+url\(['"])\/\/([a-z.]+\.org)/,
     replacement: '$1https://$2'
