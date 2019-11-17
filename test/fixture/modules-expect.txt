@@ -102,3 +102,5 @@ misc-lone[ResourceLoader|default|hidden|dependencies=jquery.ui]
 */
 
 @required modules: mediawiki.util, mediawiki.user, jquery.ui, ext.gadget.libCommons, ext.gadget.libJQuery, ext.gadget.libUtil, mediawiki.util, ext.gadget.libGlobalReplace, ext.gadget.AjaxQuickDelete
+
+// Load jquery.ui button so button styles work in wikitext
