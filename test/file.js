@@ -13,23 +13,23 @@ testwiki            User:TheDJ/text.js
 `,
       expected: [
         {
-          wikiId: 'frwiki',
+          wiki: 'frwiki',
           pageName: 'User:Appaches/common.js'
         },
         {
-          wikiId: 'metawiki',
+          wiki: 'metawiki',
           pageName: 'User:Jeph paul/formsGadget.js'
         },
         {
-          wikiId: 'rowiki',
+          wiki: 'rowiki',
           pageName: 'User:Anneto/user.css'
         },
         {
-          wikiId: 'sourceswiki',
+          wiki: 'sourceswiki',
           pageName: 'User:Koavf/monobook.js'
         },
         {
-          wikiId: 'testwiki',
+          wiki: 'testwiki',
           pageName: 'User:TheDJ/text.js'
         }
       ]
@@ -57,15 +57,15 @@ testwiki            User:TheDJ/text.js
       `,
       expected: [
         {
-          wikiId: 'etwiki',
+          wiki: 'et.wikipedia.org',
           pageName: 'Vikipeedia:Tööriistad/Muudatuste tühistaja/kood.js'
         },
         {
-          wikiId: 'testwiki',
+          wiki: 'test.wikipedia.org',
           pageName: 'MediaWiki:Gadget-GallerySlideshow.js'
         },
         {
-          wikiId: 'wwwmediawiki',
+          wiki: 'www.mediawiki.org',
           pageName: '  User:Slaporte (WMF)/common.js'
         }
       ]

@@ -194,6 +194,7 @@ function getWikiMap (authObj) {
                 wiki = group[i];
                 wiki.server = new URL(wiki.url).host;
                 map[wiki.dbname] = wiki;
+                map[wiki.server] = wiki;
               }
             }
           }
@@ -245,7 +246,7 @@ function printApplyHelp () {
 }
 
 async function confirmSaving (subject, summary, result) {
-  var wiki = subject.server || subject.wikiId;
+  var wiki = subject.server || subject.wiki;
 
   if (result.didSomeAllOrAuto) {
     console.log('\nEdit summary: %s\n', summary);
@@ -409,7 +410,7 @@ async function checkAll (subject, content) {
 }
 
 async function prefetchSubject (authObj, map, subject) {
-  var wiki = map[subject.wikiId];
+  var wiki = map[subject.wiki];
   if (!wiki) {
     return;
   }
@@ -421,10 +422,10 @@ async function prefetchSubject (authObj, map, subject) {
 }
 
 async function handleSubject (authObj, map, subject, preloadNext) {
-  var wiki = map[subject.wikiId];
+  var wiki = map[subject.wiki];
   if (!wiki) {
-    printHeading(subject.pageName, subject.wikiId);
-    throw new SkipFileError('Unknown wiki: ' + subject.wikiId);
+    printHeading(subject.pageName, subject.wiki);
+    throw new SkipFileError('Unknown wiki: ' + subject.wiki);
   }
   // Hack for printSaving() and openPage()
   subject.server = wiki.server;

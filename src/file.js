@@ -24,7 +24,7 @@ function parseMwgrepOutput (mwgrepText) {
     if (text && text[0] !== '#') {
       const parts = line.split(/\s+/);
       subjects.push({
-        wikiId: parts[0],
+        wiki: parts[0],
         // Page names may contain spaces
         pageName: parts.slice(1).join(' ')
       });
@@ -40,11 +40,11 @@ function parseMwgrepOutput (mwgrepText) {
 function parseGlobalsearchOutput (globalSearchRes) {
   return globalSearchRes.hits.map((hit) => {
     return {
-      // FIXME: Convert from WMF/CirussSearch 'wiki' field to MediaWiki/CentralAuth 'wikiId':
-      // - 'commons.wikimedia' => 'commonswiki'
-      // - 'en.wikipedia' => 'enwiki'
-      // - 'en.wiktionary' => 'enwiktionary'
-      wikiId: hit.wiki.replace('.', '').replace(/(wikimedia|wikipedia)$/, 'wiki'),
+      // Convert from WMF/CirussSearch 'wiki' field to URL origin:
+      // - 'commons.wikimedia' => 'commons.wikimedia.org'
+      // - 'en.wikipedia' => 'en.wikipedia.org'
+      // - 'en.wiktionary' => 'en.wiktionary.org'
+      wiki: hit.wiki + '.org',
       pageName: hit.title
     };
   });
