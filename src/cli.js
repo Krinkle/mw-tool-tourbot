@@ -12,6 +12,7 @@ var DecisionStore = require('./store').DecisionStore;
 var Content = require('./content');
 var Diff = require('./diff');
 var Fixer = require('./fixer');
+var parseResults = require('./file.js').parseResults;
 var replace = require('./replace');
 var { SkipFileError, SkipPatternError, AbortError } = require('./error');
 var patterns = require('./patterns');
@@ -41,23 +42,6 @@ var bots = Object.create(null);
 var dMap = null;
 var getPageCache = { title: null, promise: null };
 var decisionCache;
-
-function parseResults (results) {
-  var lines = results.trim().split('\n');
-  return lines.reduce(function (subjects, line) {
-    var text = line.trim();
-    // Filter empty lines and comments
-    if (text && text[0] !== '#') {
-      var parts = line.split(/\s+/);
-      subjects.push({
-        wikiId: parts[0],
-        // Page names may contain spaces
-        pageName: parts.slice(1).join(' ')
-      });
-    }
-    return subjects;
-  }, []);
-}
 
 function enhanceMwClient (client) {
   // Added method

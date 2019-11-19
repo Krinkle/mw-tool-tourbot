@@ -38,7 +38,7 @@ function applyPatterns (lines) {
   return output;
 }
 
-module.exports = function testPatterns () {
+module.exports = function testPatterns (progress) {
   // Read test cases
   var fixtureDir = path.join(__dirname, 'fixture');
   var inputSuffix = '-input.txt';
@@ -68,6 +68,7 @@ module.exports = function testPatterns () {
   });
   // Run them
   for (let label in testCases) {
+    progress();
     let input = fs.readFileSync(path.join(fixtureDir, testCases[label][0])).toString().split('\n');
     let expect = fs.readFileSync(path.join(fixtureDir, testCases[label][1])).toString().split('\n');
     let actual = applyPatterns(input);
