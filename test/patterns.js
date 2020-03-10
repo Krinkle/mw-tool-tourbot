@@ -8,8 +8,13 @@ var patterns = require('../src/patterns');
 function applyPatterns (lines) {
   var output = lines.slice();
   var siteinfo = {
-    mainpage: 'Main Page',
-    mainpagename: 'Main_Page'
+    general: {
+      mainpage: 'Main Page',
+      mainpagename: 'Main_Page'
+    },
+    custom: {
+      shortMonthNames: '[ "", "Jan", "Feb", "…", "Dec" ]'
+    }
   };
   patterns.forEach(function (pattern) {
     output.forEach(function (input, i) {

@@ -50,22 +50,22 @@ module.exports = [
     summary: 'Map.values is deprecated'
   },
   {
-    regex: /(?:wgPageName|wgTitle)\s*(!)?===?\s*['"]<siteinfo-mainpage>['"]\s*&&\s*wgNamespaceNumber\s*===?\s*\d+/,
+    regex: /(?:wgPageName|wgTitle)\s*(!)?===?\s*['"]<siteinfo-general-mainpage>['"]\s*&&\s*wgNamespaceNumber\s*===?\s*\d+/,
     replacement: '$1mw.config.get(\'wgIsMainPage\')',
     summary: 'Use wgIsMainPage'
   },
   {
-    regex: /mw\.config\.get\(['"](?:wgPageName|wgTitle)['"]\)\s*(!)?===?\s*['"]<siteinfo-mainpage>['"]\s*&&\s*mw\.config\.get\(['"]wgNamespaceNumber['"]\)\s*===?\s*\d+/,
+    regex: /mw\.config\.get\(['"](?:wgPageName|wgTitle)['"]\)\s*(!)?===?\s*['"]<siteinfo-general-mainpage>['"]\s*&&\s*mw\.config\.get\(['"]wgNamespaceNumber['"]\)\s*===?\s*\d+/,
     replacement: '$1mw.config.get(\'wgIsMainPage\')',
     summary: 'Use wgIsMainPage'
   },
   {
-    regex: /(?:wgPageName|wgTitle)\s*(!)?===?\s*['"]<siteinfo-mainpagename>['"]/,
+    regex: /(?:wgPageName|wgTitle)\s*(!)?===?\s*['"]<siteinfo-general-mainpagename>['"]/,
     replacement: '$1mw.config.get(\'wgIsMainPage\')',
     summary: 'Use wgIsMainPage'
   },
   {
-    regex: /mw\.config\.get\(['"](?:wgPageName|wgTitle)['"]\)\s*(!)?===?\s*['"]<siteinfo-mainpagename>['"]/,
+    regex: /mw\.config\.get\(['"](?:wgPageName|wgTitle)['"]\)\s*(!)?===?\s*['"]<siteinfo-general-mainpagename>['"]/,
     replacement: '$1mw.config.get(\'wgIsMainPage\')',
     summary: 'Use wgIsMainPage'
   },
@@ -88,6 +88,11 @@ module.exports = [
     regex: /wgMainPageTitle\s*(!)?===?\s*(?:wgPageName|wgTitle)/,
     replacement: '$1mw.config.get(\'wgIsMainPage\')',
     summary: 'Use wgIsMainPage'
+  },
+  {
+    regex: /(=\s*)mw\.config\.get\(\s*['"]wgMonthNamesShort['"]\s*\)(\s*;)/,
+    replacement: '$1<siteinfo-custom-shortMonthNames>$2',
+    summary: 'wgMonthNamesShort is deprecated ([[phab:T219340|T219340]])'
   },
   {
     // Embed between single-quoted strings

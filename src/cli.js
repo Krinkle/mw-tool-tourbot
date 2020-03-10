@@ -111,22 +111,65 @@ function enhanceMwClient (client) {
     this.doEdit('edit', title, summary, params, callback);
   };
 
-  // Cached and promisified version of getSiteInfo(['general'])
+  // Cached and promisified version of
+  // - query=siteinfo&siprop=
+  // - query=allmessages&ammessages=…&uselang=content
   client.siteinfo = function () {
-    var client = this;
     if (this.dSiteinfo) {
       return this.dSiteinfo;
     }
-    this.dSiteinfo = new Promise(function (resolve, reject) {
-      client.getSiteInfo(['general'], function (err, info) {
-        if (err) {
-          reject(err);
-          return;
+    this.dSiteinfo = Promise.all([
+      new Promise((resolve, reject) => {
+        this.getSiteInfo(['general'], function (err, info) {
+          if (err) {
+            reject(err);
+            return;
+          }
+          // Simplify matching for wgPageName vs wgTitle
+          info.general.mainpagename = info.general.mainpage.replace(/ /g, '_');
+          resolve(info.general);
+        });
+      }),
+      new Promise((resolve, reject) => {
+        var messageNames = [
+          'jan', 'feb', 'mar', 'apr', 'may', 'jun',
+          'jul', 'aug', 'sep', 'oct', 'nov', 'dec'
+        ];
+        var params = {
+          formatversion: '2',
+          action: 'query',
+          meta: 'allmessages',
+          ammessages: messageNames.join('|'),
+          uselang: 'content'
+        };
+        this.api.call(params, function (err, data) {
+          if (err) {
+            reject(err);
+            return;
+          }
+          var messages = {};
+          data.allmessages.forEach((msg) => {
+            messages[msg.name] = msg.content;
+          });
+          resolve(messages);
+        });
+      })
+    ]).then((datas) => {
+      var shortMonthNamesKeys = [
+        'jan', 'feb', 'mar', 'apr', 'may', 'jun',
+        'jul', 'aug', 'sep', 'oct', 'nov', 'dec'
+      ];
+      var shortMonthNames = '[ ' + [ '""', ...shortMonthNamesKeys.map((key) => {
+        return JSON.stringify(datas[1][key]);
+      })].join(', ') + ' ]';
+
+      return {
+        general: datas[0],
+        messages: datas[1],
+        custom: {
+          shortMonthNames: shortMonthNames
         }
-        // Simplify matching for wgPageName vs wgTitle
-        info.general.mainpagename = info.general.mainpage.replace(/ /g, '_');
-        resolve(info.general);
-      });
+      };
     });
     return this.dSiteinfo;
   };

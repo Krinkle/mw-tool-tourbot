@@ -55,6 +55,14 @@ if (!window.load_extratabs && wgMainPageTitle !== wgTitle )
 }
 
 /**
+ * wgMonthNamesShort
+ */
+var Monate = mw.config.get('wgMonthNames');
+var Monatekurz = mw.config.get('wgMonthNamesShort');
+var Jahr = jetzt.getYear();
+var Monat = jetzt.getMonth() + 1;
+
+/**
  * wgScriptPaath
  */
 xhr.open('POST', wgServer + wgScriptPath + '/api' + wgScriptExtension + '?format=xml&action=' + action, true);

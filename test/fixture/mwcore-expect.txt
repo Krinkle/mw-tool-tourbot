@@ -55,6 +55,14 @@ if (!window.load_extratabs && !mw.config.get('wgIsMainPage') )
 }
 
 /**
+ * wgMonthNamesShort
+ */
+var Monate = mw.config.get('wgMonthNames');
+var Monatekurz = [ "", "Jan", "Feb", "…", "Dec" ];
+var Jahr = jetzt.getYear();
+var Monat = jetzt.getMonth() + 1;
+
+/**
  * wgScriptPaath
  */
 xhr.open('POST', wgServer + wgScriptPath + '/api.php?format=xml&action=' + action, true);
