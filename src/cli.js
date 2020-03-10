@@ -260,7 +260,7 @@ function failPage (err) {
   if (err instanceof SkipFileError) {
     message = `Skipped (${err.message})`;
   } else {
-    message = 'Failed. ' + err.toString() + '\n';
+    message = 'Failed. ' + (err.stack || err.toString()) + '\n';
   }
   console.log(`${message} Loading next subject...`);
 }
