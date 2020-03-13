@@ -65,6 +65,9 @@ var Monat = jetzt.getMonth() + 1;
 var monthNamesShort = [ "", "Jan", "Feb", "…", "Dec" ];
 var thisMonthShortName = monthNamesShort[ thisMonthNum + 1 ];
 
+        var monthNamesShort = [ "", "Jan", "Feb", "…", "Dec" ];
+        name = monthNamesShort[i].toLowerCase().replace( '.', '' );
+
 /**
  * wgScriptPaath
  */

@@ -64,6 +64,8 @@ var Monat = jetzt.getMonth() + 1;
 
 var thisMonthShortName = mw.config.get( 'wgMonthNamesShort' )[ thisMonthNum + 1 ];
 
+        name = mw.config.get( 'wgMonthNamesShort' )[i].toLowerCase().replace( '.', '' );
+
 /**
  * wgScriptPaath
  */

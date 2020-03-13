@@ -95,7 +95,7 @@ module.exports = [
     summary: 'wgMonthNamesShort is deprecated ([[phab:T219340|T219340]])'
   },
   {
-    regex: /^(\s*)(.+ = )mw\.config\.get\(\s*['"]wgMonthNamesShort['"]\s*\)(\s*\[[^\]]+\]\s*;)/,
+    regex: /^(\s*)(.+ = )mw\.config\.get\(\s*['"]wgMonthNamesShort['"]\s*\)(\s*\[[^\]]+\]\s*)/,
     replacement: '$1var monthNamesShort = <siteinfo-custom-shortMonthNames>;\n$1$2monthNamesShort$3',
     summary: 'wgMonthNamesShort is deprecated ([[phab:T219340|T219340]])'
   },
