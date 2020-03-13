@@ -245,13 +245,13 @@ module.exports = [
   },
   {
     // Middle item: foo[dependencies=y, X, z]
-    regex: /(,\s*)(?:es5-shim|json|dom-level2-shim)\s*,\s*/,
+    regex: /(,\s*)(?:es5-shim|dom-level2-shim)\s*,\s*/,
     replacement: '$1',
     summary: 'Removed obsolete module'
   },
   {
     // Last item: foo[dependencies=y, z, X]
-    regex: /(,\s*)(?:es5-shim|json|dom-level2-shim)(\s*[|\]])/,
+    regex: /(,\s*)(?:es5-shim|dom-level2-shim)(\s*[|\]])/,
     replacement: '$2',
     summary: 'Removed obsolete module'
   },
@@ -263,19 +263,19 @@ module.exports = [
   },
   {
     // First item: ['X', z]
-    regex: /(\[)\s*['"](?:es5-shim|json|dom-level2-shim)['"]\s*,?/,
+    regex: /(\[)\s*['"](?:es5-shim|dom-level2-shim)['"]\s*,?/,
     replacement: '$1',
     summary: 'Removed obsolete module'
   },
   {
     // Middle item: [y, 'X', z]
-    regex: /(\[.+,\s*)['"](?:es5-shim|json|dom-level2-shim)['"]\s*,\s*/,
+    regex: /(\[.+,\s*)['"](?:es5-shim|dom-level2-shim)['"]\s*,\s*/,
     replacement: '$1',
     summary: 'Removed obsolete module'
   },
   {
     // Last item: [y, z, 'X']
-    regex: /(,\s*)['"](?:es5-shim|json|dom-level2-shim)['"](\s*\])/,
+    regex: /(,\s*)['"](?:es5-shim|dom-level2-shim)['"](\s*\])/,
     replacement: '$2',
     summary: 'Removed obsolete module'
   },
