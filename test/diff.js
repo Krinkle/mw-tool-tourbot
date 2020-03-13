@@ -57,6 +57,25 @@ module.exports = function testDiff (progress) {
   Before 2
 - One line.
   After 1`
+    },
+    {
+      input: {
+        removed: 'One thing',
+        added: 'One bigger thing\nover multiple lines'
+      },
+      result: {
+        textBefore: 'One ',
+        removed: 'thing',
+        added: 'bigger thing\nover multiple lines',
+        textAfter: ''
+      },
+      formatted: `@@ line 1 @@
+  Before 1
+  Before 2
+- One thing
++ One bigger thing
++ over multiple lines
+  After 1`
     }
   ];
   diffTestCases.forEach(function testcase (data, i) {
