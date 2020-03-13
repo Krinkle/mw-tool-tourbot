@@ -62,6 +62,9 @@ var Monatekurz = [ "", "Jan", "Feb", "…", "Dec" ];
 var Jahr = jetzt.getYear();
 var Monat = jetzt.getMonth() + 1;
 
+var monthNamesShort = [ "", "Jan", "Feb", "…", "Dec" ];
+var thisMonthShortName = monthNamesShort[ thisMonthNum + 1 ];
+
 /**
  * wgScriptPaath
  */

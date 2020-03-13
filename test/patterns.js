@@ -40,7 +40,10 @@ function applyPatterns (lines) {
   output = output.filter(function (line) {
     return line !== null;
   });
-  return output;
+  // Join and resplit so that there is always one line per array item.
+  // This is required so that multi-line replacements can be compared
+  // correctly between the actual and expected output.
+  return output.join('\n').split('\n');
 }
 
 module.exports = function testPatterns (progress) {

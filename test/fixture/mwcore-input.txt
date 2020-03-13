@@ -62,6 +62,8 @@ var Monatekurz = mw.config.get('wgMonthNamesShort');
 var Jahr = jetzt.getYear();
 var Monat = jetzt.getMonth() + 1;
 
+var thisMonthShortName = mw.config.get( 'wgMonthNamesShort' )[ thisMonthNum + 1 ];
+
 /**
  * wgScriptPaath
  */
