@@ -101,7 +101,7 @@ module.exports = [
   },
   {
     // wgEnableAPI and wgEnableWriteAPI - part 1 - mw.config.get
-    regex: /([^!]|^)(?!\.)(?:window\.)?mw\.config\.get\(\s*['"]wgEnable(?:Write)?API['"]\s*\)/,
+    regex: /([^!]|^)(?:window\.)?mw\.config\.get\(\s*['"]wgEnable(?:Write)?API['"]\s*\)/,
     replacement: '$1true',
     summary: 'wgEnableAPI and wgEnableWriteAPI are deprecated'
   },
@@ -113,13 +113,13 @@ module.exports = [
   },
   {
     // wgEnableAPI and wgEnableWriteAPI - part 3 - plain variable
-    regex: /([|&=(]\s*)(?:(?:window|document)\.)?wgEnable(?:Write)?API(\s*[|&!=)])/,
+    regex: /([|&=(]\s*)(?:window\.)?wgEnable(?:Write)?API(\s*[|&!=)])/,
     replacement: '$1true$2',
     summary: 'wgEnableAPI and wgEnableWriteAPI are deprecated'
   },
   {
     // wgEnableAPI and wgEnableWriteAPI - part 4 - ! plain variable
-    regex: /([|&=(]\s*)!(?:(?:window|document)\.)?wgEnable(?:Write)?API(\s*[|&!=)])/,
+    regex: /([|&=(]\s*)!(?:window\.)?wgEnable(?:Write)?API(\s*[|&!=)])/,
     replacement: '$1false$2',
     summary: 'wgEnableAPI and wgEnableWriteAPI are deprecated'
   },
