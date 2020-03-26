@@ -100,6 +100,30 @@ module.exports = [
     summary: 'wgMonthNamesShort is deprecated ([[phab:T219340|T219340]])'
   },
   {
+    // wgEnableAPI and wgEnableWriteAPI via mw.config.get
+    regex: /([^!]|^)(?:window\.)?mw\.config\.get\(\s*['"](?:wgEnableAPI|wgEnableWriteAPI)['"]\s*\)/,
+    replacement: '$1true',
+    summary: 'wgEnableAPI is deprecated'
+  },
+  {
+    // wgEnableAPI and wgEnableWriteAPI via mw.config.get (negated)
+    regex: /!(?:window\.)?mw\.config\.get\(\s*['"](?:wgEnableAPI|wgEnableWriteAPI)['"]\s*\)/,
+    replacement: 'false',
+    summary: 'wgEnableAPI is deprecated'
+  },
+  {
+    // wgEnableAPI and wgEnableWriteAPI as global variable
+    regex: /([|&=(]\s*)(?:window\.)?(?:wgEnableAPI|wgEnableWriteAPI)(\s*[|&!=)])/,
+    replacement: '$1true$2',
+    summary: 'wgEnableAPI is deprecated'
+  },
+  {
+    // wgEnableAPI and wgEnableWriteAPI as global variable (negated)
+    regex: /([|&=(]\s*)!(?:window\.)?(?:wgEnableAPI|wgEnableWriteAPI)(\s*[|&!=)])/,
+    replacement: '$1false$2',
+    summary: 'wgEnableAPI is deprecated'
+  },
+  {
     // Embed between single-quoted strings
     regex: /'(\s*\+\s*)wgScriptExtension(\s*\+\s*)'/,
     replacement: '.php',
