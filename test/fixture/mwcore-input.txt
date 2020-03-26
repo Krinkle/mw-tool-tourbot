@@ -94,7 +94,7 @@ if (wgEnableWriteAPI) {}
 if ( !wgEnableWriteAPI ) {}
 if ( !mw.config.get( 'wgEnableAPI' ) ) { return; }
 if (!document.editform || !window.wgEnableAPI || !wgEnableAPI ) { return false; } 
-if (!wlUnwatch.supported || !mw.config.get('wgEnableWriteAPI')) {}
+if (!wlUnwatch.supported || !mw.config.get('wgEnableWriteAPI')) { wlUnwatch.supported = false; }
 if(mw.config.get('wgCanonicalSpecialPageName') == 'Contributions' && mw.config.get('wgEnableAPI')) { }
 
 var wgEnableAPI = true; var wgEnableWriteAPI = true; // red herring
