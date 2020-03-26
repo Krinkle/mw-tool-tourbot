@@ -86,3 +86,15 @@ set({
  */
 fuwMakeHiddenfield('token', mw.user.tokens.get('editToken'), 'apiToken');
 new mw.Api().post({ minor: '', token: mw.user.tokens.get("editToken") }).then;
+
+/**
+ * wgEnableAPI and wgEnableWriteAPI
+ */
+if (wgEnableWriteAPI) {}
+if ( !wgEnableWriteAPI ) {}
+if ( !mw.config.get( 'wgEnableAPI' ) ) { return; }
+if (!document.editform || !window.wgEnableAPI || !wgEnableAPI ) { return false; } 
+if (!wlUnwatch.supported || !mw.config.get('wgEnableWriteAPI')) {}
+if(mw.config.get('wgCanonicalSpecialPageName') == 'Contributions' && mw.config.get('wgEnableAPI')) { }
+
+var wgEnableAPI = true; var wgEnableWriteAPI = true; // red herring
