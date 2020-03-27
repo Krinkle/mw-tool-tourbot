@@ -107,7 +107,7 @@ module.exports = [
   },
   {
     // wgEnableAPI and wgEnableWriteAPI via mw.config.get
-    regex: /([^!]|^)(?:window\.)?mw\.config\.get\(\s*['"](?:wgEnableAPI|wgEnableWriteAPI)['"]\s*\)/,
+    regex: /([^!.]|^)(?:window\.)?mw\.config\.get\(\s*['"](?:wgEnableAPI|wgEnableWriteAPI)['"]\s*\)/,
     replacement: '$1true',
     summary: 'wgEnableAPI is deprecated'
   },

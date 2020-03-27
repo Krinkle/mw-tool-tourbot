@@ -106,4 +106,8 @@ if (typeof(true) === 'undefined' || true === false) {
 	throw "Local API is not usable.";
 }
 
+if (false || false) {
+	return;
+}
+
 var wgEnableAPI = true; var wgEnableWriteAPI = true; // red herring

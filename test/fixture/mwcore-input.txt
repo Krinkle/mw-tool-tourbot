@@ -104,4 +104,8 @@ if (typeof(window.wgEnableAPI) === 'undefined' || window.wgEnableAPI === false) 
 	throw "Local API is not usable.";
 }
 
+if (!window.mw.config.get('wgEnableAPI') || !window.mw.config.get('wgEnableWriteAPI')) {
+	return;
+}
+
 var wgEnableAPI = true; var wgEnableWriteAPI = true; // red herring
