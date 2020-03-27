@@ -100,6 +100,12 @@ module.exports = [
     summary: 'wgMonthNamesShort is deprecated ([[phab:T219340|T219340]])'
   },
   {
+    // Optimise simple `typeof` statements with wgEnableAPI or wgEnableWriteAPI
+    regex: /([\s(+*-])typeof\s+(?:window\.)?(?:wgEnableAPI|wgEnableWriteAPI)\s*===?\s*['"]undefined['"]/,
+    replacement: '$1false',
+    summary: 'wgEnableAPI is deprecated'
+  },
+  {
     // wgEnableAPI and wgEnableWriteAPI via mw.config.get
     regex: /([^!]|^)(?:window\.)?mw\.config\.get\(\s*['"](?:wgEnableAPI|wgEnableWriteAPI)['"]\s*\)/,
     replacement: '$1true',
@@ -113,7 +119,7 @@ module.exports = [
   },
   {
     // wgEnableAPI and wgEnableWriteAPI as global variable
-    regex: /([|&=(]\s*)(?:window\.)?(?:wgEnableAPI|wgEnableWriteAPI)(\s*[|&!=)])/,
+    regex: /([|&=(]\s*|typeof[\s(]\s*)(?:window\.)?(?:wgEnableAPI|wgEnableWriteAPI)(\s*[|&!=)])/,
     replacement: '$1true$2',
     summary: 'wgEnableAPI is deprecated'
   },

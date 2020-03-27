@@ -99,4 +99,11 @@ if (!document.editform || false || false ) { return false; }
 if (!wlUnwatch.supported || false) { wlUnwatch.supported = false; }
 if(mw.config.get('wgCanonicalSpecialPageName') == 'Contributions' && true) { }
 
+if (false || true === false) {
+	throw "Local API is not usable.";
+}
+if (typeof(true) === 'undefined' || true === false) {
+	throw "Local API is not usable.";
+}
+
 var wgEnableAPI = true; var wgEnableWriteAPI = true; // red herring

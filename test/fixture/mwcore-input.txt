@@ -97,4 +97,11 @@ if (!document.editform || !window.wgEnableAPI || !wgEnableAPI ) { return false; 
 if (!wlUnwatch.supported || !mw.config.get('wgEnableWriteAPI')) { wlUnwatch.supported = false; }
 if(mw.config.get('wgCanonicalSpecialPageName') == 'Contributions' && mw.config.get('wgEnableAPI')) { }
 
+if (typeof wgEnableAPI === 'undefined' || wgEnableAPI === false) {
+	throw "Local API is not usable.";
+}
+if (typeof(window.wgEnableAPI) === 'undefined' || window.wgEnableAPI === false) {
+	throw "Local API is not usable.";
+}
+
 var wgEnableAPI = true; var wgEnableWriteAPI = true; // red herring
