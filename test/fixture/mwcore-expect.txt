@@ -105,6 +105,7 @@ if (false || true === false) {
 if (typeof(true) === 'undefined' || true === false) {
 	throw "Local API is not usable.";
 }
+if (false || 0) { return; }
 
 if (false || false) {
 	return;

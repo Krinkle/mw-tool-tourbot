@@ -103,6 +103,7 @@ if (typeof wgEnableAPI === 'undefined' || wgEnableAPI === false) {
 if (typeof(window.wgEnableAPI) === 'undefined' || window.wgEnableAPI === false) {
 	throw "Local API is not usable.";
 }
+if (!mw.config.exists('wgEnableAPI') || 0) { return; }
 
 if (!window.mw.config.get('wgEnableAPI') || !window.mw.config.get('wgEnableWriteAPI')) {
 	return;
