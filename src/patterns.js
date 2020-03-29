@@ -502,10 +502,6 @@ module.exports = [
     replacement: '$$$1'
   },
   {
-    regex: /\s*\.\s*charAt\(\s*0\s*\)/,
-    replacement: '[0]'
-  },
-  {
     // These urls were already broken by vector>Vector, but let's be nice.
     regex: /\/w\/skins\/vector\//,
     replacement: '/w/skins/Vector/'
