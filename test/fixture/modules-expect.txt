@@ -39,41 +39,43 @@ example[dependencies=last|misc]
 example[dependencies=es5-shim]
 */
 
-/**
- * Renamed or merged modules
- */
-
-load( 'ext.wikiEditor', first );
-load( mid, 'ext.wikiEditor', dle );
-load( last, 'ext.wikiEditor' );
-load( 'ext.wikiEditor' );
-
-mods = [ "ext.wikiEditor", first ];
-mods = [ mid, 'ext.wikiEditor', dle ];
-mods = [ last, 'ext.wikiEditor' ];
-mods = [ 'ext.wikiEditor' ];
-
-mods = [
-	'ext.wikiEditor',
-	first
-];
-mods = [
-	last,
-	'ext.wikiEditor'
-];
-
-/*
-example[dependencies=ext.wikiEditor, first]
-example[dependencies=mid, ext.wikiEditor, dle]
-example[dependencies=last, ext.wikiEditor|misc]
-example[dependencies=ext.wikiEditor]
-
 urldecoder[ResourceLoader|dependencies=mediawiki.Uri,mediawiki.util]|urldecoder.js
 urldecoder[ResourceLoader|dependencies=mediawiki.util]|urldecoder.js
 urldecoder[ResourceLoader|dependencies=mediawiki.util]|urldecoder.js
 urldecoder[ResourceLoader|foo=bar]|urldecoder.js
 urldecoder[ResourceLoader]|urldecoder.js
-*/
+
+/**
+ * Combine ext.wikiEditor
+ */
+
+first.load( 'ext.wikiEditor', other );
+middle.load( before, 'ext.wikiEditor', after );
+last.load( other, 'ext.wikiEditor' );
+only.load( 'ext.wikiEditor' );
+
+first = [ "ext.wikiEditor", other ];
+middle = [ before, 'ext.wikiEditor', after ];
+last = [ other, 'ext.wikiEditor' ];
+only = [ 'ext.wikiEditor' ];
+
+first = [
+	'ext.wikiEditor',
+	other
+];
+last = [
+	other,
+	'ext.wikiEditor'
+];
+
+example[dependencies=ext.wikiEditor, first]
+example[dependencies=mid, ext.wikiEditor, dle]
+example[dependencies=last, ext.wikiEditor|misc]
+example[dependencies=ext.wikiEditor]
+
+/**
+ * Combine mediawiki.util
+ */
 
 mw.loader.using('mediawiki.util');
 /*
@@ -88,6 +90,10 @@ example[dependencies=x,mediawiki.util|misc]
 example[dependencies=x,mediawiki.util|misc]
 example[dependencies=x,mediawiki.util|misc]
 */
+
+/**
+ * Combine jquery.ui
+ */
 
 mw.loader.using('jquery.ui');
 mw.loader.using(['jquery.ui']);

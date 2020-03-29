@@ -43,41 +43,43 @@ example[dependencies=last, es5-shim|misc]
 example[dependencies=es5-shim]
 */
 
-/**
- * Renamed or merged modules
- */
-
-load( 'ext.wikiEditor.toolbar', first );
-load( mid, 'ext.wikiEditor.toolbar', dle );
-load( last, 'ext.wikiEditor.toolbar' );
-load( 'ext.wikiEditor.toolbar' );
-
-mods = [ "ext.wikiEditor.toolbar", first ];
-mods = [ mid, 'ext.wikiEditor.toolbar', dle ];
-mods = [ last, 'ext.wikiEditor.toolbar' ];
-mods = [ 'ext.wikiEditor.toolbar' ];
-
-mods = [
-	'ext.wikiEditor.toolbar',
-	first
-];
-mods = [
-	last,
-	'ext.wikiEditor.toolbar'
-];
-
-/*
-example[dependencies=ext.wikiEditor.toolbar, first]
-example[dependencies=mid, ext.wikiEditor.toolbar, dle]
-example[dependencies=last, ext.wikiEditor.toolbar|misc]
-example[dependencies=ext.wikiEditor.toolbar]
-
 urldecoder[ResourceLoader|dependencies=mediawiki.Uri,mediawiki.legacy.wikibits,mediawiki.util]|urldecoder.js
 urldecoder[ResourceLoader|dependencies=mediawiki.legacy.wikibits,mediawiki.util]|urldecoder.js
 urldecoder[ResourceLoader|dependencies=mediawiki.util,mediawiki.legacy.wikibits]|urldecoder.js
 urldecoder[ResourceLoader|dependencies=mediawiki.legacy.wikibits|foo=bar]|urldecoder.js
 urldecoder[ResourceLoader|dependencies=mediawiki.legacy.wikibits]|urldecoder.js
-*/
+
+/**
+ * Combine ext.wikiEditor
+ */
+
+first.load( 'ext.wikiEditor.toolbar', other );
+middle.load( before, 'ext.wikiEditor.toolbar', after );
+last.load( other, 'ext.wikiEditor.toolbar' );
+only.load( 'ext.wikiEditor.toolbar' );
+
+first = [ "ext.wikiEditor.toolbar", other ];
+middle = [ before, 'ext.wikiEditor.toolbar', after ];
+last = [ other, 'ext.wikiEditor.toolbar' ];
+only = [ 'ext.wikiEditor.toolbar' ];
+
+first = [
+	'ext.wikiEditor.toolbar',
+	other
+];
+last = [
+	other,
+	'ext.wikiEditor.toolbar'
+];
+
+example[dependencies=ext.wikiEditor.toolbar, first]
+example[dependencies=mid, ext.wikiEditor.toolbar, dle]
+example[dependencies=last, ext.wikiEditor.toolbar|misc]
+example[dependencies=ext.wikiEditor.toolbar]
+
+/**
+ * Combine mediawiki.util
+ */
 
 mw.loader.using('jquery.accessKeyLabel');
 /*
@@ -92,6 +94,10 @@ example[dependencies=x,mediawiki.RegExp|misc]
 example[dependencies=x,mediawiki.RegExp,mediawiki.util|misc]
 example[dependencies=x,mediawiki.util,mediawiki.RegExp|misc]
 */
+
+/**
+ * Combine jquery.ui
+ */
 
 mw.loader.using('jquery.ui.dialog');
 mw.loader.using(['jquery.ui.dialog']);

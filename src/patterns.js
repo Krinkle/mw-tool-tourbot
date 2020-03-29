@@ -267,6 +267,9 @@ module.exports = [
     regex: /attr\(\s*['"](checked|selected|disabled|readonly|required|hidden)['"], (true|['"](checked|selected|disabled|readonly|required|hidden)['"])/,
     replacement: 'prop(\'$1\', true'
   },
+  /**
+   * Obsolete modules
+   */
   {
     regex: /^\s*if\s*\(\s*!Object\.keys\s*\)\s*dep(endencies)?\.push\(\s*['"](?:es5-shim|json|dom-level2-shim)['"]\s*\);?/,
     replacement: '<tourbot-rm-blank>',
@@ -334,12 +337,24 @@ module.exports = [
     replacement: '$1',
     summary: 'Removed redundant module'
   },
+  /**
+   * Combine mediawiki.api
+   */
   {
     // Remove old alias when destination is already present before it
     regex: /(mw\.loader\.(?:using|load)\(\s*[^\])]*['"]mediawiki\.api['"][^\])]*)\s*,\s*['"]mediawiki\.api\.(?:category|edit|login|options|parse|upload|user|watch|messages|rollback)['"]/,
     replacement: '$1',
     summary: 'Updated deprecated module name'
   },
+  {
+    // Replace old alias with destination
+    regex: /(['"]|[,=]\s*)mediawiki\.api\.(?:category|edit|login|options|parse|upload|user|watch|messages|rollback)(['"]|\s*[,|\]])/,
+    replacement: '$1mediawiki.api$2',
+    summary: 'Updated deprecated module name'
+  },
+  /**
+   * Combine ext.wikiEditor
+   */
   {
     regex: /(['"]|[,=]\s*)(?:jquery\.wikiEditor|jquery\.wikiEditor\.core|jquery\.wikiEditor\.toolbar|ext\.wikiEditor\.toolbar)(['"]|\s*[,|\]])/,
     replacement: '$1ext.wikiEditor$2',
@@ -350,6 +365,9 @@ module.exports = [
     replacement: '$1jquery.lengthLimit$2',
     summary: 'Updated deprecated module name'
   },
+  /**
+   * Combine mediawiki.util
+   */
   {
     // Superseded module in previous array element
     regex: /(['"]mediawiki\.util['"]\s*),\s*['"](?:jquery\.accessKeyLabel|mediawiki\.RegExp)['"]/,
@@ -373,12 +391,9 @@ module.exports = [
     replacement: '$1mediawiki.util$2',
     summary: 'Updated deprecated module name'
   },
-  {
-    // Replace old alias with destination
-    regex: /(['"]|[,=]\s*)mediawiki\.api\.(?:category|edit|login|options|parse|upload|user|watch|messages|rollback)(['"]|\s*[,|\]])/,
-    replacement: '$1mediawiki.api$2',
-    summary: 'Updated deprecated module name'
-  },
+  /**
+   * Combine jquery.ui
+   */
   {
     // Replace old alias with new name (JS quoted)
     regex: /(['"])(?:jquery\.ui\.core|jquery\.ui\.core\.styles|jquery\.ui\.accordion|jquery\.ui\.autocomplete|jquery\.ui\.button|jquery\.ui\.datepicker|jquery\.ui\.dialog|jquery\.ui\.draggable|jquery\.ui\.droppable|jquery\.ui\.menu|jquery\.ui\.mouse|jquery\.ui\.position|jquery\.ui\.progressbar|jquery\.ui\.resizable|jquery\.ui\.selectable|jquery\.ui\.slider|jquery\.ui\.sortable|jquery\.ui\.tabs|jquery\.ui\.tooltip|jquery\.ui\.widget|jquery\.effects\.core|jquery\.effects\.blind|jquery\.effects\.clip|jquery\.effects\.drop|jquery\.effects\.highlight|jquery\.effects\.scale|jquery\.effects\.shake)(['"])/,
