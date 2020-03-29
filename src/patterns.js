@@ -318,21 +318,21 @@ module.exports = [
     summary: 'Removed obsolete module'
   },
   {
-    // Middle item: foo[dependencies=z, X z]
-    // Last item: foo[dependencies=z, X]
+    // Middle item: foo[…dependencies=z, X z]
+    // Last item: foo[…dependencies=z, X]
     regex: /(\[[^\]]*dependencies=[^\]]*),\s*mediawiki\.legacy\.wikibits\s*\b/,
     replacement: '$1',
     summary: 'Removed redundant module'
   },
   {
-    // Only item: foo[dependencies=X]
+    // Only item: foo[…dependencies=X]
     // (This regex must be handled before the below one for "First item")
     regex: /(\[[^\]]*?)\|?\bdependencies=\s*mediawiki\.legacy\.wikibits\s*(\]|\|)/,
     replacement: '$1$2',
     summary: 'Removed redundant module'
   },
   {
-    // First item: foo[dependencies=X, z]
+    // First item: foo[…dependencies=X, z]
     regex: /(\[[^\]]*dependencies=\s*)mediawiki\.legacy\.wikibits\s*,/,
     replacement: '$1',
     summary: 'Removed redundant module'
@@ -350,6 +350,39 @@ module.exports = [
     // Replace old alias with destination
     regex: /(['"]|[,=]\s*)mediawiki\.api\.(?:category|edit|login|options|parse|upload|user|watch|messages|rollback)(['"]|\s*[,|\]])/,
     replacement: '$1mediawiki.api$2',
+    summary: 'Updated deprecated module name'
+  },
+  /**
+   * Combine user.options
+   */
+  {
+    // Removed old because new module is before it (JS code)
+    regex: /(['"]user\.options['"][^\])]*)\s*,\s*['"]user\.tokens['"]/,
+    replacement: '$1',
+    summary: 'Updated deprecated module name'
+  },
+  {
+    // Removed old because new module is after it (JS code)
+    regex: /['"]user\.tokens['"]\s*,\s*([^\])]*['"]user\.options['"][^\])]*)/,
+    replacement: '$1',
+    summary: 'Updated deprecated module name'
+  },
+  {
+    // Removed old because new module is before it (Gadget definition)
+    regex: /(\[.*dependencies.*[=,\s]user\.options(?:[,\s].*)?),\s*user\.tokens([\s,|\]])/,
+    replacement: '$1$2',
+    summary: 'Updated deprecated module name'
+  },
+  {
+    // Removed old because new module is after it (Gadget definition)
+    regex: /(\[.*dependencies.*[=,\s])user\.tokens\s*,\s((.+[,\s])?user\.options[\s,|\]])/,
+    replacement: '$1$2',
+    summary: 'Updated deprecated module name'
+  },
+  {
+    // Replace old with new (JS code, and Gadget definition)
+    regex: /(['"]|[,=]\s*)user\.tokens(['"]|\s*[,|\]])/,
+    replacement: '$1user.options$2',
     summary: 'Updated deprecated module name'
   },
   /**

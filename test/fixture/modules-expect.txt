@@ -118,3 +118,24 @@ misc-lone[ResourceLoader|default|hidden|dependencies=jquery.ui]
 /*
 		 * Preferences are edited by the user via a jquery.ui dialog and are
 */
+
+/**
+ * Combine user.options
+ */
+
+first.load( 'user.options', other );
+middle.load( before, 'user.options', after );
+last.load( other, 'user.options' );
+only.load( 'user.options' );
+
+first = [ "user.options", other ];
+middle = [ before, 'user.options', after ];
+last = [ other, 'user.options' ];
+only = [ 'user.options' ];
+
+first[dependencies=user.options, other]
+multiple[dependencies=user.options, before, other]
+multiple[dependencies=other, after, user.options]
+middle[dependencies=before, user.options, after]
+last[dependencies=other, user.options|misc]
+only[dependencies=user.options]
