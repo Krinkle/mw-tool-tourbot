@@ -472,10 +472,6 @@ module.exports = [
   },
   // Clean-up (not worth an edit of itself)
   {
-    regex: /[?&]s?maxage=\d*/,
-    replacement: ''
-  },
-  {
     regex: /(@import\s+url\(['"])\/\/([a-z.]+\.org)/,
     replacement: '$1https://$2'
   },
@@ -484,7 +480,7 @@ module.exports = [
     replacement: ''
   },
   {
-    regex: /[?&]bcache=\d+/,
+    regex: /[?&]bcache=\d+\b/,
     replacement: ''
   },
   {
