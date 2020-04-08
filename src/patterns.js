@@ -284,39 +284,39 @@ module.exports = [
   },
   {
     // First item: ['X', z]
-    regex: /(\[)\s*['"](?:es5-shim|dom-level2-shim)['"]\s*,?/,
+    regex: /(\[)\s*['"](?:es5-shim|dom-level2-shim|mediawiki\.notify)['"]\s*,?/,
     replacement: '$1',
     summary: 'Removed redundant module'
   },
   {
     // Middle item: [y, 'X', z]
-    regex: /(\[.+,\s*)['"](?:es5-shim|dom-level2-shim)['"]\s*,\s*/,
+    regex: /(\[.+,\s*)['"](?:es5-shim|dom-level2-shim|mediawiki\.notify)['"]\s*,\s*/,
     replacement: '$1',
     summary: 'Removed redundant module'
   },
   {
     // Last item: [y, z, 'X']
-    regex: /(,\s*)['"](?:es5-shim|dom-level2-shim)['"](\s*\])/,
+    regex: /(,\s*)['"](?:es5-shim|dom-level2-shim|mediawiki\.notify)['"](\s*\])/,
     replacement: '$2',
     summary: 'Removed redundant module'
   },
   {
     // Middle item: foo[…dependencies=z, X z]
     // Last item: foo[…dependencies=z, X]
-    regex: /(\[[^\]]*dependencies=[^\]]*),\s*(?:es5-shim|json|dom-level2-shim|mediawiki\.legacy\.wikibits)\s*\b/,
+    regex: /(\[[^\]]*dependencies=[^\]]*),\s*(?:es5-shim|json|dom-level2-shim|mediawiki\.legacy\.wikibits|mediawiki\.notify)\s*\b/,
     replacement: '$1',
     summary: 'Removed redundant module'
   },
   {
     // Only item: foo[…dependencies=X]
     // (This regex must be handled before the below one for "First item")
-    regex: /(\[[^\]]*?)\|?\bdependencies=\s*(?:es5-shim|json|dom-level2-shim|mediawiki\.legacy\.wikibits)\s*(\]|\|)/,
+    regex: /(\[[^\]]*?)\|?\bdependencies=\s*(?:es5-shim|json|dom-level2-shim|mediawiki\.legacy\.wikibits|mediawiki\.notify)\s*(\]|\|)/,
     replacement: '$1$2',
     summary: 'Removed redundant module'
   },
   {
     // First item: foo[…dependencies=X, z]
-    regex: /(\[[^\]]*dependencies=\s*)(?:es5-shim|json|dom-level2-shim|mediawiki\.legacy\.wikibits)\s*,/,
+    regex: /(\[[^\]]*dependencies=\s*)(?:es5-shim|json|dom-level2-shim|mediawiki\.legacy\.wikibits|mediawiki\.notify)\s*,/,
     replacement: '$1',
     summary: 'Removed redundant module'
   },

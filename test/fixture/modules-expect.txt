@@ -45,6 +45,10 @@ urldecoder[ResourceLoader|dependencies=mediawiki.util]|urldecoder.js
 urldecoder[ResourceLoader|foo=bar]|urldecoder.js
 urldecoder[ResourceLoader]|urldecoder.js
 
+// mediawiki.notify
+Twinkle[ResourceLoader|dependencies=mediawiki.util,jquery.ui,jquery.tipsy,mediawiki.util]|morebits.js|morebits.css
+mw.loader.using( ['mediawiki.util', 'jquery.client'], function () {});
+
 /**
  * Combine ext.wikiEditor
  */
