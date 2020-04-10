@@ -1,5 +1,5 @@
 /**
- * Obsolete modules
+ * Redundant modules
  */
 
 {
@@ -37,10 +37,10 @@ mods = [
 ];
 
 /*
-example[dependencies=es5-shim, first]
-example[dependencies=mid, es5-shim, dle]
-example[dependencies=last, es5-shim|misc]
-example[dependencies=es5-shim]
+example[ResourceLoader|dependencies=es5-shim, first]|script.js
+example[ResourceLoader|dependencies=mid, es5-shim, dle]|script.js
+example[ResourceLoader|dependencies=last, es5-shim|misc]|script.js
+example[ResourceLoader|dependencies=es5-shim]|script.js
 */
 
 urldecoder[ResourceLoader|dependencies=mediawiki.Uri,mediawiki.legacy.wikibits,mediawiki.util]|urldecoder.js

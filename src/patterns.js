@@ -268,72 +268,55 @@ module.exports = [
     replacement: 'prop(\'$1\', true'
   },
   /**
-   * Obsolete modules
+   * Redundant modules
    */
   {
+    // Special case, only for ES5/JSON/DOM2.
     regex: /^\s*if\s*\(\s*!Object\.keys\s*\)\s*dep(endencies)?\.push\(\s*['"](?:es5-shim|json|dom-level2-shim)['"]\s*\);?/,
     replacement: '<tourbot-rm-blank>',
     summary: 'Removed redundant module'
   },
   {
-    // First item: foo[dependencies=X, z]
-    regex: /(dependencies=\s*)(?:es5-shim|json|dom-level2-shim)\s*,\s*/,
-    replacement: '$1<tourbot-rm-blank>',
-    summary: 'Removed obsolete module'
-  },
-  {
-    // Middle item: foo[dependencies=y, X, z]
-    regex: /(,\s*)(?:es5-shim|dom-level2-shim)\s*,\s*/,
-    replacement: '$1',
-    summary: 'Removed obsolete module'
-  },
-  {
-    // Last item: foo[dependencies=y, z, X]
-    regex: /(,\s*)(?:es5-shim|dom-level2-shim)(\s*[|\]])/,
-    replacement: '$2',
-    summary: 'Removed obsolete module'
-  },
-  {
-    // Sole param (no callback): using('X') or load('X')
+    // Special case, only for ES5/JSON/DOM2.
     regex: /(mw\.loader\.|^\s*)(?:load|using)\s*\(\s*['"](?:es5-shim|json|dom-level2-shim)['"]\s*\)\s*;?\s*/,
     replacement: '<tourbot-rm-blank>',
-    summary: 'Removed obsolete module'
+    summary: 'Removed redundant module'
   },
   {
     // First item: ['X', z]
     regex: /(\[)\s*['"](?:es5-shim|dom-level2-shim)['"]\s*,?/,
     replacement: '$1',
-    summary: 'Removed obsolete module'
+    summary: 'Removed redundant module'
   },
   {
     // Middle item: [y, 'X', z]
     regex: /(\[.+,\s*)['"](?:es5-shim|dom-level2-shim)['"]\s*,\s*/,
     replacement: '$1',
-    summary: 'Removed obsolete module'
+    summary: 'Removed redundant module'
   },
   {
     // Last item: [y, z, 'X']
     regex: /(,\s*)['"](?:es5-shim|dom-level2-shim)['"](\s*\])/,
     replacement: '$2',
-    summary: 'Removed obsolete module'
+    summary: 'Removed redundant module'
   },
   {
     // Middle item: foo[…dependencies=z, X z]
     // Last item: foo[…dependencies=z, X]
-    regex: /(\[[^\]]*dependencies=[^\]]*),\s*mediawiki\.legacy\.wikibits\s*\b/,
+    regex: /(\[[^\]]*dependencies=[^\]]*),\s*(?:es5-shim|json|dom-level2-shim|mediawiki\.legacy\.wikibits)\s*\b/,
     replacement: '$1',
     summary: 'Removed redundant module'
   },
   {
     // Only item: foo[…dependencies=X]
     // (This regex must be handled before the below one for "First item")
-    regex: /(\[[^\]]*?)\|?\bdependencies=\s*mediawiki\.legacy\.wikibits\s*(\]|\|)/,
+    regex: /(\[[^\]]*?)\|?\bdependencies=\s*(?:es5-shim|json|dom-level2-shim|mediawiki\.legacy\.wikibits)\s*(\]|\|)/,
     replacement: '$1$2',
     summary: 'Removed redundant module'
   },
   {
     // First item: foo[…dependencies=X, z]
-    regex: /(\[[^\]]*dependencies=\s*)mediawiki\.legacy\.wikibits\s*,/,
+    regex: /(\[[^\]]*dependencies=\s*)(?:es5-shim|json|dom-level2-shim|mediawiki\.legacy\.wikibits)\s*,/,
     replacement: '$1',
     summary: 'Removed redundant module'
   },
