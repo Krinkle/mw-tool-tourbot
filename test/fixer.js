@@ -7,11 +7,11 @@ module.exports = {
     var calls = [];
     var fix = new Fixer(
       'start\nexample\none exam, two exams\nremove me',
-      [ {
+      [{
         regex: /([eaoui])xam/g,
         replacement: '$1-test',
         summary: 'xam to test'
-      } ],
+      }],
       {}
     );
     var result = await fix.run(
@@ -49,11 +49,11 @@ module.exports = {
     var calls = [];
     var fix = new Fixer(
       'start\nexample\none exam, two exams\nremove me',
-      [ {
+      [{
         regex: /([eaoui])xam/,
         replacement: '$1-test',
         summary: 'xam to test'
-      } ],
+      }],
       {}
     );
     var result = await fix.run(

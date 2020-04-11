@@ -8,7 +8,7 @@ module.exports = function testReplace () {
     mainpagename: 'Main_Page'
   };
   var i = 1;
-  var cases = [ {
+  var cases = [{
     regex: /foo/,
     replacement: 'bar',
     input: 'input',
@@ -33,7 +33,7 @@ module.exports = function testReplace () {
     replacement: '<tourbot-rm-blank>',
     input: 'one two',
     expected: 'one '
-  } ];
+  }];
   for (let data of cases) {
     assert.strictEqual(
       replace(

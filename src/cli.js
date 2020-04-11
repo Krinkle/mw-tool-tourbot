@@ -159,7 +159,7 @@ function enhanceMwClient (client) {
         'jan', 'feb', 'mar', 'apr', 'may', 'jun',
         'jul', 'aug', 'sep', 'oct', 'nov', 'dec'
       ];
-      var shortMonthNames = '[ ' + [ '""', ...shortMonthNamesKeys.map((key) => {
+      var shortMonthNames = '[ ' + ['""', ...shortMonthNamesKeys.map((key) => {
         return JSON.stringify(datas[1][key]);
       })].join(', ') + ' ]';
 

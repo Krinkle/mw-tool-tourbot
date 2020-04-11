@@ -2,6 +2,7 @@ var colors = require('colors/safe');
 var read = require('read');
 
 var abbrev = require('./abbrev');
+var hasOwn = Object.hasOwnProperty;
 
 /**
  * Ask a multiple-choice question.
@@ -44,7 +45,7 @@ function options (question, config, handlers) {
           return;
         }
         var key = answer.toLowerCase();
-        if (!mapping.hasOwnProperty(key)) {
+        if (!hasOwn.call(mapping, key)) {
           prompt();
           return;
         }

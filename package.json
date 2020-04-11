@@ -32,18 +32,18 @@
     "acorn": "7.1.1",
     "colors": "1.4.0",
     "minimist": "1.2.5",
-    "nodemw": "^0.12.1",
+    "nodemw": "0.12.2",
     "opener": "1.5.1",
     "read": "1.0.7"
   },
   "devDependencies": {
-    "assert-diff": "^2.0.3",
-    "eslint": "^5.16.0",
-    "eslint-config-semistandard": "^13.0.0",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-node": "^8.0.1",
-    "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0"
+    "assert-diff": "3.0.0",
+    "eslint": "6.8.0",
+    "eslint-config-semistandard": "15.0.0",
+    "eslint-config-standard": "14.1.1",
+    "eslint-plugin-import": "2.20.2",
+    "eslint-plugin-node": "11.1.0",
+    "eslint-plugin-promise": "4.2.1",
+    "eslint-plugin-standard": "4.0.1"
   }
 }

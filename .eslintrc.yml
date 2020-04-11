@@ -4,3 +4,5 @@ parserOptions:
 env:
   es6: true
   node: true
+rules:
+  prefer-const: 0
