@@ -35,8 +35,7 @@
     "mkdirp": "^0.5.1",
     "nodemw": "^0.12.1",
     "opener": "^1.4.3",
-    "read": "^1.0.7",
-    "user-home": "^2.0.0"
+    "read": "^1.0.7"
   },
   "devDependencies": {
     "assert-diff": "^2.0.3",

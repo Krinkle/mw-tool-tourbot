@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-var cli = require('../src/cli');
 var path = require('path');
-var authDir = path.join(require('user-home'), '.config', 'tourbot');
+var os = require('os');
+var cli = require('../src/cli');
+var authDir = path.join(os.homedir(), '.config', 'tourbot');
 cli(authDir);
