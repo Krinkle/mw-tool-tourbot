@@ -2,7 +2,6 @@ var colors = require('colors/safe');
 var fs = require('fs');
 var opener = require('opener');
 var path = require('path');
-var mkdirp = require('mkdirp');
 
 var ask = require('./ask');
 var { AbortError } = require('./error');
@@ -20,7 +19,7 @@ async function saveAuth (authFile) {
   data = await ask.secret('Bot password token?');
   obj.botpass = data.trim();
 
-  mkdirp.sync(path.dirname(authFile));
+  fs.mkdirSync(path.dirname(authFile), { recursive: true });
   fs.writeFileSync(authFile, JSON.stringify(obj), {
     mode: 0o600
   });

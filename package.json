@@ -26,13 +26,12 @@
     "test": "node test/ && eslint ."
   },
   "engines": {
-    "node": ">=8.0"
+    "node": ">=10.12"
   },
   "dependencies": {
     "acorn": "7.1.1",
     "colors": "1.4.0",
     "minimist": "1.2.5",
-    "mkdirp": "^0.5.1",
     "nodemw": "^0.12.1",
     "opener": "1.5.1",
     "read": "1.0.7"
