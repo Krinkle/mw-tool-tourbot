@@ -49,6 +49,10 @@ urldecoder[ResourceLoader]|urldecoder.js
 Twinkle[ResourceLoader|dependencies=mediawiki.util,jquery.ui,jquery.tipsy,mediawiki.util]|morebits.js|morebits.css
 mw.loader.using( ['mediawiki.util', 'jquery.client'], function () {});
 
+/*
+ * Dependencies: mediawiki.util, mediawiki.api
+ */
+
 /**
  * Combine ext.wikiEditor
  */

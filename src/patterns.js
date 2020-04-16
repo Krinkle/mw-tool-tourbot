@@ -320,6 +320,11 @@ module.exports = [
     replacement: '$1',
     summary: 'Removed redundant module'
   },
+  {
+    regex: /^(\s*\*\s*[Dd]ependencies\s*:\s.+),\s*mediawiki\.notify(\s|,|$)/,
+    replacement: '$1',
+    summary: 'Removed redundant module'
+  },
   /**
    * Combine mediawiki.api
    */
