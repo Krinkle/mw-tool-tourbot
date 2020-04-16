@@ -54,6 +54,9 @@ if (mw.config.get('wgPageName') == 'Main_Page' || mw.config.get('wgPageName') ==
 if (!window.load_extratabs && wgMainPageTitle !== wgTitle )
 }
 
+if (mw.config.get('wgPageName') !== 'Main_Page' && mw.config.get('wgNamespaceNumber') === 0) {
+}
+
 /**
  * wgMonthNamesShort
  */

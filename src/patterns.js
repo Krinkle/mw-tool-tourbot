@@ -50,22 +50,22 @@ module.exports = [
     summary: 'Map.values is deprecated'
   },
   {
-    regex: /(?:wgPageName|wgTitle)\s*(!)?===?\s*['"]<siteinfo-general-mainpage>['"]\s*&&\s*wgNamespaceNumber\s*===?\s*\d+/,
+    regex: /(?:wgPageName|wgTitle)\s*?===?\s*['"](?:<siteinfo-general-mainpage>|<siteinfo-general-mainpagename>)['"]\s*&&\s*wgNamespaceNumber\s*===?\s*\d+/,
+    replacement: 'mw.config.get(\'wgIsMainPage\')',
+    summary: 'Use wgIsMainPage'
+  },
+  {
+    regex: /mw\.config\.get\(['"](?:wgPageName|wgTitle)['"]\)\s*?===?\s*['"](?:<siteinfo-general-mainpage>|<siteinfo-general-mainpagename>)['"]\s*&&\s*mw\.config\.get\(['"]wgNamespaceNumber['"]\)\s*===?\s*\d+/,
+    replacement: 'mw.config.get(\'wgIsMainPage\')',
+    summary: 'Use wgIsMainPage'
+  },
+  {
+    regex: /(?:wgPageName|wgTitle)\s*(!)?===?\s*['"](?:<siteinfo-general-mainpage>|<siteinfo-general-mainpagename>)['"]/,
     replacement: '$1mw.config.get(\'wgIsMainPage\')',
     summary: 'Use wgIsMainPage'
   },
   {
-    regex: /mw\.config\.get\(['"](?:wgPageName|wgTitle)['"]\)\s*(!)?===?\s*['"]<siteinfo-general-mainpage>['"]\s*&&\s*mw\.config\.get\(['"]wgNamespaceNumber['"]\)\s*===?\s*\d+/,
-    replacement: '$1mw.config.get(\'wgIsMainPage\')',
-    summary: 'Use wgIsMainPage'
-  },
-  {
-    regex: /(?:wgPageName|wgTitle)\s*(!)?===?\s*['"]<siteinfo-general-mainpagename>['"]/,
-    replacement: '$1mw.config.get(\'wgIsMainPage\')',
-    summary: 'Use wgIsMainPage'
-  },
-  {
-    regex: /mw\.config\.get\(['"](?:wgPageName|wgTitle)['"]\)\s*(!)?===?\s*['"]<siteinfo-general-mainpagename>['"]/,
+    regex: /mw\.config\.get\(['"](?:wgPageName|wgTitle)['"]\)\s*(!)?===?\s*['"](?:<siteinfo-general-mainpage>|<siteinfo-general-mainpagename>)['"]/,
     replacement: '$1mw.config.get(\'wgIsMainPage\')',
     summary: 'Use wgIsMainPage'
   },
