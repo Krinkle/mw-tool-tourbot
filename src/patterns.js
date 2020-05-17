@@ -278,8 +278,14 @@ module.exports = [
   },
   {
     // Special case, only for ES5/JSON/DOM2.
-    regex: /(mw\.loader\.|^\s*)(?:load|using)\s*\(\s*['"](?:es5-shim|json|dom-level2-shim)['"]\s*\)\s*;?\s*/,
+    regex: /(mw\.loader\.|^\s*)(?:load|using)\s*\(\s*['"](?:es5-shim|json|dom-level2-shim|mediawiki\.notify)['"]\s*\)\s*;\s*/,
     replacement: '<tourbot-rm-blank>',
+    summary: 'Removed redundant module'
+  },
+  {
+    // Remove, but keep callback structure in-tact.
+    regex: /(\.using\s*\(\s*)['"]mediawiki\.notify['"]/,
+    replacement: '$1[]',
     summary: 'Removed redundant module'
   },
   {
@@ -321,8 +327,13 @@ module.exports = [
     summary: 'Removed redundant module'
   },
   {
-    regex: /^(\s*\*\s*[Dd]ependencies\s*:\s.+),\s*mediawiki\.notify(\s|,|$)/,
-    replacement: '$1',
+    regex: /^(\s*\*\s*(?:[Dd]ependencies|@?[Rr]equired modules)\s*:\s.+),\s*mediawiki\.notify(\s|,|$)/,
+    replacement: '$1$2',
+    summary: 'Removed redundant module'
+  },
+  {
+    regex: /Default modules#mediawiki\.notify]]/,
+    replacement: 'Default modules#mw.notify]]',
     summary: 'Removed redundant module'
   },
   /**

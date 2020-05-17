@@ -53,8 +53,16 @@ urldecoder[ResourceLoader|dependencies=mediawiki.legacy.wikibits]|urldecoder.js
 Twinkle[ResourceLoader|dependencies=mediawiki.util,jquery.ui,jquery.tipsy,mediawiki.util,mediawiki.notify]|morebits.js|morebits.css
 mw.loader.using( ['mediawiki.util', 'mediawiki.notify', 'jquery.client'], function () {});
 
+mw.loader.load('mediawiki.notify');
+mw.loader.using('mediawiki.notify');
+$.when(mw.loader.using('mediawiki.notify'), null);
+mw.loader.using('mediawiki.notify', function () {
+	mw.notify(e, { title: 'DelReqHandler', type: 'error' });
+});
+
 /*
  * Dependencies: mediawiki.util, mediawiki.api, mediawiki.notify
+ * @Required modules: mediawiki.util, mediawiki.notify, jquery.spinner
  */
 
 /**
