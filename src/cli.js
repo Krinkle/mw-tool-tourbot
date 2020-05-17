@@ -540,6 +540,8 @@ async function start (authDir) {
     parsedResults = parseResults(results);
     for (i = 0; i < parsedResults.length; i++) {
       let subject = parsedResults[i];
+      subject.opened = false;
+      subject.ecmaVersion = null;
       try {
         await handleSubject(authObj, map, subject, preloadNext);
       } catch (err) {

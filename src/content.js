@@ -4,10 +4,32 @@ var colors = require('colors/safe');
 var ask = require('./ask');
 var { SkipFileError } = require('./error');
 
+function parse (subject, content) {
+  if (subject.ecmaVersion === null || subject.ecmaVersion === undefined) {
+    // Initial parse when reading current page content
+    try {
+      // Try as ES5
+      acorn.parse(content, { ecmaVersion: 5 });
+      subject.ecmaVersion = 5;
+    } catch (e1) {
+      // Re-try as ES2018
+      try {
+        acorn.parse(content, { ecmaVersion: 2018 });
+        subject.ecmaVersion = 2018;
+      } catch (e2) {
+        throw e1;
+      }
+    }
+  } else {
+    // Re-parse after fixes, with the same version as before
+    acorn.parse(content, { ecmaVersion: subject.ecmaVersion });
+  }
+}
+
 /**
  * @private
  */
-async function checkScript (content, options) {
+async function checkScript (subject, content, options) {
   /**
    * @return {Promise}
    */
@@ -40,10 +62,10 @@ async function checkScript (content, options) {
     );
   }
   if (options.quiet) {
-    acorn.parse(content, { ecmaVersion: 5 });
+    parse(subject, content);
   } else {
     try {
-      acorn.parse(content, { ecmaVersion: 5 });
+      parse(subject, content);
     } catch (e) {
       return confirmError(e);
     }
@@ -84,7 +106,7 @@ async function checkSubject (subject, content, options = {}) {
     throw new SkipFileError('Page contains unsafe nowiki see T236828');
   }
 
-  return checkScript(content, options);
+  return checkScript(subject, content, options);
 }
 
 module.exports = { checkSubject };
