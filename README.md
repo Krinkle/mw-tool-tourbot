@@ -73,25 +73,44 @@ then either accept it all, or cancel the edit.
   has lots of matches like this in the single file, use "r" (Reject all) to
   skip this pattern, and continue with another.
 
-## Example
+## Examples
 
-The input file for Tourbot follow the output format used by [`mwgrep`](https://wikitech.wikimedia.org/wiki/Wikimedia_binaries#mwgrep), which has on each line a pair of (wiki-id, pagename). For example:
+### Global Search tool
+
+You can use the [Global Search tool](https://global-search.toolforge.org/) to find instances
+of a particular pattern (I recommend the "JS/CSS" preset). Use its "Export as JSON"
+to save the result to a file, and feed that to Tourbot to get started:
+
+```
+$ tourbot -f results.json
+
+  Reading …/results.json
+
+  …
+ ```
+
+### mwgrep file
+
+Tourbot was originally developed for use with [`mwgrep`](https://wikitech.wikimedia.org/wiki/Wikimedia_binaries#mwgrep), which is a Wikimedia Foundation production CLI that uses search
+index and produces results with a pair of (wiki-id, pagename) on each line.
+
+For example:
 
 ```
 testwiki            MediaWiki:Gadgets-definition
 test2wiki           MediaWiki:Gadget-teahouse/content.js
 ```
 
-I sometimes publish search results as [a Gist](https://gist.github.com/Krinkle/a18e726fc3af30f30bf9b2ba919820b5). These can be used, like so:
+I sometimes publish search results from that in [a Gist](https://gist.github.com/Krinkle/a18e726fc3af30f30bf9b2ba919820b5). These can be used, like so:
 
 ```
 $ curl -O -L 'https://gist.github.com/Krinkle/a18e726fc3af30f30bf9b2ba919820b5/raw/c8c72d371c80c701eb4f6f5422c6ac51c6264f1f/mwgrep.escapeRE.txt
 
 $ tourbot -f mwgrep.escapeRE.txt
 
- Reading /Users/krinkle/Downloads/mwgrep.mwCustomEditButtons.txt
+  Reading …/mwgrep.mwCustomEditButtons.txt
 
- [..]
+  …
 ```
 
 ## Contributing

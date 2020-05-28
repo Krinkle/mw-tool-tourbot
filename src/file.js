@@ -5,7 +5,7 @@
 function parseResults (input) {
   input = input.trim();
   if (input[0] === '{') {
-    // Looks like JSON, parse as result from <https://tools.wmflabs.org/global-search/>.
+    // Looks like JSON, parse as result from <https://global-search.toolforge.org/>.
     return parseGlobalsearchOutput(JSON.parse(input));
   } else {
     return parseMwgrepOutput(input);
