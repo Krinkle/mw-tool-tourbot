@@ -29,6 +29,23 @@ module.exports = async function testContent () {
     'Valid CSS on a CSS page'
   );
   await assertPromise(
+    testcase('foo.css', 'foo();'),
+    // CSS is not currently validated
+    'resolved',
+    'Valid JS on a CSS page'
+  );
+  await assertPromise(
+    testcase('foo.css', '// <nowiki>\n.foo {}\n// </nowiki>'),
+    'resolved',
+    'Valid CSS on a CSS page with balanced <nowiki>'
+  );
+  await assertPromise(
+    testcase('foo.css', '// <nowiki>\n.foo {}'),
+    'rejected',
+    'Valid CSS on a CSS page with unclosed <nowiki>'
+  );
+
+  await assertPromise(
     testcase('foo.js', '.foo {}'),
     'rejected',
     'CSS on a JS page'
@@ -47,11 +64,5 @@ module.exports = async function testContent () {
     testcase('foo.js', '// <nowiki>\nfoo();'),
     'rejected',
     'Valid JS on a JS page with unclosed <nowiki>'
-  );
-  await assertPromise(
-    testcase('foo.css', 'foo();'),
-    // CSS is not currently validated
-    'resolved',
-    'Valid JS on a CSS page'
   );
 };

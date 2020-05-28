@@ -83,6 +83,24 @@ async function checkScript (subject, content, options) {
  * whether to skip the file, or to override the error and process anyway.
  */
 async function checkSubject (subject, content, options = {}) {
+  if (
+    (content.includes('<nowiki>') && !content.includes('</nowiki>')) ||
+    (content.includes('<source') && !content.includes('</source>')) ||
+    (content.includes('<syntaxhighlight') && !content.includes('</syntaxhighlight>'))
+  ) {
+    throw new SkipFileError('Page contains unsafe nowiki see T236828');
+  }
+
+  if (subject.pageName.includes('/monobook.css')) {
+    throw new SkipFileError('Ignore non-Vector');
+  }
+  if (subject.pageName.includes('/simple.css')) {
+    throw new SkipFileError('Ignore non-Vector');
+  }
+  if (subject.pageName.includes('/modern.css')) {
+    throw new SkipFileError('Ignore non-Vector');
+  }
+
   if (subject.pageName.slice(-4) === '.css') {
     return;
   }
@@ -96,14 +114,6 @@ async function checkSubject (subject, content, options = {}) {
     // "MediaWiki:Wp/khw/Gadgets-definition" (incubator.wikimedia.org)
     // "MediaWiki:Centralnotice-template-B13 121022 sldSl enYY" (meta.wikimedia.org)
     return;
-  }
-
-  if (
-    (content.includes('<nowiki>') && !content.includes('</nowiki>')) ||
-    (content.includes('<source') && !content.includes('</source>')) ||
-    (content.includes('<syntaxhighlight') && !content.includes('</syntaxhighlight>'))
-  ) {
-    throw new SkipFileError('Page contains unsafe nowiki see T236828');
   }
 
   return checkScript(subject, content, options);
