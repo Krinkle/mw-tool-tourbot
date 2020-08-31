@@ -1,6 +1,8 @@
 var fs = require('fs');
 var path = require('path');
 var URL = require('url').URL;
+const util = require('util');
+
 var colors = require('colors/safe');
 var minimist = require('minimist');
 var MwClient = require('nodemw');
@@ -44,8 +46,27 @@ var getPageCache = { title: null, promise: null };
 var decisionCache;
 
 function enhanceMwClient (client) {
+  // Added promise methods
+  client.pLogin = util.promisify(client.logIn);
+  client.pCall = function (params, method = 'GET') {
+    return new Promise((resolve, reject) => {
+      client.api.call(
+        params,
+        function (err, data) {
+          if (err) {
+            reject(err);
+            return;
+          }
+          resolve(data);
+        },
+        method
+      );
+    });
+  };
+  client.pGetToken = util.promisify(client.getToken);
+
   // Added method
-  client.getPage = function (title) {
+  client.getPage = async function (title) {
     var params = {
       action: 'query',
       prop: 'revisions',
@@ -53,30 +74,22 @@ function enhanceMwClient (client) {
       titles: title,
       formatversion: '2'
     };
-    return new Promise((resolve, reject) => {
-      this.api.call(params, function (err, data) {
-        if (err) {
-          reject(err);
-          return;
-        }
-        var page = data.pages[0];
-        if (page.missing) {
-          reject(new SkipFileError('Page [[' + title + ']] is missing'));
-          return;
-        }
-        var revision = page.revisions && page.revisions[0];
-        var resp = {
-          title: page.title,
-          revision: {
-            timestamp: revision.timestamp,
-            content: revision.content
-          }
-        };
-
-        resolve(resp);
-      });
-    });
+    const data = await this.pCall(params);
+    var page = data.pages[0];
+    if (page.missing) {
+      throw new SkipFileError('Page [[' + title + ']] is missing');
+    }
+    var revision = page.revisions && page.revisions[0];
+    var resp = {
+      title: page.title,
+      revision: {
+        timestamp: revision.timestamp,
+        content: revision.content
+      }
+    };
+    return resp;
   };
+
   // Replaced method (must be backward-compatible)
   client.edit = function (pageData, content, summary, minor, callback) {
     var params = {
@@ -111,6 +124,7 @@ function enhanceMwClient (client) {
     this.doEdit('edit', title, summary, params, callback);
   };
 
+  // Added method
   // Cached and promisified version of
   // - query=siteinfo&siprop=
   // - query=allmessages&ammessages=…&uselang=content
@@ -130,7 +144,7 @@ function enhanceMwClient (client) {
           resolve(info.general);
         });
       }),
-      new Promise((resolve, reject) => {
+      Promise.resolve((async () => {
         var messageNames = [
           'jan', 'feb', 'mar', 'apr', 'may', 'jun',
           'jul', 'aug', 'sep', 'oct', 'nov', 'dec'
@@ -142,18 +156,13 @@ function enhanceMwClient (client) {
           ammessages: messageNames.join('|'),
           uselang: 'content'
         };
-        this.api.call(params, function (err, data) {
-          if (err) {
-            reject(err);
-            return;
-          }
-          var messages = {};
-          data.allmessages.forEach((msg) => {
-            messages[msg.name] = msg.content;
-          });
-          resolve(messages);
+        const data = await this.pCall(params);
+        var messages = {};
+        data.allmessages.forEach((msg) => {
+          messages[msg.name] = msg.content;
         });
-      })
+        return messages;
+      })())
     ]).then((datas) => {
       var shortMonthNamesKeys = [
         'jan', 'feb', 'mar', 'apr', 'may', 'jun',
@@ -175,27 +184,53 @@ function enhanceMwClient (client) {
   };
 }
 
+async function makeBotClient (server, authObj) {
+  const client = new MwClient({
+    protocol: 'https',
+    server: server,
+    path: '/w',
+    concurrency: 2,
+    username: authObj.botname,
+    password: authObj.botpass,
+    debug: !!argv.verbose
+  });
+
+  // Mixin extra methods
+  enhanceMwClient(client);
+
+  // Login
+  await client.pLogin();
+
+  // Ensure PST protection is in place (T236828)
+  const options = await client.pCall({
+    formatversion: '2',
+    action: 'query',
+    meta: 'userinfo',
+    uiprop: 'options'
+  });
+  if (Number(options.userinfo.options['pst-cssjs']) !== 0) {
+    console.log(`... setting user preference pst-cssjs=0 on ${server} for T236828.`);
+    const csrfToken = await client.pGetToken(null, 'csrf');
+    const resp = await client.pCall({
+      action: 'options',
+      token: csrfToken,
+      optionname: 'pst-cssjs',
+      optionvalue: '0'
+    }, 'POST');
+    if (resp !== 'success') {
+      throw new Error(`Failed to set user preference: ${resp}`);
+    }
+  }
+
+  return client;
+}
+
 function getBotClient (server, authObj) {
   if (!bots[server]) {
-    bots[server] = new Promise(function (resolve, reject) {
-      var client = new MwClient({
-        protocol: 'https',
-        server: server,
-        path: '/w',
-        concurrency: 2,
-        username: authObj.botname,
-        password: authObj.botpass,
-        debug: !!argv.verbose
-      });
-      client.logIn(function (err) {
-        if (err) {
-          reject(err);
-          return;
-        }
-        enhanceMwClient(client);
-        resolve(client);
-      });
-    });
+    // Asssign directly instead of awaiting, so that we can
+    // ensure efficient re-use even when content handling and
+    // prefetch are racing each other.
+    bots[server] = makeBotClient(server, authObj);
   }
   return bots[server];
 }
