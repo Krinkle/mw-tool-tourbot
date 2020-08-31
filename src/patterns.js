@@ -456,6 +456,39 @@ module.exports = [
     replacement: ', ',
     summary: 'Updated deprecated module name'
   },
+  /**
+   * Combine mediawiki.page.ready
+   */
+  {
+    // Removed old because new module is before it (JS code)
+    regex: /(['"]mediawiki\.page\.ready['"][^\])]*)\s*,\s*['"]mediawiki\.page\.startup['"]/,
+    replacement: '$1',
+    summary: 'Updated deprecated module name'
+  },
+  {
+    // Removed old because new module is after it (JS code)
+    regex: /['"]mediawiki\.page\.startup['"]\s*,\s*([^\])]*['"]mediawiki\.page\.ready['"][^\])]*)/,
+    replacement: '$1',
+    summary: 'Updated deprecated module name'
+  },
+  {
+    // Removed old because new module is before it (Gadget definition)
+    regex: /(\[.*dependencies.*[=,\s]mediawiki\.page\.ready(?:[,\s].*)?),\s*mediawiki\.page\.startup([\s,|\]])/,
+    replacement: '$1$2',
+    summary: 'Updated deprecated module name'
+  },
+  {
+    // Removed old because new module is after it (Gadget definition)
+    regex: /(\[.*dependencies.*[=,\s])mediawiki\.page\.startup\s*,\s((.+[,\s])?mediawiki\.page\.ready[\s,|\]])/,
+    replacement: '$1$2',
+    summary: 'Updated deprecated module name'
+  },
+  {
+    // Replace old with new (JS code, and Gadget definition)
+    regex: /(['"]|[,=]\s*)mediawiki\.page\.startup(['"]|\s*[,|\]])/,
+    replacement: '$1mediawiki.page.ready$2',
+    summary: 'Updated deprecated module name'
+  },
   {
     // Update false-positive result in comments that refer to the functionality
     // by using the (now-outdated) module name.

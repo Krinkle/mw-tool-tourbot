@@ -159,3 +159,11 @@ multiple[dependencies=other, user.tokens, after, user.options]
 middle[dependencies=before, user.tokens, after]
 last[dependencies=other, user.tokens|misc]
 only[dependencies=user.tokens]
+
+/**
+ * Combine mediawiki.page.ready
+ */
+
+loader.using(['mediawiki.api','mediawiki.page.startup','jquery.cookie']).done( function () {});
+
+edittop[ResourceLoader|default|dependencies=mediawiki.util,mediawiki.page.startup]|edittop.js
