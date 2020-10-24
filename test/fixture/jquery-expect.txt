@@ -10,3 +10,14 @@ prop('disabled', true)
 $(form).find(':submit').prop('disabled', false);
 
 $(this).nextUntil("h2").addBack().wrapAll('<div class="mw-h2section"></div>');
+
+JSON.parse(x);
+JSON.parse(y.foo());
+JSON.parse( y.foo.json() );
+        var antwort = JSON.parse ($.ajax (
+                {
+                    url: mw.util.wikiScript("api"),
+                    data: params,
+                    async: false,
+                    dataType: "json"
+                }).responseText);

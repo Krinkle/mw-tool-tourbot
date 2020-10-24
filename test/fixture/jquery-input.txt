@@ -10,3 +10,14 @@ attr('disabled', true)
 $(form).find(':submit').removeAttr('disabled');
 
 $(this).nextUntil("h2").andSelf().wrapAll('<div class="mw-h2section"></div>');
+
+$.parseJSON(x);
+$j.parseJSON(y.foo());
+jQuery.parseJSON( y.foo.json() );
+        var antwort = $.parseJSON ($.ajax (
+                {
+                    url: mw.util.wikiScript("api"),
+                    data: params,
+                    async: false,
+                    dataType: "json"
+                }).responseText);

@@ -264,6 +264,11 @@ module.exports = [
     summary: 'Replace jQuery#removeAttr ([[phab:T169385|deprecated]])'
   },
   {
+    regex: /(\$|\$j|jQuery)\.parseJSON(\s*\()/,
+    replacement: 'JSON.parse$2',
+    summary: 'Replace jQuery#parseJSON ([[phab:T169385|deprecated]])'
+  },
+  {
     regex: /attr\(\s*['"](checked|selected|disabled|readonly|required|hidden)['"], (true|['"](checked|selected|disabled|readonly|required|hidden)['"])/,
     replacement: 'prop(\'$1\', true'
   },
