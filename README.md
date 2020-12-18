@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Krinkle/mw-tool-tourbot.svg?branch=master)](https://travis-ci.org/Krinkle/mw-tool-tourbot)
+[![Build Status](https://travis-ci.com/Krinkle/mw-tool-tourbot.svg?branch=main)](https://travis-ci.com/Krinkle/mw-tool-tourbot) [![Tested with QUnit](https://img.shields.io/badge/tested_with-qunit-9c3493.svg)](https://qunitjs.com/)
 
 # mw-tool-tourbot
 
