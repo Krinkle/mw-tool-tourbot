@@ -1,4 +1,4 @@
-## Unreleased
+## Tag v2.1.0
 
 * cli: Add `--config` option to change where credentials are stored.
 * cli: Add automatic changing of user preference to `pst-cssjs=0` if needed, for [T236828](https://phabricator.wikimedia.org/T236828).
