@@ -1,8 +1,8 @@
-var acorn = require('acorn');
-var colors = require('colors/safe');
+const acorn = require('acorn');
+const colors = require('colors/safe');
 
-var ask = require('./ask');
-var { SkipFileError } = require('./error');
+const ask = require('./ask');
+const { SkipFileError } = require('./error');
 
 function parse (subject, content) {
   if (subject.ecmaVersion === null || subject.ecmaVersion === undefined) {
@@ -34,8 +34,8 @@ async function checkScript (subject, content, options) {
    * @return {Promise}
    */
   function confirmError (error) {
-    var line = content.split('\n')[error.loc.line - 1];
-    var context;
+    const line = content.split('\n')[error.loc.line - 1];
+    let context;
     // Fallback to empty string because the error may be that
     // the script ended unexpectedly, in which case the column
     // is length+1, which yields undefined and we don't want

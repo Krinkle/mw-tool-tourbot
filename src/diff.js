@@ -1,4 +1,4 @@
-var colors = require('colors/safe');
+const colors = require('colors/safe');
 
 function simpleDiff (removedLine, addedLine) {
   if (removedLine === addedLine) {
@@ -7,14 +7,14 @@ function simpleDiff (removedLine, addedLine) {
   if (addedLine === null) {
     return { textBefore: '', removed: removedLine, added: null, textAfter: '' };
   }
-  var start = 0;
+  let start = 0;
   while (start < removedLine.length && removedLine[start] === addedLine[start]) {
     start++;
   }
-  var textBefore = removedLine.slice(0, start);
-  var addedRest = addedLine.slice(start);
-  var removedRest = removedLine.slice(start);
-  var end = false;
+  const textBefore = removedLine.slice(0, start);
+  const addedRest = addedLine.slice(start);
+  const removedRest = removedLine.slice(start);
+  let end = false;
   if (removedRest.length) {
     end = 0;
     while (removedRest.slice(end - 1, removedRest.length + end) === addedRest.slice(end - 1, addedRest.length + end)) {
@@ -37,12 +37,12 @@ function formatDiff (diff, contextStart, linesBefore, linesAfter) {
     colors.red('- ' + diff.textBefore) + colors.bold.bgRed(diff.removed) + colors.red(diff.textAfter) + '\n' +
     (diff.added !== null
       ? (
-        colors.green('+ ' + diff.textBefore) +
+          colors.green('+ ' + diff.textBefore) +
         // In case of a multi-line replacement, make sure indentation doens't look weird.
         // On the second and subsequent line we need to also prepend "+ ".
         diff.added.split('\n').map((chunk) => colors.bold.bgGreen(chunk)).join('\n' + colors.green('+ ')) +
         colors.green(diff.textAfter) + '\n'
-      )
+        )
       : ''
     ) +
     colors.grey(linesAfter.replace(/^/gm, '  '));

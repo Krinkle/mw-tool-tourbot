@@ -1,19 +1,19 @@
-var colors = require('colors/safe');
-var fs = require('fs');
-var opener = require('opener');
-var path = require('path');
+const colors = require('colors/safe');
+const fs = require('fs');
+const opener = require('opener');
+const path = require('path');
 
-var ask = require('./ask');
-var { AbortError } = require('./error');
+const ask = require('./ask');
+const { AbortError } = require('./error');
 
 async function saveAuth (authFile) {
-  var obj = {};
-  var url = 'https://en.wikipedia.org/wiki/Special:BotPasswords';
-  var answer = await ask.confirm('Go to ' + colors.bold.underline(url) + '?');
+  const obj = {};
+  const url = 'https://en.wikipedia.org/wiki/Special:BotPasswords';
+  const answer = await ask.confirm('Go to ' + colors.bold.underline(url) + '?');
   if (answer) {
     opener(url);
   }
-  var data;
+  let data;
   data = await ask.input('Bot username?');
   obj.botname = data.trim();
   data = await ask.secret('Bot password token?');
@@ -42,8 +42,8 @@ function askLogin (authFile) {
 
 async function getAuth (authFile) {
   try {
-    var data = fs.readFileSync(authFile);
-    var obj = JSON.parse(data);
+    const data = fs.readFileSync(authFile);
+    const obj = JSON.parse(data);
     if (!obj.botname || !obj.botpass) {
       throw new Error('.mwauth.json must contain "botname" and "botpass".');
     }

@@ -22,7 +22,8 @@ IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 
 function abbrev (input, options = {}) {
-  for (var i = 0, values = []; i < input.length; i++) {
+  let values = [];
+  for (let i = 0; i < input.length; i++) {
     values[i] = String(input[i]);
   }
 
@@ -30,17 +31,19 @@ function abbrev (input, options = {}) {
   values = values.sort(lexSort);
 
   // walk through each, seeing how much it has in common with the next and previous
-  var abbrevs = {};
-  var prev = '';
-  for (i = 0; i < values.length; i++) {
-    var current = values[i];
-    var next = values[i + 1] || '';
-    var nextMatches = true;
-    var prevMatches = true;
+  const abbrevs = {};
+  let prev = '';
+  for (let i = 0; i < values.length; i++) {
+    const current = values[i];
+    const next = values[i + 1] || '';
+    let nextMatches = true;
+    let prevMatches = true;
     // Ignore duplicates
     if (current === next) continue;
-    for (var j = 0, cl = current.length; j < cl; j++) {
-      var curChar = current[j];
+    let j = 0;
+    const cl = current.length;
+    for (; j < cl; j++) {
+      const curChar = current[j];
       nextMatches = nextMatches && curChar === next[j];
       prevMatches = prevMatches && curChar === prev[j];
       if (!nextMatches && !prevMatches) {
@@ -53,7 +56,7 @@ function abbrev (input, options = {}) {
       abbrevs[current] = current;
       continue;
     }
-    for (var a = current.substr(0, j); j <= cl; j++) {
+    for (let a = current.substr(0, j); j <= cl; j++) {
       abbrevs[a] = current;
       if (options.shortest) {
         break;

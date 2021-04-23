@@ -1,4 +1,4 @@
-var { SkipPatternError } = require('./error');
+const { SkipPatternError } = require('./error');
 
 /**
  * @class
@@ -26,12 +26,11 @@ function Fixer (content, patterns, siteinfo) {
  * @return {Object}
  */
 Fixer.prototype.run = async function (replacer, accepter) {
-  var lines = this.content.split('\n');
-  var summaries = {};
-  var major = false;
-  var output;
+  const lines = this.content.split('\n');
+  const summaries = {};
+  let major = false;
 
-  for (let pattern of this.patterns) {
+  for (const pattern of this.patterns) {
     // If we reached a minor pattern, but had no major patterns yet, don't propose
     // other changes. The edit handler requires at least one major change.
     if (!pattern.summary && !major) {
@@ -45,13 +44,13 @@ Fixer.prototype.run = async function (replacer, accepter) {
             // If the line was removed by a previous pattern, skip it
             break;
           }
-          let replacement = replacer(line, pattern, this.siteinfo);
+          const replacement = replacer(line, pattern, this.siteinfo);
           if (replacement === line) {
             // This pattern doesn't match, or matched previously
             // but not anymore.
             break;
           }
-          let accept = await accepter(lines, i, line, replacement, pattern);
+          const accept = await accepter(lines, i, line, replacement, pattern);
           if (accept !== true) {
             // Don't propose the same pattern multiple times,
             // given the next match would be the same.
@@ -75,7 +74,7 @@ Fixer.prototype.run = async function (replacer, accepter) {
   }
 
   // Strip nulled lines
-  output = lines.filter(function (line) {
+  const output = lines.filter(function (line) {
     return line !== null;
   });
   return {

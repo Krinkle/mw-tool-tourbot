@@ -1,5 +1,0 @@
-extends: semistandard
-parserOptions:
-  ecmaVersion: 2018
-rules:
-  prefer-const: 0

@@ -5,8 +5,8 @@ const Fixer = require('../src/fixer');
 QUnit.module('fixer');
 
 QUnit.test('Match all', async (assert) => {
-  let calls = [];
-  let fix = new Fixer(
+  const calls = [];
+  const fix = new Fixer(
     'start\nexample\none exam, two exams\nremove me',
     [{
       regex: /([eaoui])xam/g,
@@ -15,7 +15,7 @@ QUnit.test('Match all', async (assert) => {
     }],
     {}
   );
-  let result = await fix.run(
+  const result = await fix.run(
     function replacer (str, pattern) {
       if (str === 'remove me') {
         return null;
@@ -47,8 +47,8 @@ QUnit.test('Match all', async (assert) => {
 });
 
 QUnit.test('Match one', async (assert) => {
-  let calls = [];
-  let fix = new Fixer(
+  const calls = [];
+  const fix = new Fixer(
     'start\nexample\none exam, two exams\nremove me',
     [{
       regex: /([eaoui])xam/,
@@ -57,7 +57,7 @@ QUnit.test('Match one', async (assert) => {
     }],
     {}
   );
-  let result = await fix.run(
+  const result = await fix.run(
     function replacer (str, pattern) {
       if (str === 'remove me') {
         return null;

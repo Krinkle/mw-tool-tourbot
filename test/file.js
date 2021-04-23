@@ -5,7 +5,7 @@ const file = require('../src/file.js');
 QUnit.module('file');
 
 QUnit.test('mwgrep output', (assert) => {
-  let output = file.parseResults(`
+  const output = file.parseResults(`
 frwiki              User:Appaches/common.js
 metawiki            User:Jeph paul/formsGadget.js
 rowiki              User:Anneto/user.css
@@ -41,7 +41,7 @@ testwiki            User:TheDJ/text.js
 });
 
 QUnit.test('global-search JSON', (assert) => {
-  let output = file.parseResults(`
+  const output = file.parseResults(`
 {
   "q": "some\\\\.regexp",
   "regex": true,

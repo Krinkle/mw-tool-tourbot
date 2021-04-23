@@ -8,7 +8,7 @@ const patterns = require('../src/patterns');
 
 function applyPatterns (lines) {
   let output = lines.slice();
-  let siteinfo = {
+  const siteinfo = {
     general: {
       mainpage: 'Main Page',
       mainpagename: 'Main_Page'
@@ -48,24 +48,24 @@ function applyPatterns (lines) {
 }
 
 // Read test cases
-let fixtureDir = path.join(__dirname, 'fixture');
-let inputSuffix = '-input.txt';
-let expectSuffix = '-expect.txt';
-let testCases = {};
-let filenames = fs.readdirSync(fixtureDir);
+const fixtureDir = path.join(__dirname, 'fixture');
+const inputSuffix = '-input.txt';
+const expectSuffix = '-expect.txt';
+const testCases = {};
+const filenames = fs.readdirSync(fixtureDir);
 filenames.forEach((filename) => {
   if (filename.endsWith(inputSuffix)) {
-    let label = filename.replace(inputSuffix, '');
-    let inputFile = filename;
-    let expectFile = filename.replace(inputSuffix, expectSuffix);
+    const label = filename.replace(inputSuffix, '');
+    const inputFile = filename;
+    const expectFile = filename.replace(inputSuffix, expectSuffix);
     if (!filenames.includes(expectFile)) {
       throw new Error(`File ${inputFile} needs ${expectFile} to exist`);
     }
     testCases[label] = [inputFile, expectFile];
   } else if (filename.endsWith(expectSuffix)) {
-    let label = filename.replace(expectSuffix, '');
-    let expectFile = filename;
-    let inputFile = filename.replace(expectSuffix, inputSuffix);
+    const label = filename.replace(expectSuffix, '');
+    const expectFile = filename;
+    const inputFile = filename.replace(expectSuffix, inputSuffix);
     if (!filenames.includes(inputFile)) {
       throw new Error(`File ${expectFile} needs ${inputFile} to exist`);
     }
@@ -77,11 +77,11 @@ filenames.forEach((filename) => {
 
 QUnit.module('patterns');
 
-for (let label in testCases) {
+for (const label in testCases) {
   QUnit.test(label, (assert) => {
-    let input = fs.readFileSync(path.join(fixtureDir, testCases[label][0])).toString().split('\n');
-    let expect = fs.readFileSync(path.join(fixtureDir, testCases[label][1])).toString().split('\n');
-    let actual = applyPatterns(input);
+    const input = fs.readFileSync(path.join(fixtureDir, testCases[label][0])).toString().split('\n');
+    const expect = fs.readFileSync(path.join(fixtureDir, testCases[label][1])).toString().split('\n');
+    const actual = applyPatterns(input);
     assert.strictEqual(typeof actual, 'object', 'return type');
     assert.strictEqual(actual.length, expect.length, 'number of lines in output');
     if (actual.length > expect.length) {

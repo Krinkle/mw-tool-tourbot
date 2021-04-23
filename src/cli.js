@@ -1,25 +1,25 @@
-var fs = require('fs');
-var path = require('path');
-var URL = require('url').URL;
+const fs = require('fs');
+const path = require('path');
+const URL = require('url').URL;
 const util = require('util');
 const os = require('os');
 
-var colors = require('colors/safe');
-var minimist = require('minimist');
-var MwClient = require('nodemw');
-var opener = require('opener');
+const colors = require('colors/safe');
+const minimist = require('minimist');
+const MwClient = require('nodemw');
+const opener = require('opener');
 
-var auth = require('./auth');
-var ask = require('./ask');
-var DecisionStore = require('./store').DecisionStore;
-var Content = require('./content');
-var Diff = require('./diff');
-var Fixer = require('./fixer');
-var parseResults = require('./file.js').parseResults;
-var replace = require('./replace');
-var { SkipFileError, SkipPatternError, AbortError } = require('./error');
-var patterns = require('./patterns');
-var argv = minimist(process.argv.slice(2), {
+const auth = require('./auth');
+const ask = require('./ask');
+const DecisionStore = require('./store').DecisionStore;
+const Content = require('./content');
+const Diff = require('./diff');
+const Fixer = require('./fixer');
+const parseResults = require('./file.js').parseResults;
+const replace = require('./replace');
+const { SkipFileError, SkipPatternError, AbortError } = require('./error');
+const patterns = require('./patterns');
+const argv = minimist(process.argv.slice(2), {
   string: ['config', 'file', 'contains', 'match'],
   boolean: ['all', 'auto', 'verbose', 'help'],
   default: {
@@ -42,10 +42,10 @@ var argv = minimist(process.argv.slice(2), {
     h: 'help'
   }
 });
-var bots = Object.create(null);
-var dMap = null;
-var getPageCache = { title: null, promise: null };
-var decisionCache;
+const bots = Object.create(null);
+let dMap = null;
+const getPageCache = { title: null, promise: null };
+let decisionCache;
 
 function enhanceMwClient (client) {
   // Added promise methods
@@ -69,7 +69,7 @@ function enhanceMwClient (client) {
 
   // Added method
   client.getPage = async function (title) {
-    var params = {
+    const params = {
       action: 'query',
       prop: 'revisions',
       rvprop: 'content|timestamp',
@@ -77,12 +77,12 @@ function enhanceMwClient (client) {
       formatversion: '2'
     };
     const data = await this.pCall(params);
-    var page = data.pages[0];
+    const page = data.pages[0];
     if (page.missing) {
       throw new SkipFileError('Page [[' + title + ']] is missing');
     }
-    var revision = page.revisions && page.revisions[0];
-    var resp = {
+    const revision = page.revisions && page.revisions[0];
+    const resp = {
       title: page.title,
       revision: {
         timestamp: revision.timestamp,
@@ -94,7 +94,7 @@ function enhanceMwClient (client) {
 
   // Replaced method (must be backward-compatible)
   client.edit = function (pageData, content, summary, minor, callback) {
-    var params = {
+    const params = {
       text: content,
       // Avoid accidentally editing as anonymous user if session expires
       assert: 'user'
@@ -111,7 +111,7 @@ function enhanceMwClient (client) {
       params.notminor = '';
     }
 
-    var title;
+    let title;
     if (typeof pageData === 'object') {
       params.basetimestamp = pageData.revision.timestamp;
       params.starttimestamp = new Date().toISOString();
@@ -147,11 +147,11 @@ function enhanceMwClient (client) {
         });
       }),
       Promise.resolve((async () => {
-        var messageNames = [
+        const messageNames = [
           'jan', 'feb', 'mar', 'apr', 'may', 'jun',
           'jul', 'aug', 'sep', 'oct', 'nov', 'dec'
         ];
-        var params = {
+        const params = {
           formatversion: '2',
           action: 'query',
           meta: 'allmessages',
@@ -159,18 +159,18 @@ function enhanceMwClient (client) {
           uselang: 'content'
         };
         const data = await this.pCall(params);
-        var messages = {};
+        const messages = {};
         data.allmessages.forEach((msg) => {
           messages[msg.name] = msg.content;
         });
         return messages;
       })())
     ]).then((datas) => {
-      var shortMonthNamesKeys = [
+      const shortMonthNamesKeys = [
         'jan', 'feb', 'mar', 'apr', 'may', 'jun',
         'jul', 'aug', 'sep', 'oct', 'nov', 'dec'
       ];
-      var shortMonthNames = '[ ' + ['""', ...shortMonthNamesKeys.map((key) => {
+      const shortMonthNames = '[ ' + ['""', ...shortMonthNamesKeys.map((key) => {
         return JSON.stringify(datas[1][key]);
       })].join(', ') + ' ]';
 
@@ -245,7 +245,7 @@ function getWikiMap (authObj) {
     return dMap;
   }
   dMap = (async function () {
-    var client = await getBotClient('meta.wikimedia.org', authObj);
+    const client = await getBotClient('meta.wikimedia.org', authObj);
 
     return new Promise((resolve, reject) => {
       client.api.call({
@@ -253,25 +253,24 @@ function getWikiMap (authObj) {
         smlangprop: 'site',
         smsiteprop: 'url|dbname'
       }, function (err, sitematrix) {
-        var map, key, group, i, wiki;
         if (err) {
           reject(err);
           return;
         }
-        map = Object.create(null);
-        for (key in sitematrix) {
+        const map = Object.create(null);
+        for (const key in sitematrix) {
           if (key === 'count') {
             continue;
           }
-          group = key === 'specials' ? sitematrix[key] : sitematrix[key].site;
+          const group = key === 'specials' ? sitematrix[key] : sitematrix[key].site;
           if (group && group.length) {
-            for (i = 0; i < group.length; i++) {
+            for (let i = 0; i < group.length; i++) {
               if (group[i].private === undefined &&
                 group[i].closed === undefined &&
                 group[i].nonglobal === undefined &&
                 group[i].fishbowl === undefined
               ) {
-                wiki = group[i];
+                const wiki = group[i];
                 wiki.server = new URL(wiki.url).host;
                 map[wiki.dbname] = wiki;
                 map[wiki.server] = wiki;
@@ -293,7 +292,7 @@ function reportNoop () {
   console.log('No major changes. Loading next subject...');
 }
 function failPage (err) {
-  var message;
+  let message;
   if (err instanceof SkipFileError) {
     message = `Skipped (${err.message})`;
   } else {
@@ -307,12 +306,12 @@ function openPage (subject) {
     console.log('Unable to find url for [[%s]]...', subject.pageName);
     return;
   }
-  var url = 'https://' + subject.server + '/wiki/' + subject.pageName;
+  const url = 'https://' + subject.server + '/wiki/' + subject.pageName;
   console.log('Opening %s...', colors.bold.underline(url));
   opener(url);
 }
 function printApplyHelp () {
-  var help = (
+  const help = (
     'y - yes, accept this change\n' +
     'n - no, reject this change\n' +
     'a - accept all changes for this pattern in the current file\n' +
@@ -326,7 +325,7 @@ function printApplyHelp () {
 }
 
 async function confirmSaving (subject, summary, result) {
-  var wiki = subject.server || subject.wiki;
+  const wiki = subject.server || subject.wiki;
 
   if (result.didSomeAllOrAuto) {
     console.log('\nEdit summary: %s\n', summary);
@@ -348,12 +347,12 @@ async function confirmSaving (subject, summary, result) {
 }
 
 async function handleContent (subject, content, siteinfo) {
-  var shown = false;
-  var didSomeAllOrAuto = false;
+  let shown = false;
+  let didSomeAllOrAuto = false;
   // A reference to a pattern object for which the user
   // has indicated they want to automatically accept all
   // replacements in the current file content.
-  var currentAllOfPattern = null;
+  let currentAllOfPattern = null;
 
   /**
    * Accepter callback for Fixer#run.
@@ -366,23 +365,23 @@ async function handleContent (subject, content, siteinfo) {
    * @return {boolean} Whether to accept the change
    */
   async function proposeChange (lines, i, line, replacement, pattern) {
-    var contextSize = 5;
-    var contextStart = Math.max(0, i - 5);
-    var linesBefore = lines.slice(contextStart, i).join('\n');
-    var linesAfter = lines.slice(i + 1, i + contextSize).join('\n');
-    var diff = Diff.simpleDiff(line, replacement);
+    const contextSize = 5;
+    const contextStart = Math.max(0, i - 5);
+    const linesBefore = lines.slice(contextStart, i).join('\n');
+    const linesAfter = lines.slice(i + 1, i + contextSize).join('\n');
+    const diff = Diff.simpleDiff(line, replacement);
     console.log(Diff.formatDiff(diff, contextStart, linesBefore, linesAfter));
     // Save yes/no decisions in a cache for convenient re-use.
     // The significant serialisation of the change is similar to diffStr,
     // but *including* linesBefore+After, and *without* line numbers.
-    var decideCacheKey = JSON.stringify([
+    const decideCacheKey = JSON.stringify([
       [linesBefore, linesAfter],
       [diff.textBefore, diff.removed, diff.added, diff.textAfter]
     ]);
-    var decision = decisionCache.get(decideCacheKey);
-    var decisionName = (decision !== undefined ? (decision ? 'Yes' : 'No') : null);
+    const decision = decisionCache.get(decideCacheKey);
+    const decisionName = (decision !== undefined ? (decision ? 'Yes' : 'No') : null);
     function askApply () {
-      var readTimeout;
+      let readTimeout;
       shown = true;
       if (currentAllOfPattern !== pattern) {
         // Different pattern, stop any all-replacement
@@ -467,8 +466,8 @@ async function handleContent (subject, content, siteinfo) {
   await Content.checkSubject(subject, content, {
     quiet: true
   });
-  var fix = new Fixer(content, patterns, siteinfo);
-  var result = await fix.run(replace, proposeChange);
+  const fix = new Fixer(content, patterns, siteinfo);
+  const result = await fix.run(replace, proposeChange);
   return {
     ...result,
     shown,
@@ -482,7 +481,7 @@ async function checkAll (subject, content) {
     (!argv.match || new RegExp(argv.match).test(content)) &&
     !subject.opened
   ) {
-    let answer = await ask.confirm('Open in browser?');
+    const answer = await ask.confirm('Open in browser?');
     if (answer) {
       openPage(subject);
     }
@@ -490,11 +489,11 @@ async function checkAll (subject, content) {
 }
 
 async function prefetchSubject (authObj, map, subject) {
-  var wiki = map[subject.wiki];
+  const wiki = map[subject.wiki];
   if (!wiki) {
     return;
   }
-  var client = await getBotClient(wiki.server, authObj);
+  const client = await getBotClient(wiki.server, authObj);
   // Start pending promise and put into cache
   getPageCache.title = subject.pageName;
   getPageCache.server = wiki.server;
@@ -502,7 +501,7 @@ async function prefetchSubject (authObj, map, subject) {
 }
 
 async function handleSubject (authObj, map, subject, preloadNext) {
-  var wiki = map[subject.wiki];
+  const wiki = map[subject.wiki];
   if (!wiki) {
     printHeading(subject.pageName, subject.wiki);
     throw new SkipFileError('Unknown wiki: ' + subject.wiki);
@@ -511,18 +510,18 @@ async function handleSubject (authObj, map, subject, preloadNext) {
   subject.server = wiki.server;
 
   printHeading(subject.pageName, wiki.server);
-  var client = await getBotClient(wiki.server, authObj);
-  var page;
+  const client = await getBotClient(wiki.server, authObj);
+  let page;
   if (getPageCache.server === wiki.server && getPageCache.title === subject.pageName) {
     page = await getPageCache.promise;
   } else {
     page = await client.getPage(subject.pageName);
   }
-  var siteinfo = await client.siteinfo();
+  const siteinfo = await client.siteinfo();
   // At this point, we've got everything for the current subject,
   // let's start preloading the next!
   preloadNext();
-  var result;
+  let result;
   try {
     result = await handleContent(subject, page.revision.content, siteinfo);
   } catch (err) {
@@ -534,7 +533,7 @@ async function handleSubject (authObj, map, subject, preloadNext) {
   // Before saving, offer to "open" if needed
   await checkAll(subject, page.revision.content);
 
-  var newContent = result.content;
+  const newContent = result.content;
   if (!result.summaries.length) {
     if (result.shown) {
       // Before skipping, offer to "open" if needed
@@ -546,7 +545,7 @@ async function handleSubject (authObj, map, subject, preloadNext) {
   }
 
   await Content.checkSubject(subject, newContent);
-  var summary = 'Maintenance: [[mw:RL/MGU]] - ' + result.summaries.join(', ');
+  const summary = 'Maintenance: [[mw:RL/MGU]] - ' + result.summaries.join(', ');
 
   await confirmSaving(subject, summary, result);
 
@@ -560,23 +559,25 @@ async function handleSubject (authObj, map, subject, preloadNext) {
 
 async function start (configFileDefault) {
   decisionCache = new DecisionStore({ enabled: argv.auto });
-  var parsedResults;
-  var i;
+  let authObj;
+  let map;
+  let parsedResults;
+  let i;
   function preloadNext () {
-    let nextSubject = parsedResults[i + 1];
+    const nextSubject = parsedResults[i + 1];
     if (nextSubject) {
       // Ignore async stack
       prefetchSubject(authObj, map, nextSubject);
     }
   }
   try {
-    var authObj = await auth.getAuth(argv.config || configFileDefault);
+    authObj = await auth.getAuth(argv.config || configFileDefault);
     console.log(colors.cyan('Reading %s'), path.resolve(argv.file));
-    var results = fs.readFileSync(argv.file).toString();
-    var map = await getWikiMap(authObj);
+    const results = fs.readFileSync(argv.file).toString();
+    map = await getWikiMap(authObj);
     parsedResults = parseResults(results);
     for (i = 0; i < parsedResults.length; i++) {
-      let subject = parsedResults[i];
+      const subject = parsedResults[i];
       subject.opened = false;
       subject.ecmaVersion = null;
       try {

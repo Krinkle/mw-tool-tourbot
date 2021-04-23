@@ -23,27 +23,23 @@
     "tourbot": "./bin/tourbot.js"
   },
   "scripts": {
-    "test": "qunit && eslint ."
+    "lint": "semistandard",
+    "lint-fix": "semistandard --fix",
+    "test": "qunit && semistandard"
   },
   "engines": {
     "node": ">=10.12"
   },
   "dependencies": {
-    "acorn": "7.1.1",
+    "acorn": "8.1.1",
     "colors": "1.4.0",
     "minimist": "1.2.5",
-    "nodemw": "0.12.2",
-    "opener": "1.5.1",
+    "nodemw": "0.14.0",
+    "opener": "1.5.2",
     "read": "1.0.7"
   },
   "devDependencies": {
-    "eslint": "6.8.0",
-    "eslint-config-semistandard": "15.0.0",
-    "eslint-config-standard": "14.1.1",
-    "eslint-plugin-import": "2.20.2",
-    "eslint-plugin-node": "11.1.0",
-    "eslint-plugin-promise": "4.2.1",
-    "eslint-plugin-standard": "4.0.1",
-    "qunit": "^2.13.0"
+    "semistandard": "^16.0.0",
+    "qunit": "^2.15.0"
   }
 }

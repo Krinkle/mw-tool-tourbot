@@ -2,7 +2,7 @@
 
 const Content = require('../src/content');
 
-let passCases = [{
+const passCases = [{
   name: 'Valid CSS on a CSS page',
   pageName: 'foo.css',
   content: '.foo {}'
@@ -28,7 +28,7 @@ let passCases = [{
   pageName: 'foo.js',
   content: '// <nowiki>\nfoo();\n// </nowiki>'
 }];
-let failCases = [{
+const failCases = [{
   name: 'Unexpected CSS on a JS page',
   pageName: 'foo.js',
   content: '.foo {}'
@@ -46,7 +46,7 @@ let failCases = [{
 
 QUnit.module('content');
 
-for (let data of passCases) {
+for (const data of passCases) {
   QUnit.test(data.name, async (assert) => {
     assert.expect(0);
 
@@ -58,7 +58,7 @@ for (let data of passCases) {
     );
   });
 }
-for (let data of failCases) {
+for (const data of failCases) {
   QUnit.test(data.name, async (assert) => {
     assert.rejects(Content.checkSubject(
       { pageName: data.pageName },

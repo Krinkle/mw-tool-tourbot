@@ -1,4 +1,4 @@
-var rEscape = /[|\\{}()[\]^$+*?.]/g;
+const rEscape = /[|\\{}()[\]^$+*?.]/g;
 
 function escapeRegexp (str) {
   return str.replace(rEscape, '\\$&');

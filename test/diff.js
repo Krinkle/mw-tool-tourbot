@@ -3,7 +3,7 @@
 const diff = require('../src/diff');
 const colors = require('colors/safe');
 
-let diffTestCases = [
+const diffTestCases = [
   {
     input: {
       removed: 'Required: foo, bar',
@@ -82,7 +82,7 @@ QUnit.module('diff');
 
 diffTestCases.forEach((data, i) => {
   QUnit.test(`case @${i}`, (assert) => {
-    let result = diff.simpleDiff(data.input.removed, data.input.added);
+    const result = diff.simpleDiff(data.input.removed, data.input.added);
 
     assert.deepEqual(result, data.result, 'result value');
     assert.strictEqual(

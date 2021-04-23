@@ -1,8 +1,8 @@
-var colors = require('colors/safe');
-var read = require('read');
+const colors = require('colors/safe');
+const read = require('read');
 
-var abbrev = require('./abbrev');
-var hasOwn = Object.hasOwnProperty;
+const abbrev = require('./abbrev');
+const hasOwn = Object.hasOwnProperty;
 
 /**
  * Ask a multiple-choice question.
@@ -27,15 +27,15 @@ function options (question, config, handlers) {
     handlers = config;
     config = {};
   }
-  var keys = Object.keys(handlers);
-  var mapping = abbrev(keys);
-  var shorts = abbrev(keys, { shortest: true });
-  var answers = {};
-  for (var short in shorts) {
+  const keys = Object.keys(handlers);
+  const mapping = abbrev(keys);
+  const shorts = abbrev(keys, { shortest: true });
+  const answers = {};
+  for (const short in shorts) {
     answers[shorts[short]] = colors.bold(short) + shorts[short].slice(short.length);
   }
-  var legend = keys.map(key => answers[key]);
-  var text = question + ' (' + legend.join('/') + ') ';
+  const legend = keys.map(key => answers[key]);
+  const text = question + ' (' + legend.join('/') + ') ';
   config.prompt = text;
   return new Promise(function (resolve, reject) {
     function prompt () {
@@ -44,7 +44,7 @@ function options (question, config, handlers) {
           reject(err);
           return;
         }
-        var key = answer.toLowerCase();
+        const key = answer.toLowerCase();
         if (!hasOwn.call(mapping, key)) {
           prompt();
           return;
