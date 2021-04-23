@@ -6,6 +6,7 @@ var $jay = $('.jay');
 .size()
 
 obj.removeAttr('disabled');
+obj .removeAttr ( "autofocus" );
 attr('disabled', true)
 $(form).find(':submit').removeAttr('disabled');
 

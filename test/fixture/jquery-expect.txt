@@ -6,6 +6,7 @@ var $jay = $('.jay');
 .length
 
 obj.prop('disabled', false);
+obj .prop ( 'autofocus', false );
 prop('disabled', true)
 $(form).find(':submit').prop('disabled', false);
 

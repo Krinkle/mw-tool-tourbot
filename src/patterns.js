@@ -259,8 +259,11 @@ module.exports = [
     summary: 'Replace jQuery#andSelf ([[phab:T280944|deprecated]])'
   },
   {
-    regex: /removeAttr\(\s*['"](checked|selected|disabled|readonly|required|hidden)['"]/,
-    replacement: 'prop(\'$1\', false',
+    // Based on:
+    // * https://github.com/jquery/jquery-migrate/blob/3.3.2/src/jquery/attributes.js#L7-L11
+    // * https://github.com/jquery/sizzle/blob/2.3.6/src/sizzle.js#L71-L129
+    regex: /\bremoveAttr(\s*\(\s*)['"](checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|loop|multiple|open|readonly|required|scoped)['"]/,
+    replacement: 'prop$1\'$2\', false',
     summary: 'Replace jQuery#removeAttr ([[phab:T280944|deprecated]])'
   },
   {
