@@ -84,9 +84,8 @@ for (const label in testCases) {
     const actual = applyPatterns(input);
     assert.strictEqual(typeof actual, 'object', 'return type');
     assert.strictEqual(actual.length, expect.length, 'number of lines in output');
-    if (actual.length > expect.length) {
-      actual.length = expect.length;
+    for (let i = 0; i < Math.max(actual.length, expect.length); i++) {
+      assert.strictEqual(actual[i], expect[i], `line ${i}`);
     }
-    assert.deepEqual(actual, expect, 'output');
   });
 }
