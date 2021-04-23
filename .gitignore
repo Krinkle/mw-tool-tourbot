@@ -1,3 +1,4 @@
-results.txt
-node_modules
-npm-debug.log
+/node_modules/
+/.mwauth.json
+/npm-debug.log
+/results.txt

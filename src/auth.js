@@ -40,8 +40,7 @@ function askLogin (authFile) {
   });
 }
 
-async function getAuth (authDir) {
-  var authFile = path.join(authDir, '.mwauth.json');
+async function getAuth (authFile) {
   try {
     var data = fs.readFileSync(authFile);
     var obj = JSON.parse(data);
@@ -56,6 +55,9 @@ async function getAuth (authDir) {
     return obj;
   } catch (err) {
     console.log(colors.red.bold('> Failed to read ' + path.basename(authFile) + '.'));
+    if (err instanceof SyntaxError) {
+      console.error(err);
+    }
     return askLogin(authFile);
   }
 }

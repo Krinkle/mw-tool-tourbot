@@ -2,6 +2,7 @@ var fs = require('fs');
 var path = require('path');
 var URL = require('url').URL;
 const util = require('util');
+const os = require('os');
 
 var colors = require('colors/safe');
 var minimist = require('minimist');
@@ -19,9 +20,10 @@ var replace = require('./replace');
 var { SkipFileError, SkipPatternError, AbortError } = require('./error');
 var patterns = require('./patterns');
 var argv = minimist(process.argv.slice(2), {
-  string: ['file', 'contains', 'match'],
+  string: ['config', 'file', 'contains', 'match'],
   boolean: ['all', 'auto', 'verbose', 'help'],
   default: {
+    config: null,
     file: 'results.txt',
     contains: null,
     match: null,
@@ -556,7 +558,7 @@ async function handleSubject (authObj, map, subject, preloadNext) {
   });
 }
 
-async function start (authDir) {
+async function start (configFileDefault) {
   decisionCache = new DecisionStore({ enabled: argv.auto });
   var parsedResults;
   var i;
@@ -568,7 +570,7 @@ async function start (authDir) {
     }
   }
   try {
-    var authObj = await auth.getAuth(authDir);
+    var authObj = await auth.getAuth(argv.config || configFileDefault);
     console.log(colors.cyan('Reading %s'), path.resolve(argv.file));
     var results = fs.readFileSync(argv.file).toString();
     var map = await getWikiMap(authObj);
@@ -594,9 +596,11 @@ async function start (authDir) {
   }
 }
 
-module.exports = function cli (authDir) {
+module.exports = function cli () {
+  const configFileDefault = path.join(os.homedir(), '.config', 'tourbot', '.mwauth.json');
   if (argv.help) {
     console.log('Help for Tourbot v' + require('../package.json').version);
+    console.log('  --config FILE        Where to store your credentials. Default: ' + configFileDefault);
     console.log('  -f, --file FILE      File that contains a list of pages to process. Default: results.txt');
     console.log('  -a, --all            Enable interactive mode for all page names, even without matches. Default: off');
     console.log('  -c, --contains TEXT  Limit the `all` iteration to pages that currently contain the given text.');
@@ -606,5 +610,5 @@ module.exports = function cli (authDir) {
     console.log('  -h, --help           Show this help page, instead of running the tourbot.');
     return;
   }
-  start(authDir);
+  start(configFileDefault);
 };

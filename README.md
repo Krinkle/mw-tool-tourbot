@@ -22,7 +22,8 @@ Pass parameters like `tourbot --file path/to/results.txt`.
 
 ## Options
 
-* `--file FILE`: File that contains a list of pages to process. Default: results.txt
+* `--config FILE`: Where to store your credentials. Default: `$HOME/.config/tourbot/.mwauth.json`.
+* `--file FILE`: File that contains a list of pages to process. Default: `results.txt`.
 * `--all:` Enable interactive mode for all page names, even without matches.
 * `--contains TEXT`: Limit the `all` iteration to pages that currently contain the given text.
 * `--match TEXT`: Similar to the `contains` parameter, but interpreted as a regular expression.
@@ -121,7 +122,7 @@ Install from Git:
 git clone https://github.com/Krinkle/mw-tool-tourbot.git
 ````
 
-Manually run `npm install`. To start the interactive process, run `./bin/tourbot.js`.
+Manually run `npm ci`. To start the interactive process, run `./bin/tourbot.js`.
 Pass parameters like `./bin/tourbot.js -- --file path/to/results.txt`.
 
 Alternatively, run `npm link` to create a global symlink for `tourbot`.
