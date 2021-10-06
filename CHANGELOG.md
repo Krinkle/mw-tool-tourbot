@@ -1,11 +1,15 @@
-## Tag v2.2.0
+## v3.0.0
+
+Require Node 12 or later.
+
+## v2.2.0
 
 * patterns: Change edit summary for "jQuery 3" swaps to mention [T280944](https://phabricator.wikimedia.org/T280944).
 * patterns: Improve swap for modules names to understand `@requires` comments.
 * patterns: Improve swap for `removeAttr()` to cover all Sizzle bool attribs.
 * patterns: Improve swap for `$j`.
 
-## Tag v2.1.0
+## v2.1.0
 
 * cli: Add `--config` option to change where credentials are stored.
 * cli: Add automatic changing of user preference to `pst-cssjs=0` if needed, for [T236828](https://phabricator.wikimedia.org/T236828).
@@ -19,7 +23,7 @@
 
 ## v2.0.0
 
-Require Node 10+.
+Require Node 10 or later.
 
 * cli: Add support for global-search JSON file format.
 * cli: Improve handleContent errors by including stack traces.
@@ -69,7 +73,7 @@ Require Node 10+.
 
 ## v1.7.0
 
-Require Node 8+.
+Require Node 8 or later.
 
 * cli: Fix usage information for `--xt` option.
 * patterns: Add swaps for various removed and renamed RL modules.
