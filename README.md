@@ -83,9 +83,9 @@ of a particular pattern (I recommend the "JS/CSS" preset). Use its "Export as JS
 to save the result to a file, and feed that to Tourbot to get started:
 
 ```
-$ tourbot -f results.json
+$ tourbot -f global-search.json
 
-  Reading …/results.json
+  Reading ./global-search.json
 
   …
  ```
@@ -105,7 +105,7 @@ test2wiki           MediaWiki:Gadget-teahouse/content.js
 I sometimes publish search results from that in [a Gist](https://gist.github.com/Krinkle/a18e726fc3af30f30bf9b2ba919820b5). These can be used, like so:
 
 ```
-$ curl -O -L 'https://gist.github.com/Krinkle/a18e726fc3af30f30bf9b2ba919820b5/raw/c8c72d371c80c701eb4f6f5422c6ac51c6264f1f/mwgrep.escapeRE.txt
+$ curl -O -L 'https://gist.github.com/Krinkle/a18e726fc3af30f30bf9b2ba919820b5/raw/c8c72d371c80c701eb4f6f5422c6ac51c6264f1f/mwgrep.escapeRE.txt'
 
 $ tourbot -f mwgrep.escapeRE.txt
 
@@ -116,16 +116,21 @@ $ tourbot -f mwgrep.escapeRE.txt
 
 ## Contributing
 
-Install from Git:
+### Install from Git
 
 ```
 git clone https://github.com/Krinkle/mw-tool-tourbot.git
 ````
 
-Manually run `npm ci`. To start the interactive process, run `./bin/tourbot.js`.
-Pass parameters like `./bin/tourbot.js -- --file path/to/results.txt`.
+Run `npm ci` once to set up dependencies.
 
-Alternatively, run `npm link` to create a global symlink for `tourbot`.
+To start the interactive process from source, use `./bin/tourbot.js`.
+
+For example, pass parameters like `./bin/tourbot.js --config .mwauth.json --file results.txt`.
+
+### Development
+
+There is a test suite with good test coverage. Run it with `npm test`.
 
 ## See also
 

@@ -1,4 +1,5 @@
 /node_modules/
 /.mwauth.json
+/global-search*.json
 /npm-debug.log
 /results.txt
