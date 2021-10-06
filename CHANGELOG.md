@@ -1,3 +1,10 @@
+## Tag v2.2.0
+
+* patterns: Change edit summary for "jQuery 3" swaps to mention [T280944](https://phabricator.wikimedia.org/T280944).
+* patterns: Improve swap for modules names to understand `@requires` comments.
+* patterns: Improve swap for `removeAttr()` to cover all Sizzle bool attribs.
+* patterns: Improve swap for `$j`.
+
 ## Tag v2.1.0
 
 * cli: Add `--config` option to change where credentials are stored.
