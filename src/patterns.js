@@ -7,6 +7,16 @@ module.exports = [
     summary: 'addOnloadHook is deprecated'
   },
   {
+    regex: /(\btypeof[\s(]+)\$j([\s;,=])/,
+    replacement: '$1$$$2',
+    summary: '$j is deprecated'
+  },
+  {
+    regex: /(\W|^)\$j\s*(\(|\.)/,
+    replacement: '$1$$$2',
+    summary: '$j is deprecated'
+  },
+  {
     // Match 'escapeQuotes' and 'window.escapeQuotes' - Ignore e.g. 'pg.escapeQuotes'
     regex: /([^.]|^)(?!\.)(?:window\.)?escapeQuotesHTML\s*\(/,
     replacement: '$1mw.html.escape(',
@@ -533,10 +543,6 @@ module.exports = [
   {
     regex: /\.org\/(\?title=.*&action=raw&ctype=)/,
     replacement: '.org/w/index.php$1'
-  },
-  {
-    regex: /\$j\s*(\(|\.)/,
-    replacement: '$$$1'
   },
   {
     // These urls were already broken by vector>Vector, but let's be nice.

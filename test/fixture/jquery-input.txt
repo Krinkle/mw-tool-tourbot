@@ -1,7 +1,12 @@
 $j ( "#test" );
+not$j( "#test" );
 $j( function () {} );
 $j.ajax();
 var $jay = $('.jay');
+$jay.ajax();
+if (typeof $j != 'undefined' && typeof $j.fn.wikiEditor != 'undefined') {}
+var hasjQuery = typeof $j != 'undefined';
+var hasJay = typeof $j != 'undefined';
 
 .size()
 
