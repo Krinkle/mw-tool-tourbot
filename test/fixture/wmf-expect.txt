@@ -14,8 +14,8 @@ add('p-tb', 'https://tools.wmflabs.org/fist/fist.php?doit=1', 't-fist');
  */
 
 var x = "/w/skins/Vector/images/watch-icon.png";
-url(/static/current/skins/MonoBook/bullet.gif);
-url(/static/current/skins/MonoBook/bullet.gif);
+url(/w/skins/MonoBook/bullet.gif);
+url(/w/skins/MonoBook/bullet.gif);
 
 var s=document.createElement('script');
 s.setAttribute('src',"https://he.wikipedia.org/w/load.php?modules=jquery&only=scripts");

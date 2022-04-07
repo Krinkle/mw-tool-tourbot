@@ -201,12 +201,7 @@ module.exports = [
     summary: 'bits.wikimedia.org'
   },
   {
-    regex: /(https?:)?\/\/bits\.wikimedia\.org\/skins\//,
-    replacement: '/w/skins/',
-    summary: 'bits.wikimedia.org'
-  },
-  {
-    regex: /(https?:)?\/\/bits\.wikimedia\.org\/skins-1\.5\//,
+    regex: /(https?:)?\/\/bits\.wikimedia\.org\/(skins|skins-1\.5)\//,
     replacement: '/w/skins/',
     summary: 'bits.wikimedia.org'
   },
@@ -219,6 +214,11 @@ module.exports = [
     regex: /(url\(['"]?)\/skins-1\.5\//,
     replacement: '$1/w/skins/',
     summary: 'skins-1.5 is deprecated'
+  },
+  {
+    regex: /(url\(['"]?)\/static\/current\//,
+    replacement: '$1/w/',
+    summary: '"/static/current" is deprecated ([[phab:T302465|T302465]])'
   },
   {
     regex: /(https?:)?\/\/bits\.wikimedia\.org\/static-([^/]+)\/(skins|extensions|resources)\//,
