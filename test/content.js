@@ -2,69 +2,59 @@
 
 const Content = require('../src/content');
 
-const passCases = [{
-  name: 'Valid CSS on a CSS page',
-  pageName: 'foo.css',
-  content: '.foo {}'
-},
-{
-  // CSS page content is not currently validated
-  name: 'Unexpected JS on a CSS page',
-  pageName: 'foo.css',
-  content: 'foo();'
-},
-{
-  name: 'CSS page with balanced <nowiki>',
-  pageName: 'foo.css',
-  content: '// <nowiki>\n.foo {}\n// </nowiki>'
-},
-{
-  name: 'Valid JS on a JS page',
-  pageName: 'foo.js',
-  content: 'foo();'
-},
-{
-  name: 'JS page with balanced <nowiki>',
-  pageName: 'foo.js',
-  content: '// <nowiki>\nfoo();\n// </nowiki>'
-}];
-const failCases = [{
-  name: 'Unexpected CSS on a JS page',
-  pageName: 'foo.js',
-  content: '.foo {}'
-},
-{
-  name: 'CSS page with unclosed <nowiki>',
-  pageName: 'foo.css',
-  content: '// <nowiki>\n.foo {}'
-},
-{
-  name: 'JS page with unclosed <nowiki>',
-  pageName: 'foo.js',
-  content: '// <nowiki>\nfoo();'
-}];
-
 QUnit.module('content');
 
-for (const data of passCases) {
-  QUnit.test(data.name, async (assert) => {
-    assert.expect(0);
+QUnit.test.each('Pass', {
+  'valid CSS': {
+    pageName: 'foo.css',
+    content: '.foo {}'
+  },
+  'JS on a CSS page': {
+    // CSS page content is not currently validated
+    pageName: 'foo.css',
+    content: 'foo();'
+  },
+  'CSS with balanced nowiki': {
+    pageName: 'foo.css',
+    content: '// <nowiki>\n.foo {}\n// </nowiki>'
+  },
+  'valid JS': {
+    pageName: 'foo.js',
+    content: 'foo();'
+  },
+  'JS with balanced nowiki': {
+    pageName: 'foo.js',
+    content: '// <nowiki>\nfoo();\n// </nowiki>'
+  }
+}, async (assert, data) => {
+  assert.expect(0);
 
-    await Content.checkSubject(
-      { pageName: data.pageName },
-      data.content,
-      // Disable interactive 'ask'
-      { quiet: true }
-    );
-  });
-}
-for (const data of failCases) {
-  QUnit.test(data.name, async (assert) => {
-    assert.rejects(Content.checkSubject(
-      { pageName: data.pageName },
-      data.content,
-      // Disable interactive 'ask'
-      { quiet: true }
-    ));
-  });
-}
+  await Content.checkSubject(
+    { pageName: data.pageName },
+    data.content,
+    // Disable interactive 'ask'
+    { quiet: true }
+  );
+});
+
+QUnit.test.each('Fail', {
+  'CSS on a JS page': {
+    pageName: 'foo.js',
+    content: '.foo {}'
+  },
+  'CSS with unclosed nowiki': {
+    pageName: 'foo.css',
+    content: '// <nowiki>\n.foo {}'
+  },
+  'JS with unclosed nowiki': {
+    pageName: 'foo.js',
+    content: '// <nowiki>\nfoo();'
+  }
+}, async (assert, data) => {
+  assert.rejects(Content.checkSubject(
+    { pageName: data.pageName },
+    data.content,
+    // Disable interactive 'ask'
+    { quiet: true }
+  ));
+});

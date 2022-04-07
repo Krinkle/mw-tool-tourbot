@@ -3,6 +3,8 @@
 const diff = require('../src/diff');
 const colors = require('colors/safe');
 
+QUnit.module('diff');
+
 const diffTestCases = [
   {
     input: {
@@ -78,29 +80,25 @@ const diffTestCases = [
   }
 ];
 
-QUnit.module('diff');
+QUnit.test.each('case', diffTestCases, (assert, data) => {
+  const result = diff.simpleDiff(data.input.removed, data.input.added);
 
-diffTestCases.forEach((data, i) => {
-  QUnit.test(`case @${i}`, (assert) => {
-    const result = diff.simpleDiff(data.input.removed, data.input.added);
-
-    assert.deepEqual(result, data.result, 'result value');
+  assert.deepEqual(result, data.result, 'result value');
+  assert.strictEqual(
+    result.textBefore + result.removed + result.textAfter,
+    data.input.removed,
+    'removed value'
+  );
+  if (data.input.added !== null) {
     assert.strictEqual(
-      result.textBefore + result.removed + result.textAfter,
-      data.input.removed,
-      'removed value'
+      result.textBefore + result.added + result.textAfter,
+      data.input.added,
+      'added value'
     );
-    if (data.input.added !== null) {
-      assert.strictEqual(
-        result.textBefore + result.added + result.textAfter,
-        data.input.added,
-        'added value'
-      );
-    }
-    assert.strictEqual(
-      colors.strip(diff.formatDiff(result, 1, 'Before 1\nBefore 2', 'After 1')),
-      data.formatted,
-      'formatted value'
-    );
-  });
+  }
+  assert.strictEqual(
+    colors.strip(diff.formatDiff(result, 1, 'Before 1\nBefore 2', 'After 1')),
+    data.formatted,
+    'formatted value'
+  );
 });

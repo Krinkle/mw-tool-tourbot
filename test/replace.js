@@ -6,7 +6,10 @@ const siteinfo = {
   mainpage: 'Main Page',
   mainpagename: 'Main_Page'
 };
-const cases = [{
+
+QUnit.module('replace');
+
+QUnit.test.each('case', [{
   regex: /foo/,
   replacement: 'bar',
   input: 'input',
@@ -31,19 +34,13 @@ const cases = [{
   replacement: '<tourbot-rm-blank>',
   input: 'one two',
   expected: 'one '
-}];
-
-QUnit.module('replace');
-
-cases.forEach((data, i) => {
-  QUnit.test(`case @${i}`, (assert) => {
-    assert.strictEqual(
-      replace(
-        data.input,
-        { regex: data.regex, replacement: data.replacement },
-        siteinfo
-      ),
-      data.expected
-    );
-  });
+}], (assert, data) => {
+  assert.strictEqual(
+    replace(
+      data.input,
+      { regex: data.regex, replacement: data.replacement },
+      siteinfo
+    ),
+    data.expected
+  );
 });
