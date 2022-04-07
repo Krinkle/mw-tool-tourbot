@@ -30,6 +30,8 @@ url(https://example.org/logo.png?303-4);
 url(//bits.wikimedia.org/skins-1.5/vector/images/watch-icon.png);
 url(//bits.wikimedia.org/skins-1.5/Vector/images/watch-icon.png);
 
+// https://commons.wikimedia.org/static/current/resources/src/mediawiki.legacy/commonPrint.css
+
 var x = "https://en.wikipedia.org/skins-1.5/monobook/headbg.jpg";
 url(/skins-1.5/monobook/headbg.jpg);
 url("/skins-1.5/monobook/headbg.jpg");

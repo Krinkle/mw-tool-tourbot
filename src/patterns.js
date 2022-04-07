@@ -206,17 +206,12 @@ module.exports = [
     summary: 'bits.wikimedia.org'
   },
   {
-    regex: /((https?:)?\/\/[a-z.]+\.org)\/skins-1\.5\//,
+    regex: /((https?:)?\/\/[a-z.]+\.org|url\(['"]?)\/skins-1\.5\//,
     replacement: '$1/w/skins/',
     summary: 'skins-1.5 is deprecated'
   },
   {
-    regex: /(url\(['"]?)\/skins-1\.5\//,
-    replacement: '$1/w/skins/',
-    summary: 'skins-1.5 is deprecated'
-  },
-  {
-    regex: /(url\(['"]?)\/static\/current\//,
+    regex: /((https?:)?\/\/[a-z.]+\.org|url\(['"]?)\/static\/current\//,
     replacement: '$1/w/',
     summary: '"/static/current" is deprecated ([[phab:T302465|T302465]])'
   },

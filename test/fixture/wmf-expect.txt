@@ -30,6 +30,8 @@ url(https://example.org/logo.png?303-4);
 url(/w/skins/Vector/images/watch-icon.png);
 url(/w/skins/Vector/images/watch-icon.png);
 
+// https://commons.wikimedia.org/w/resources/src/mediawiki.legacy/commonPrint.css
+
 var x = "https://en.wikipedia.org/w/skins/MonoBook/headbg.jpg";
 url(/w/skins/MonoBook/headbg.jpg);
 url("/w/skins/MonoBook/headbg.jpg");
