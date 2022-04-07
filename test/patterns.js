@@ -85,7 +85,7 @@ for (const label in testCases) {
     assert.strictEqual(typeof actual, 'object', 'return type');
     assert.strictEqual(actual.length, expect.length, 'number of lines in output');
     for (let i = 0; i < Math.max(actual.length, expect.length); i++) {
-      assert.strictEqual(actual[i], expect[i], `line ${i}`);
+      assert.strictEqual(actual[i], expect[i], `line ${i + 1}`);
     }
   });
 }
