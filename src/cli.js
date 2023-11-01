@@ -178,7 +178,7 @@ function enhanceMwClient (client) {
         general: datas[0],
         messages: datas[1],
         custom: {
-          shortMonthNames: shortMonthNames
+          shortMonthNames
         }
       };
     });
@@ -189,7 +189,7 @@ function enhanceMwClient (client) {
 async function makeBotClient (server, authObj) {
   const client = new MwClient({
     protocol: 'https',
-    server: server,
+    server,
     path: '/w',
     concurrency: 2,
     username: authObj.botname,
@@ -333,11 +333,9 @@ async function confirmSaving (subject, summary, result) {
       'One or more proposed changes were applied automatically.' +
         '\nDo you want to save these changes on ' + colors.bold.underline(subject.pageName) + '?',
       {
-        yes: function (callback) {
-          callback();
-        },
-        no: function (callback) {
-          callback(new SkipFileError());
+        yes: function () {},
+        no: function () {
+          throw new SkipFileError();
         }
       }
     );
@@ -399,44 +397,39 @@ async function handleContent (subject, content, siteinfo) {
       return ask.options('Apply change?', {
         timeout: readTimeout
       }, {
-        yes: function (cb) {
+        yes: function () {
           decisionCache.set(decideCacheKey, true);
-          cb(null, true);
+          return true;
         },
-        no: function (cb) {
+        no: function () {
           decisionCache.set(decideCacheKey, false);
           // Stop any all-replacement
           currentAllOfPattern = null;
-          cb();
         },
-        all: function (cb) {
+        all: function () {
           // Start all-replacement
           currentAllOfPattern = pattern;
-          cb(null, true);
+          return true;
         },
-        reject: function (cb) {
+        reject: function () {
           currentAllOfPattern = null;
 
-          cb(new SkipPatternError());
+          throw new SkipPatternError();
         },
-        edit: function (cb) {
-          cb(new SkipFileError('Editing in browser'));
+        edit: function () {
+          openPage(subject); // TODO: Test me, order changed
+          throw new SkipFileError('Editing in browser');
+        },
+        open: async function () {
           openPage(subject);
+          return await askApply();
         },
-        open: function (cb) {
-          openPage(subject);
-          askApply().then(function (answer) {
-            cb(null, answer);
-          }, cb);
+        skip: function () {
+          throw new SkipFileError();
         },
-        skip: function (cb) {
-          cb(new SkipFileError());
-        },
-        help: function (cb) {
+        help: async function () {
           printApplyHelp();
-          askApply().then(function (answer) {
-            cb(null, answer);
-          }, cb);
+          return await askApply();
         }
       });
     }

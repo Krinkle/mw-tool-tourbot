@@ -30,12 +30,11 @@ async function saveAuth (authFile) {
 
 function askLogin (authFile) {
   return ask.options('Log in?', {
-    yes: function (callback) {
-      // de-promisify
-      saveAuth(authFile).then(callback.bind(null, null), callback);
+    yes: async function (callback) {
+      return await saveAuth(authFile);
     },
-    no: function (callback) {
-      callback(new AbortError());
+    no: function () {
+      throw new AbortError();
     }
   });
 }

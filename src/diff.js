@@ -23,7 +23,7 @@ function simpleDiff (removedLine, addedLine) {
   }
 
   return {
-    textBefore: textBefore,
+    textBefore,
     removed: removedLine.slice(start, end || undefined),
     added: addedLine.slice(start, end || undefined),
     textAfter: end ? removedRest.slice(end) : ''

@@ -3,23 +3,14 @@ on:
   - push
   - pull_request
 
-# A workflow run is made of one or more jobs that can run sequentially or in parallel
 jobs:
 
   test:
     name: Test
-    # Has Node.js 14 pre-installed
-    # https://github.com/actions/virtual-environments/blob/ubuntu20/20210302.0/images/linux/Ubuntu2004-README.md
-    runs-on: ubuntu-20.04
+    # Has Node.js 18 pre-installed
+    # https://github.com/actions/runner-images/blob/ubuntu22/20231030.2/images/linux/Ubuntu2204-Readme.md
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.npm
-          key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
-
+      - uses: actions/checkout@v3
       - run: npm ci
-
       - run: npm test

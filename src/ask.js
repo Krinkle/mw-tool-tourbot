@@ -21,7 +21,7 @@ const hasOwn = Object.hasOwnProperty;
  * @param {Object} handlers Callback functions by choice keys (must be lowercase)
  * @return {Promise}
  */
-function options (question, config, handlers) {
+async function options (question, config, handlers) {
   // The 'config' parameter is optional.
   if (!handlers) {
     handlers = config;
@@ -37,25 +37,15 @@ function options (question, config, handlers) {
   const legend = keys.map(key => answers[key]);
   const text = question + ' (' + legend.join('/') + ') ';
   config.prompt = text;
-  return new Promise(function (resolve, reject) {
-    function prompt () {
-      read(config, function (err, answer) {
-        if (err) {
-          reject(err);
-          return;
-        }
-        const key = answer.toLowerCase();
-        if (!hasOwn.call(mapping, key)) {
-          prompt();
-          return;
-        }
-        handlers[mapping[key]](function (err, data) {
-          err ? reject(err) : resolve(data);
-        });
-      });
+  async function prompt () {
+    const answer = await read(config);
+    const key = answer.toLowerCase();
+    if (!hasOwn.call(mapping, key)) {
+      return await prompt();
     }
-    prompt();
-  });
+    return await handlers[mapping[key]]();
+  }
+  return await prompt();
 }
 
 /**
@@ -70,11 +60,11 @@ function options (question, config, handlers) {
  */
 async function confirm (question) {
   return options(question, {
-    yes: function (callback) {
-      callback(null, true);
+    yes: function () {
+      return true;
     },
-    no: function (callback) {
-      callback(null, false);
+    no: function () {
+      return false;
     }
   });
 }
@@ -91,22 +81,14 @@ async function confirm (question) {
  * @return {string} answer
  */
 async function input (question) {
-  return new Promise(function (resolve, reject) {
-    function prompt () {
-      read({ prompt: question }, function (err, answer) {
-        if (err) {
-          reject(err);
-          return;
-        }
-        if (!answer) {
-          prompt();
-          return;
-        }
-        resolve(answer);
-      });
+  async function prompt () {
+    const answer = await read({ prompt: question });
+    if (!answer) {
+      return await prompt();
     }
-    prompt();
-  });
+    return answer;
+  }
+  return await prompt();
 }
 
 /**
@@ -121,22 +103,23 @@ async function input (question) {
  * @return {string} answer
  */
 async function secret (question) {
-  return new Promise(function (resolve, reject) {
-    function prompt () {
-      read({
+  async function prompt () {
+    let err, answer;
+    try {
+      answer = await read({
         prompt: question,
         silent: true,
         replace: '*'
-      }, function (err, answer) {
-        if (err || !answer) {
-          prompt();
-          return;
-        }
-        resolve(answer);
       });
+    } catch (e) {
+      err = e;
     }
-    prompt();
-  });
+    if (err || !answer) {
+      return await prompt();
+    }
+    return answer;
+  }
+  return await prompt();
 }
 
 module.exports = { options, confirm, input, secret };

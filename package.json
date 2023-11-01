@@ -28,18 +28,18 @@
     "test": "qunit && semistandard"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=18"
   },
   "dependencies": {
-    "acorn": "8.5.0",
+    "acorn": "8.11.2",
     "colors": "1.4.0",
-    "minimist": "1.2.6",
-    "nodemw": "0.15.0",
+    "minimist": "1.2.8",
+    "nodemw": "0.20.0",
     "opener": "1.5.2",
-    "read": "1.0.7"
+    "read": "2.1.0"
   },
   "devDependencies": {
-    "qunit": "^2.18.1",
-    "semistandard": "^16.0.1"
+    "qunit": "^2.20.0",
+    "semistandard": "^17.0.0"
   }
 }

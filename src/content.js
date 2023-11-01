@@ -52,11 +52,9 @@ async function checkScript (subject, content, options) {
         '\n' + context +
         '\n\nContinue?',
       {
-        yes: function (callback) {
-          callback();
-        },
-        no: function (callback) {
-          callback(new SkipFileError('Script error'));
+        yes: function () {},
+        no: function () {
+          throw new SkipFileError('Script error');
         }
       }
     );
