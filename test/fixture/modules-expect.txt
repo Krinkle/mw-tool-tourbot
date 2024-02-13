@@ -159,6 +159,6 @@ only[dependencies=user.options]
  * Combine mediawiki.page.ready
  */
 
-loader.using(['mediawiki.api','mediawiki.page.ready','jquery.cookie']).done( function () {});
+loader.using(['mediawiki.api','mediawiki.page.ready','mediawiki.cookie']).done( function () {});
 
 edittop[ResourceLoader|default|dependencies=mediawiki.util,mediawiki.page.ready]|edittop.js

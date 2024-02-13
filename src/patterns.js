@@ -397,6 +397,12 @@ module.exports = [
     replacement: '$1user.options$2',
     summary: 'Updated deprecated module name'
   },
+  {
+    // Replace old with new (JS code, and Gadget definition)
+    regex: /(['"]|[,=]\s*)jquery\.cookie(['"]|\s*[,|\]])/,
+    replacement: '$1mediawiki.cookie$2',
+    summary: 'Updated deprecated module name'
+  },
   /**
    * Combine ext.wikiEditor
    */
