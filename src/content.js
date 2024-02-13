@@ -8,14 +8,14 @@ function parse (subject, content) {
   if (subject.ecmaVersion === null || subject.ecmaVersion === undefined) {
     // Initial parse when reading current page content
     try {
-      // Try as ES5
-      acorn.parse(content, { ecmaVersion: 5 });
-      subject.ecmaVersion = 5;
+      // Try as ES2016 (ES7)
+      acorn.parse(content, { ecmaVersion: 2016 });
+      subject.ecmaVersion = 2016;
     } catch (e1) {
-      // Re-try as ES2018
+      // Re-try as ES2020
       try {
-        acorn.parse(content, { ecmaVersion: 2018 });
-        subject.ecmaVersion = 2018;
+        acorn.parse(content, { ecmaVersion: 2020 });
+        subject.ecmaVersion = 2020;
       } catch (e2) {
         throw e1;
       }
